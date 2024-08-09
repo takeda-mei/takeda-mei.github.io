@@ -147,11 +147,17 @@ img {
 ---------------------------------*/
 
 .mv {
+  background-image: url("/img/PC-Web-site-header.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 85vh;
   text-align: center;
+  color: #99daee;
+  
 }
 
 .mv-container {
