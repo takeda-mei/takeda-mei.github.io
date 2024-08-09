@@ -213,11 +213,11 @@ img {
 }
 
 .works-img img {
-  border: 1px solid #e6e6e6;
+  /* border: 1px solid #e6e6e6; */
 }
 
 .works-img iframe {
-  border: 1px solid #e6e6e6;
+  /* border: 1px solid #e6e6e6; */
 }
 
 
@@ -225,11 +225,14 @@ img {
   font-size: 12px;
   font-weight: bold;
   margin-top: 8px;
+  text-align: center;
+  
 }
 
 .works-info {
   font-size: 10px;
   margin-top: 5px;
+  text-align: center;
 }
 
 
