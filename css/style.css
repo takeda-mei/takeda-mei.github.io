@@ -147,7 +147,7 @@ img {
 ---------------------------------*/
 
 .mv {
-  background-image: url("/img/PC-Web-site-header.png");
+  background-image: url("/img/PC-Web-site-header.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -496,7 +496,7 @@ img {
 
   /*  メインビジュアル  スマホ*/
   .mv {
-    background-image: url("/img/takedamei-background-img.png");
+    background-image: url("/img/web-site-mobile-background.jpg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
