@@ -92,15 +92,15 @@ img {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 40px;
+  padding: 10px 20px;
 }
 
 .header-logo {
   font-size: 20px;
   font-weight: bold;
-  line-height: 1.2;
-  margin-right: 20px;
-  letter-spacing: .05em;
+  line-height: 1.0;
+  margin-right: 10px;
+  letter-spacing: .03em;
 }
 
 .header-logo a {
@@ -149,7 +149,7 @@ img {
 ---------------------------------*/
 
 .mv {
-  background-image: url("/img/PC-WebSite-header_.jpeg");
+  background-image: url("/img/ticket-thanks-header.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -161,6 +161,7 @@ img {
   color: #99daee;
   
 }
+
 
 .mv-container {
   padding: 0 40px;
@@ -362,15 +363,15 @@ img {
   flex-direction: row;
   justify-content: space-between;
   margin: 0 auto;
-  padding: 5px;
+  padding: 20px;
   position: relative;
-  max-width: 800px;
+  max-width: 900px;
 }
 
 /* Left contact page */
 .form-horizontal {
   /*float: left;*/
-  max-width: 800px;
+  max-width: 900px;
   font-family: 'Lato';
   font-weight: 400;
 }
@@ -386,13 +387,13 @@ textarea {
 .send-button {
   margin-top: 25px;
   height: 34px;
-  width: 450px;
+  width: 500px;
   overflow: hidden;
   transition: all .3s ease-in-out;
 }
 
 .alt-send-button {
-  width: 450px;
+  width: 500px;
   height: 25px;
   transition: all .3s ease-in-out;
 }
@@ -519,14 +520,9 @@ hr {
   .contact-wrapper {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
   }
   .direct-contact-container, .form-horizontal {
     margin: 0 auto;
-    max-width: 100%;
-    max-width: 600px;
-    margin: 0 auto;;
   }  
   
   .direct-contact-container {
@@ -779,7 +775,7 @@ hr {
 
   /*  メインビジュアル  スマホ*/
   .mv {
-    background-image: url("/img/web-site-mobile-background.jpg");
+    background-image: url("/img/PC-Web-site-header.jpg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -895,14 +891,6 @@ hr {
     margin-bottom: 20px;
   }
 
-  /* Contact */
-  .contact-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;;
-  }
-
   /* フッター */
   .footer {
     padding: 20px;
@@ -927,11 +915,6 @@ hr {
     line-height: 1.7;
     margin-bottom: 20px;
   }
-
-
-
-
-
 
 }
 

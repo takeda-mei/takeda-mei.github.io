@@ -15,6 +15,7 @@ img {
   max-width: 100%;
   height: auto;
   vertical-align: bottom;
+  
   border-style: none;
 }
 
@@ -200,10 +201,10 @@ img {
 }
 
 .works-item {
-  width: 31.74603%;
+  width: 30%;
   margin-right: 1.58730%;
   margin-bottom: 40px;
-  color: #0d0d0d;
+  color: #cccccc;
 }
 
 .works-item:hover {
@@ -219,7 +220,7 @@ img {
 }
 
 .works-img iframe {
-  /* border: 1px solid #e6e6e6; */
+  border: 1px solid #e6e6e6;
 }
 
 
@@ -362,15 +363,15 @@ img {
   flex-direction: row;
   justify-content: space-between;
   margin: 0 auto;
-  padding: 5px;
+  padding: 20px;
   position: relative;
-  max-width: 800px;
+  max-width: 900px;
 }
 
 /* Left contact page */
 .form-horizontal {
   /*float: left;*/
-  max-width: 800px;
+  max-width: 900px;
   font-family: 'Lato';
   font-weight: 400;
 }
@@ -386,13 +387,13 @@ textarea {
 .send-button {
   margin-top: 25px;
   height: 34px;
-  width: 450px;
+  width: 500px;
   overflow: hidden;
   transition: all .3s ease-in-out;
 }
 
 .alt-send-button {
-  width: 450px;
+  width: 500px;
   height: 25px;
   transition: all .3s ease-in-out;
 }
@@ -519,14 +520,9 @@ hr {
   .contact-wrapper {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
   }
   .direct-contact-container, .form-horizontal {
     margin: 0 auto;
-    max-width: 100%;
-    max-width: 600px;
-    margin: 0 auto;;
   }  
   
   .direct-contact-container {
@@ -618,6 +614,15 @@ hr {
     width: 55px;
     height: 55px;
     line-height: 55px;
+  }
+
+  .works-item iframe{
+    width: 100%;
+  }
+
+  .works-item p {
+    font-size: 10px;
+    color: #e0e0e0;
   }
   
 }
@@ -815,15 +820,17 @@ hr {
 
   .works-info {
     margin-top: 3px;
-    color: #0d0d0d;
+    color: #cdcdcd;
   }
 
   .works-list {
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    justify-content: center;
   }
 
   .works-item {
-    flex: 0 0 48%;
+    width: 100%;
+    flex: 0 0 50%;
     margin-right: 0;
     margin-bottom: 30px;
   }
@@ -893,14 +900,6 @@ hr {
 
   .profile-body p:not(:last-child) {
     margin-bottom: 20px;
-  }
-
-  /* Contact */
-  .contact-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;;
   }
 
   /* フッター */
