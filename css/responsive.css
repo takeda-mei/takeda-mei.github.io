@@ -1,0 +1,293 @@
+/* Begin Media Queries*/
+@media screen and (max-width: 850px) {
+  .contact-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .direct-contact-container, .form-horizontal {
+    margin: 0 auto;
+    max-width: 100%; /* Allow full width if needed */
+    width: 100%; /* Ensure it takes up full width */
+    box-sizing: border-box; /* Include padding in width calculation */
+  }  
+  
+  .direct-contact-container {
+    margin-top: 60px;
+    max-width: 400px; /* Slightly wider for larger phones */
+    padding: 0 20px; /* Add padding */
+  }    
+  .social-media-list li {
+    height: 60px;
+    width: 60px;
+    line-height: 60px;
+  }
+  .social-media-list li:after {
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+  }
+  
+  /* Add this new rule for the form control */
+  .form-control, textarea {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Adjust send button width */
+  .send-button, .alt-send-button {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+/*media Queries 767  
+----------------------------------------------------*/
+@media screen and (max-width: 767px) {
+  /* ... other styles for 767px ... */
+
+  /* Contact */
+  .contact-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+
+  .direct-contact-container {
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Adjust social media list */
+  .social-media-list {
+    left: 0;
+    padding: 0;
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 569px) {
+  .direct-contact-container, .form-wrapper {
+    float: none;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+  }  
+  
+  .form-control, textarea {
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+ 
+  .name, .email, textarea {
+    width: 100%;
+  } 
+  
+  .direct-contact-container {
+    margin-top: 60px;
+    max-width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+  }  
+  
+  .social-media-list {
+    left: 0;
+    width: 100%;
+    padding: 0;
+  }
+  
+  .social-media-list li {
+    height: 55px;
+    width: 55px;
+    line-height: 55px;
+    font-size: 1.3rem;
+  }
+  
+  .social-media-list li:after {
+    width: 55px;
+    height: 55px;
+    line-height: 55px;
+  }
+  
+  /* Adjust container and form */
+  .container {
+    padding: 0 15px;
+  }
+  
+  .send-button, .alt-send-button {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+/* Fix header navigation for very small screens */
+@media screen and (max-width: 480px) {
+  .gnav-list {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .gnav-item:not(:last-child) {
+    margin-right: 0; /* Remove default margin */
+  }
+  
+  .header .gnav-item a {
+    font-size: 11px;
+    padding: 5px 2px;
+    display: block;
+    text-align: center;
+  }
+  
+  .header .container {
+    padding: 10px 5px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  /* ヘッダー */
+  .header {
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    max-height: 50px;
+    background-color: #c5c5c5;
+    box-shadow: 0 5px 10px -6px rgba(0,0,0,.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gnav-list {
+    display: flex;
+    width: 100%;
+    max-width: 300px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header .gnav-item a {
+    white-space: normal; /* 折り返しを許可 */
+    word-wrap: break-word; /* 単語の途中で折り返し */
+    font-size: 12px; /* 少し大きくする */
+    text-align: center;
+    padding: 5px 3px; /* パディングを調整 */
+    letter-spacing: -0.02em; /* 文字間隔を少し狭くする */
+    color: #000; /* 色を濃くする */
+    font-weight: 600; /* より太く */
+  }
+
+  /* 連絡先フォーム */
+  .direct-contact-container, .form-wrapper {
+    float: none;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .contact-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+
+  .form-control, textarea {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+
+  .name, .email, textarea {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .direct-contact-container {
+    margin-top: 60px;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .social-media-list {
+    left: 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  .social-media-list li {
+    height: 55px;
+    width: 55px;
+    line-height: 55px;
+    font-size: 1.3rem;
+  }
+
+  .social-media-list li:after {
+    width: 55px;
+    height: 55px;
+    line-height: 55px;
+  }
+
+  .works-item iframe {
+    width: 100%;
+  }
+
+  .works-item p {
+    font-size: 10px;
+    color: #e0e0e0;
+  }
+  
+  /* Adjust button width */
+  .send-button, .alt-send-button {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* その他のスタイル */
+  .article {
+    padding: 50px 0;
+  }
+
+  .article-body h3 {
+    font-size: 16px;
+    padding-left: .8em;
+  }
+
+  .article-body h3:not(:first-child) {
+    margin-top: 30px;
+  }
+
+  .article-body p {
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+}

@@ -365,20 +365,20 @@ img {
   margin: 0 auto;
   padding: 20px;
   position: relative;
-  max-width: 900px;
+  max-width: 800px;
 }
 
 /* Left contact page */
 .form-horizontal {
   /*float: left;*/
-  max-width: 900px;
+  max-width: 800px;
   font-family: 'Lato';
   font-weight: 400;
 }
 
 .form-control, 
 textarea {
-  max-width: 900px;
+  max-width: 800px;
   background-color: #e0e0e0;
   color: #3e3e3e;
   letter-spacing: 1px;
@@ -582,9 +582,18 @@ hr {
 
 @media screen and (max-width: 375px) {
 
+ .contact-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
   .direct-contact-container, .form-wrapper {
     float: none;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }  
   .form-control, textarea {
     width: 100%;
@@ -926,6 +935,8 @@ hr {
     line-height: 1.7;
     margin-bottom: 20px;
   }
+
+  
 
 
 
