@@ -148,7 +148,7 @@ img {
  メインビジュアル　PC
 ---------------------------------*/
 
-.mv {
+/* .mv {
   background-image: url("/img/PC-WebSite-header_.jpeg");
   background-repeat: no-repeat;
   background-position: center;
@@ -164,6 +164,32 @@ img {
 
 .mv-container {
   padding: 0 40px;
+} */
+.mv {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 85vh;
+  /* background-image: url("/img/PC-WebSite-header_.jpeg"); は削除 */
+}
+
+.mv-container {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: #99daee;
+  padding: 0 40px;
+}
+
+#backgroundCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
 }
 .mv-title {
   font-size: 60px;
