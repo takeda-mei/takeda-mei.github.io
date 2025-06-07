@@ -172,6 +172,7 @@ img {
   align-items: center;
   justify-content: center;
   height: 85vh;
+  color: #0d0d0d;
   /* background-image: url("/img/PC-WebSite-header_.jpeg"); は削除 */
 }
 
