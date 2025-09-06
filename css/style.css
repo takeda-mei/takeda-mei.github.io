@@ -631,3 +631,130 @@ hr {
   text-align: center;
 }
 
+/* Discographyセクション専用スタイル */
+.discography-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.discography-item {
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 40px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.discography-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.release-info {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.release-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+}
+
+.release-description {
+  font-size: 14px;
+  color: #666;
+  font-style: italic;
+  margin: 0;
+}
+
+.music-embed-wrapper {
+  margin-bottom: 20px;
+}
+
+/* Bandcamp埋め込み用スタイル - シンプル表示 */
+.bandcamp-embed {
+  border: 0;
+  width: 100%;
+  height: 120px;
+  background: transparent;
+}
+
+/* Spotify埋め込み用スタイル */
+.spotify-embed {
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.external-links {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.external-link {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #f8f8f8;
+  color: #333;
+  text-decoration: none;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: 1px solid #e0e0e0;
+}
+
+.external-link:hover {
+  background-color: #21e6cf;
+  color: #fff;
+  border-color: #21e6cf;
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .discography-item {
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .release-title {
+    font-size: 20px;
+  }
+  
+  .release-description {
+    font-size: 13px;
+  }
+  
+  .external-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .external-link {
+    text-align: center;
+  }
+  
+  .bandcamp-embed {
+    height: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .discography-item {
+    padding: 15px;
+  }
+  
+  .release-title {
+    font-size: 18px;
+  }
+  
+  .bandcamp-embed {
+    height: 120px;
+  }
+}
