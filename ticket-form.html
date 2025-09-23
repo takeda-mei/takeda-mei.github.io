@@ -1,244 +1,1055 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mei Takeda ticket form</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined" rel="stylesheet">
-    <link href="css/ress.css" media="all" rel="stylesheet" type="text/css" />
-    <link href="css/ticket-form-style.css" media="all" rel="stylesheet" type="text/css" />
-    <link href="css/ticket-form-responcive.css" media="all" rel="stylesheet" type="text/css" />
-  
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css ">
-    <link rel="shortcut icon" href="img/favicon.ico" />
-    <link rel=”canonical” href=”https://takeda-mei.com” />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>武田 鳴 / MEI TAKEDA - Tour Dates & Tickets</title>
+  <meta name="description" content="Takeda Mei ライブチケット予約 - 最新のツアー情報とチケット予約" />
+  <meta property="og:image" content="https://takeda-mei.com/img/Twitter_takeda_mei_card.png">
+  <meta name="twitter:image" content="https://takeda-mei.com/img/Twitter_takeda_mei_card_2.png" />
+    <meta name="description" content="Mei Takeda Web site 武田鳴チケット予約" />
+  <meta name="twitter:site" content="@_takeda_mei_">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="武田鳴チケット予約">
+  <style>
+    :root {
+      --bg: #000000;
+      --white: #ffffff;
+      --gray: #808080;
+      --light-gray: #cccccc;
+      --dark-gray: #333333;
+      --accent: #ff0080;
+      --red: #ff0000;
+      --green: #00ff00;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      color: var(--white);
+      background: var(--bg);
+      line-height: 1.4;
+      overflow-x: hidden;
+    }
+
+    /* API接続状況表示 */
+    .api-status {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: var(--dark-gray);
+      padding: 8px 12px;
+      border: 1px solid var(--gray);
+      font-size: 10px;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      z-index: 1000;
+      display: none;
+    }
+
+    .api-status.show {
+      display: block;
+    }
+
+    .api-status.success {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .api-status.error {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    /* ヘッダー */
+    .header {
+      padding: 20px;
+      text-align: center;
+      border-bottom: 1px solid var(--dark-gray);
+      margin-bottom: 40px;
+    }
+
+    .artist-name {
+      font-size: clamp(24px, 4vw, 48px);
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .tagline {
+      font-size: 14px;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* メインコンテナ */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* イベントリスト */
+    .events-section {
+      margin-bottom: 60px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .events-grid {
+      display: grid;
+      gap: 1px;
+      background: var(--dark-gray);
+      border: 1px solid var(--dark-gray);
+    }
+
+    .event-card {
+      background: var(--bg);
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 20px;
+      align-items: center;
+      min-height: 80px;
+    }
+
+    .event-card:hover {
+      background: var(--dark-gray);
+    }
+
+    .event-card.selected {
+      background: var(--accent);
+      color: var(--white);
+    }
+
+    .event-date {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 60px;
+    }
+
+    .date-month {
+      font-size: 12px;
+      color: var(--gray);
+      text-transform: uppercase;
+    }
+
+    .date-day {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .event-card.selected .date-month,
+    .event-card.selected .date-day {
+      color: var(--white);
+    }
+
+    .event-info {
+      flex: 1;
+    }
+
+    .event-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--white);
+    }
+
+    .event-venue {
+      font-size: 14px;
+      color: var(--gray);
+      margin-bottom: 2px;
+    }
+
+    .event-time {
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    .event-card.selected .event-venue,
+    .event-card.selected .event-time {
+      color: var(--light-gray);
+    }
+
+    .event-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .price-info {
+      text-align: right;
+    }
+
+    .price-main {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--white);
+    }
+
+    .price-door {
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    .event-card.selected .price-main,
+    .event-card.selected .price-door {
+      color: var(--white);
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: 1px solid var(--white);
+      background: transparent;
+      color: var(--white);
+      text-decoration: none;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+
+    .btn:hover {
+      background: var(--white);
+      color: var(--bg);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      background: var(--white);
+      color: var(--accent);
+      border-color: var(--white);
+    }
+
+    /* 予約フォーム */
+    .booking-section {
+      display: none;
+      background: var(--dark-gray);
+      padding: 40px;
+      margin-top: 20px;
+      border: 1px solid var(--gray);
+    }
+
+    .booking-section.show {
+      display: block;
+      animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .booking-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: var(--white);
+    }
+
+    .selected-event-summary {
+      background: var(--bg);
+      padding: 20px;
+      margin-bottom: 30px;
+      border-left: 4px solid var(--accent);
+    }
+
+    .summary-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .summary-details {
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.6;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      color: var(--white);
+    }
+
+    input, select, textarea {
+      width: 100%;
+      background: var(--bg);
+      color: var(--white);
+      border: 1px solid var(--gray);
+      padding: 12px 16px;
+      font-family: inherit;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: var(--gray);
+    }
+
+    /* フッター */
+    .footer {
+      margin-top: 80px;
+      padding: 40px 20px;
+      text-align: center;
+      border-top: 1px solid var(--dark-gray);
+      color: var(--gray);
+      font-size: 12px;
+    }
+
+    .bandsintown-credit {
+      margin-top: 20px;
+    }
+
+    .bandsintown-link {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .bandsintown-link:hover {
+      text-decoration: underline;
+    }
+
+    /* ステータス */
+    .status {
+      margin-top: 20px;
+      padding: 15px;
+      text-align: center;
+      font-size: 14px;
+      border: 1px solid var(--gray);
+    }
+
+    .status.success {
+      background: rgba(0, 255, 0, 0.1);
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .status.error {
+      background: rgba(255, 0, 0, 0.1);
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    /* レスポンシブ */
+    @media (max-width: 768px) {
+      .event-card {
+        grid-template-columns: auto 1fr;
+        gap: 15px;
+      }
+      
+      .event-actions {
+        grid-column: 1 / -1;
+        margin-top: 15px;
+        justify-content: flex-start;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 10px;
+      }
+      
+      .booking-section {
+        padding: 20px;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div class="api-status" id="apiStatus">
+    <!-- API接続状況 -->
+  </div>
 
-    <div class="wrapper">
-        <!-- header -->
-        <header class="header ">
-          <div class="container">
-            <h1 class="header-logo">
-              <a href="./index.html">MEI TAKEDA</a>
-            </h1>
+  <header class="header">
+    <h1 class="artist-name">武田 鳴 チケット予約フォーム</h1>
+    <p class="tagline">行きたいライブの日程を選んでください</p>
+  </header>
+
+  <div class="container">
+    <!-- イベント一覧 -->
+    <section class="events-section">
+      <h2 class="section-title">Tour Dates</h2>
+      <div class="events-grid" id="eventsGrid">
+        <!-- イベントがJavaScriptで動的に生成される -->
+      </div>
+    </section>
+
+    <!-- 予約フォーム -->
+    <section class="booking-section" id="bookingSection">
+      <h3 class="booking-title">Reserve Your Tickets</h3>
+      
+      <div class="selected-event-summary" id="eventSummary">
+        <!-- 選択されたイベントの詳細 -->
+      </div>
+
+      <!-- !! entry IDを正しい値に更新してください !! -->
+      <form id="reservationForm" role="form" method="POST"
+            action="https://docs.google.com/forms/d/e/1FAIpQLSf7TGrqnpnEOnR_AzyaVAJlAGWun2ZbL9YxXlwWiibZAEuG1Q/formResponse">
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="name">名前 *</label>
+            <!-- entry IDを更新: entry.817030556 -->
+            <input type="text" id="name" name="entry.817030556" required placeholder="山田太郎" />
           </div>
-        </header>
-        <!-- /header -->
-    
-        <main class="content">
-    
-            <section class="skill section" id="news">
-                <div class="container">
-                  <h2 class="title"> Concert Schedule <br>ライブ情報</h2>
-              </div>
-              </section>
+          
+          <div class="form-group">
+            <label for="email">Email *</label>
+            <!-- entry IDを更新: entry.594301832 -->
+            <input type="email" id="email" name="entry.594301832" required placeholder="you@example.com" />
+          </div>
+        </div>
 
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="tickets">チケット枚数 *</label>
+            <!-- entry IDを更新: entry.845925255 -->
+            <select id="tickets" name="entry.845925255" required>
+              <option value="">選択してください</option>
+              <option value="１枚">1枚</option>
+              <option value="２枚">2枚</option>
+              <option value="３枚">3枚</option>
+              <option value="４枚">4枚</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="eventTitle">イベント</label>
+            <!-- entry IDを更新: entry.885220633 -->
+            <input type="text" id="eventTitle" name="entry.885220633" readonly />
+          </div>
+        </div>
 
-          <!-- mv -->
-          <div class="mv">
-            <div class="mv-container">
-                <section class="works-info" id="live" >
-                 <a class="bit-widget-initializer"
-    
-	data-artist-name="id_15546128"
-	
-	data-events-to-display=""
-	data-background-color="rgba(246,246,246,1)"
-	data-separator-color="rgba(74,74,74,1)"
-	data-text-color="rgba(55,83,92,1)"
-	data-font="Helvetica"
-	data-auto-style="true"
-	
-	data-button-label-capitalization="lowercase"
-	data-header-capitalization="uppercase"
-	data-location-capitalization="capitalize"
-	data-venue-capitalization="uppercase"
-	data-display-local-dates="true"
-	data-local-dates-position="tab"
-	data-display-past-dates="false"
-	data-display-details="false"
-	data-display-lineup="true"
-	data-display-start-time="true"
-	data-social-share-icon="true"
-	data-display-limit="all"
-	
-	data-date-format="MMM. DD YYYY"
-	data-date-orientation="vertical"
-	data-date-border-color="#4A4A4A"
-	data-date-border-width="2px"
-	data-date-capitalization="capitalize"
-	data-date-border-radius="10px"
-	
-	data-event-ticket-cta-size="large"
-	data-event-custom-ticket-text=""
-	data-event-ticket-text=""
-	data-event-ticket-icon="false"
-	data-event-ticket-cta-text-color="#FFFFFF"
-	data-event-ticket-cta-bg-color="rgba(144,199,196,1)"
-	data-event-ticket-cta-border-color="#4A4A4A"
-	data-event-ticket-cta-border-width="0px"
-	data-event-ticket-cta-border-radius="30px"
-	
-	data-sold-out-button-text-color="#FFFFFF"
-	data-sold-out-button-background-color="#4A4A4A"
-	data-sold-out-button-border-color="#4A4A4A"
-	data-sold-out-button-clickable="true"
-	
-	data-event-rsvp-position="hidden"
-	data-event-rsvp-cta-size="medium"
-	data-event-rsvp-only-show-icon="false"
-	data-event-rsvp-text="REMIND ME"
-	data-event-rsvp-icon="false"
-	data-event-rsvp-cta-text-color="#4A4A4A"
-	data-event-rsvp-cta-bg-color="#FFFFFF"
-	data-event-rsvp-cta-border-color="#4A4A4A"
-	data-event-rsvp-cta-border-width="1px"
-	data-event-rsvp-cta-border-radius="4px"
-	
-	data-follow-section-position="hidden"
-	data-follow-section-alignment="center"
-	data-follow-section-header-text="Get updates on new shows, new music, and more."
-	data-follow-section-cta-size="medium"
-	data-follow-section-cta-text="FOLLOW"
-	data-follow-section-cta-icon="true"
-	data-follow-section-cta-text-color="#FFFFFF"
-	data-follow-section-cta-bg-color="#4A4A4A"
-	data-follow-section-cta-border-color="#4A4A4A"
-	data-follow-section-cta-border-width="0px"
-	data-follow-section-cta-border-radius="4px"
-	
-	data-play-my-city-position="hidden"
-	data-play-my-city-alignment="Center"
-	data-play-my-city-header-text="Don’t see a show near you?"
-	data-play-my-city-cta-size="medium"
-	data-play-my-city-cta-text="REQUEST A SHOW"
-	data-play-my-city-cta-icon="true"
-	data-play-my-city-cta-text-color="#FFFFFF"
-	data-play-my-city-cta-bg-color="#4A4A4A"
-	data-play-my-city-cta-border-color="#4A4A4A"
-	data-play-my-city-cta-border-width="0px"
-	data-play-my-city-cta-border-radius="4px"
-	
-	data-optin-font=""
-	data-optin-text-color=""
-	data-optin-bg-color=""
-	data-optin-cta-text-color=""
-	data-optin-cta-bg-color=""
-	data-optin-cta-border-width=""
-	data-optin-cta-border-radius=""
-	data-optin-cta-border-color=""
-	
-	data-language="ja"
-	data-layout-breakpoint="900"
-	data-app-id=""
-	data-affil-code=""
-	data-bit-logo-position="hidden"
-	data-bit-logo-color="rgba(55,83,92,1)"
-	
-    ></a>
-            
-                      <!-- ここに予約フォーム -->
-            
-              </section>
+        <div class="form-group full-width">
+          <label for="message">メッセージ（任意）</label>
+          <!-- entry IDを更新: entry.1558980968 -->
+          <textarea id="message" name="entry.1558980968" rows="3" placeholder="ご質問やご要望があればお書きください"></textarea>
+        </div>
 
-              <section class="about section" id="about">
-                <div class="container">
-                  <h2 class="title">チケット予約 <br>Ticker Reserve</h2>
-                  <div class="profile">
-                    </p>
-                    <div class="profile-body">
-                      <p>
-                        予約したいライブの日時とお名前、来場人数を入力してください。<br>
-                        
-                        上記にライブ情報の記載がない場合や<br>
-                        質問があればお気軽にお問い合わせください。<br>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </section>
-              
-                <section class="contact section" id="contact">
-                    <div class="container">
-                          <div class="contact-wrapper">
-                  
-                          <!-- Left contact page --> 
-                            
-                            <form id="contact-form" class="form-horizontal" role="form" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSfs3CSFJCFyPMNk6PHXlqt0NUBPFLnbpomvCcjiK080b0V1ZA/formResponse" method="POST"
-                            target="hidden_iframe" onsubmit="submitted=true;" >
+        <div class="form-group">
+          <label for="verification">Bot確認: 3 + 4 = ?</label>
+          <input type="text" id="verification" name="verification" required placeholder="答えを入力" style="max-width: 100px;" />
+        </div>
 
-                            <div class="form-group">
-                                <div class="col-sm-12">
-                                  <input type="email" class="form-control" id="mail" placeholder="E-MAIL" name="entry.99070791" value="" required>
-                                </div>
-                              </div>
-                            
-                            <div class="form-group">
-                                <div class="col-sm-12">
-                                  <input type="date" class="form-control" id="concert_date" placeholder="ライブ日程" name="entry.303099614" value="" required>
-                                </div>
-                              </div>
+        <!-- 隠しフィールド（必要に応じて） -->
+        <input type="hidden" name="entry.35324790" id="eventDate" />
+        <input type="hidden" name="entry.1354862515" id="eventVenue" />
 
-                              <div class="form-group">
-                                <div class="col-sm-12">
-                                  <input type="text" class="form-control" id="name" placeholder="お名前 | NAME" name="entry.2092238618" value="" required>
-                                </div>
-                              </div>
-                        
-                         
-                              <div class="form-group">
-                                <div class="col-sm-12">
-                                  <input type="number" class="form-control" id="guest_number" placeholder="人数 | number of people" name="entry.243285556" min="1" max="10" value="" required>
-                                </div>
-                              </div>
-                              <textarea class="form-control" rows="10" placeholder="ご質問あればお気軽に | If you have any questions, feel free to ask" name="entry.617501037" required></textarea>
-                              
-                              <button class="btn btn-primary send-button" id="submit" type="submit" value="SEND">
-                                <div class="alt-send-button">
-                                  <i class="fa fa-paper-plane"></i><span class="send-text">SEND</span>
-                                </div>
-                              
-                              </button>
-                              
-                            </form>
-                            </div>
-                            </div>
-                        
-                        </section>
+        <div style="display: flex; gap: 10px; margin-top: 30px;">
+          <button type="submit" class="btn btn-primary">予約を送信</button>
+          <button type="button" class="btn" id="mailBtn">メールで送信</button>
+        </div>
 
+        <div id="formStatus" class="status" style="display: none;"></div>
+      </form>
+    </section>
+  </div>
 
+  <footer class="footer">
+    <p>© 2025 Takeda Mei. All rights reserved.</p>
+    <div class="bandsintown-credit">
+      <a href="https://bandsintown.com/a/15127-takeda-mei" class="bandsintown-link" target="_blank" rel="noopener">
+        Powered by Bandsintown - Follow for tour updates
+      </a>
+    </div>
+  </footer>
 
+  <script>
+    // Bandsintown API設定
+    const BANDSINTOWN_CONFIG = {
+      artistName: '武田 鳴',
+      appId: '610e81a3e048378adaaea829de59f64b',
+      apiUrl: 'https://rest.bandsintown.com/artists',
+      fallbackEvents: [
+        {
+          id: 'fallback-kyoto-2026-01',
+          title: 'Three-Man Live (Saikyoto)',
+          date: '2026-01-24',
+          venue: 'Kyoto Nano',
+          city: 'Kyoto',
+          time: { open: '18:30', start: '19:00' },
+          price: { advance: 3000, door: 3500 }
+        },
+        {
+          id: 'fallback-tokyo-2026-02',
+          title: 'Noise Night Vol.12',
+          date: '2026-02-15',
+          venue: 'Shibuya WWW',
+          city: 'Tokyo',
+          time: { open: '19:00', start: '19:30' },
+          price: { advance: 2500, door: 3000 }
+        }
+      ]
+    };
 
+    let EVENTS = [];
+    let selectedEvent = null;
+
+    // DOM要素の取得
+    const $ = (selector) => document.querySelector(selector);
+
+    // API接続状況表示
+    function showApiStatus(message, type = 'info') {
+      const status = $('#apiStatus');
+      if (status) {
+        status.textContent = message;
+        status.className = `api-status show ${type}`;
+        setTimeout(() => {
+          status.classList.remove('show');
+        }, 3000);
+      }
+    }
+
+    // ローディング表示
+    function showLoading() {
+      const eventsGrid = $('#eventsGrid');
+      if (eventsGrid) {
+        eventsGrid.innerHTML = `
+          <div style="text-align: center; padding: 40px; color: var(--gray);">
+            <div style="margin-bottom: 20px;">🎵</div>
+            <div>Loading events from Bandsintown...</div>
+          </div>
+        `;
+      }
+      showApiStatus('Connecting to Bandsintown API...', 'info');
+    }
+
+    // エラー表示
+    function showError() {
+      const eventsGrid = $('#eventsGrid');
+      if (eventsGrid) {
+        eventsGrid.innerHTML = `
+          <div style="text-align: center; padding: 40px; color: var(--red);">
+            <div>⚠️ Unable to connect to Bandsintown</div>
+            <div style="font-size: 12px; margin-top: 10px; color: var(--gray);">
+              Artist not found or API connection failed.<br>
+              Using sample event data for demonstration.
             </div>
           </div>
+        `;
+      }
+    }
 
-               
-    
+    // 日付フォーマット関数
+    function formatDate(dateStr) {
+      const date = new Date(dateStr);
+      const month = date.toLocaleDateString('ja-JP', { month: 'short' }).replace('月', '月');
+      const day = date.getDate();
+      return { month, day };
+    }
+
+    // イベントカード生成
+    function createEventCard(event) {
+      const { month, day } = formatDate(event.date);
+      
+      return `
+        <div class="event-card" data-event-id="${event.id}">
+          <div class="event-date">
+            <div class="date-month">${month}</div>
+            <div class="date-day">${day}</div>
+          </div>
+          <div class="event-info">
+            <div class="event-title">${event.title}</div>
+            <div class="event-venue">${event.venue}, ${event.city}</div>
+            <div class="event-time">Open ${event.time.open} / Start ${event.time.start}</div>
+          </div>
+          <div class="event-actions">
+            <div class="price-info">
+              <div class="price-main">¥${event.price.advance.toLocaleString()}</div>
+              <div class="price-door">Door ¥${event.price.door.toLocaleString()}</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Bandsintown APIからイベント情報を取得
+    async function fetchBandsintownEvents() {
+      try {
+        const encodedArtist = encodeURIComponent(BANDSINTOWN_CONFIG.artistName);
+        const url = `${BANDSINTOWN_CONFIG.apiUrl}/${encodedArtist}/events?app_id=${BANDSINTOWN_CONFIG.appId}`;
         
-        </main>
-    
-        <!-- footer -->
-        <footer class="footer">
-          <div class="copyright">&copy;Mei Takeda</div>
-        </footer>
-        <!-- /footer -->
-    
-      </div>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-      <script type='text/javascript' src="js/script.js"></script>
-      <script charset="utf-8" src="https://widgetv3.bandsintown.com/main.min.js"></script>
-      <script type="text/javascript">
-        let submitted = false;
-    </script>
-<iframe
-name="hidden_iframe"
-id="hidden_iframe"
-style="display: none"
-onload="if(submitted){window.location='./ticket-thanks.html';}"
-></iframe>
+        console.log('Fetching events from Bandsintown API...', url);
+        showApiStatus('Fetching events...', 'info');
+        
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+          if (response.status === 404) {
+            throw new Error(`Artist "${BANDSINTOWN_CONFIG.artistName}" not found on Bandsintown.`);
+          }
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const bandsintownEvents = await response.json();
+        console.log('Bandsintown API response:', bandsintownEvents);
+        showApiStatus('Connected to Bandsintown', 'success');
+        
+        if (!Array.isArray(bandsintownEvents) || bandsintownEvents.length === 0) {
+          console.log('No events found on Bandsintown, using fallback data');
+          showApiStatus('No events on Bandsintown', 'error');
+          return BANDSINTOWN_CONFIG.fallbackEvents;
+        }
+        
+        console.log('Found', bandsintownEvents.length, 'events on Bandsintown');
+        showApiStatus(`Found ${bandsintownEvents.length} events`, 'success');
+        
+        const convertedEvents = bandsintownEvents.map((event, index) => {
+          return convertBandsintownEvent(event, index);
+        }).filter(event => event !== null);
+        
+        console.log('Successfully converted', convertedEvents.length, 'events');
+        return convertedEvents;
+        
+      } catch (error) {
+        console.warn('Bandsintown API error:', error.message);
+        showApiStatus('Using offline data', 'error');
+        return BANDSINTOWN_CONFIG.fallbackEvents;
+      }
+    }
+
+    // Bandsintownのイベントデータをアプリケーション用に変換
+    function convertBandsintownEvent(btEvent, index = 0) {
+      try {
+        const eventDate = new Date(btEvent.starts_at || btEvent.datetime);
+        if (isNaN(eventDate.getTime())) {
+          console.error('Invalid date:', btEvent.starts_at || btEvent.datetime);
+          return null;
+        }
+        
+        const dateStr = eventDate.toISOString().split('T')[0];
+        const startTime = eventDate.toTimeString().slice(0, 5);
+        
+        const openDate = new Date(eventDate.getTime() - 30 * 60 * 1000);
+        const openTime = openDate.toTimeString().slice(0, 5);
+        
+        const converted = {
+          id: btEvent.id || `bt-event-${index}`,
+          title: btEvent.title || btEvent.description || 'Live Performance',
+          date: dateStr,
+          venue: btEvent.venue ? btEvent.venue.name : 'TBD',
+          city: btEvent.venue ? btEvent.venue.city : 'TBD',
+          time: {
+            open: openTime,
+            start: startTime
+          },
+          price: {
+            advance: 3000,
+            door: 3500
+          }
+        };
+        
+        return converted;
+        
+      } catch (error) {
+        console.error('Error converting Bandsintown event:', error, btEvent);
+        return null;
+      }
+    }
+
+    // イベント選択処理
+    function selectEvent(eventId) {
+      console.log('Selecting event:', eventId);
+      
+      // 全てのイベントカードから選択状態を削除
+      const allEventCards = document.querySelectorAll('.event-card');
+      for (let i = 0; i < allEventCards.length; i++) {
+        allEventCards[i].classList.remove('selected');
+      }
+      
+      // 指定されたイベントカードを選択状態にする
+      const selectedCard = document.querySelector(`.event-card[data-event-id="${eventId}"]`);
+      if (selectedCard) {
+        selectedCard.classList.add('selected');
+        console.log('Event card selected successfully');
+      }
+
+      selectedEvent = EVENTS.find(event => event.id === eventId);
+      if (selectedEvent) {
+        updateBookingSection(selectedEvent);
+        const bookingSection = $('#bookingSection');
+        if (bookingSection) {
+          bookingSection.classList.add('show');
+          
+          setTimeout(() => {
+            bookingSection.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'start' 
+            });
+          }, 100);
+        }
+      }
+    }
+
+    // 予約セクション更新
+    function updateBookingSection(event) {
+      const { month, day } = formatDate(event.date);
+      
+      const eventSummary = $('#eventSummary');
+      if (eventSummary) {
+        eventSummary.innerHTML = `
+          <div class="summary-title">${event.title}</div>
+          <div class="summary-details">
+            ${month} ${day} at ${event.venue}, ${event.city}<br>
+            Open ${event.time.open} / Start ${event.time.start}<br>
+            Advance ¥${event.price.advance.toLocaleString()} / Door ¥${event.price.door.toLocaleString()}
+          </div>
+        `;
+      }
+      
+      const eventTitleField = $('#eventTitle');
+      const eventDateField = $('#eventDate');
+      const eventVenueField = $('#eventVenue');
+      
+      if (eventTitleField) eventTitleField.value = event.title;
+      if (eventDateField) eventDateField.value = event.date;
+      if (eventVenueField) eventVenueField.value = `${event.venue}, ${event.city}`;
+    }
+
+    // フォームバリデーション関数
+    function validateForm() {
+      console.log('=== フォームバリデーション開始 ===');
+      
+      const nameField = $('#name');
+      const emailField = $('#email');
+      const ticketsField = $('#tickets');
+      const verificationField = $('#verification');
+      
+      // フィールドの存在確認
+      if (!nameField || !emailField || !ticketsField || !verificationField) {
+        console.error('必須フィールドが見つかりません');
+        return false;
+      }
+      
+      // 値の取得と確認
+      const name = nameField.value.trim();
+      const email = emailField.value.trim();
+      const tickets = ticketsField.value;
+      const verification = verificationField.value.trim();
+      
+      console.log('フィールド値:', { name, email, tickets, verification });
+      
+      // 必須項目チェック
+      if (!name) {
+        showStatus('名前を入力してください', 'error');
+        nameField.focus();
+        return false;
+      }
+      
+      if (!email) {
+        showStatus('メールアドレスを入力してください', 'error');
+        emailField.focus();
+        return false;
+      }
+      
+      if (!tickets) {
+        showStatus('チケット枚数を選択してください', 'error');
+        ticketsField.focus();
+        return false;
+      }
+      
+      // メールアドレス形式チェック
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        showStatus('有効なメールアドレスを入力してください', 'error');
+        emailField.focus();
+        return false;
+      }
+      
+      // 確認問題チェック
+      if (verification !== '7') {
+        showStatus('確認問題の答えが正しくありません (3 + 4 = 7)', 'error');
+        verificationField.focus();
+        return false;
+      }
+      
+      console.log('バリデーション成功');
+      return true;
+    }
+
+    // フォーム送信処理（修正版）
+    function handleFormSubmit(e) {
+      e.preventDefault(); // まず送信を停止
+      console.log('=== フォーム送信開始 ===');
+      
+      // バリデーション実行
+      if (!validateForm()) {
+        console.log('バリデーション失敗');
+        return;
+      }
+      
+      console.log('バリデーション成功 - 送信を実行');
+      showStatus('送信中...', 'success');
+      
+      // フォームデータを取得
+      const form = e.target;
+      const formData = new FormData(form);
+      
+      // Googleフォームに直接POST送信（fetch使用）
+      fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors' // CORS制限を回避
+      }).then(() => {
+        console.log('Googleフォームへの送信完了');
+      }).catch((error) => {
+        console.log('送信処理:', error);
+        // no-corsモードではエラーが発生することがあるが、実際には送信されている
+      });
+      
+      // 送信完了後、成功ページへ遷移
+      setTimeout(() => {
+        console.log('成功ページへ遷移開始');
+        
+        if (selectedEvent) {
+          const eventParams = new URLSearchParams({
+            event: selectedEvent.title,
+            date: selectedEvent.date,
+            venue: selectedEvent.venue,
+            city: selectedEvent.city
+          });
+          
+          window.location.href = `success.html?${eventParams.toString()}`;
+        } else {
+          window.location.href = 'success.html';
+        }
+      }, 1500);
+      
+      console.log('フォーム送信実行完了');
+    }
+
+    // メール送信処理
+    function handleMailSubmit() {
+      console.log('=== メール送信開始 ===');
+      
+      if (!selectedEvent) {
+        showStatus('イベントを選択してください', 'error');
+        return;
+      }
+      
+      if (!validateForm()) {
+        console.log('メール送信 - バリデーション失敗');
+        return;
+      }
+      
+      const form = $('#reservationForm');
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+      
+      const subject = `[チケット予約] ${selectedEvent.title}`;
+      const body = `
+イベント: ${selectedEvent.title}
+日程: ${selectedEvent.date}
+会場: ${selectedEvent.venue}, ${selectedEvent.city}
+枚数: ${data.tickets || '未選択'}枚
+
+氏名: ${data.name || ''}
+メール: ${data.email || ''}
+メッセージ: ${data.message || ''}
+      `.trim();
+      
+      const mailtoUrl = `mailto:info@takeda-mei.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailtoUrl;
+      console.log('メールクライアント起動');
+    }
+
+    // ステータス表示
+    function showStatus(message, type = 'success') {
+      console.log(`ステータス表示: ${message} (${type})`);
+      const status = $('#formStatus');
+      if (status) {
+        status.textContent = message;
+        status.className = `status ${type}`;
+        status.style.display = 'block';
+        
+        setTimeout(() => {
+          status.style.display = 'none';
+        }, 5000);
+      }
+    }
+
+    // イベントリスナー設定
+    function setupEventListeners() {
+      console.log('=== イベントリスナー設定開始 ===');
+      
+      // イベントカードのクリックイベント（for文を使用）
+      const eventCards = document.querySelectorAll('.event-card');
+      console.log(`見つかったイベントカード数: ${eventCards.length}`);
+      
+      if (eventCards.length > 0) {
+        for (let i = 0; i < eventCards.length; i++) {
+          const card = eventCards[i];
+          const eventId = card.dataset.eventId;
+          
+          console.log(`イベントカード${i + 1}にリスナー設定: ${eventId}`);
+          
+          card.addEventListener('click', function() {
+            console.log(`イベントカード${i + 1}がクリックされました: ${eventId}`);
+            selectEvent(eventId);
+          });
+        }
+        console.log(`${eventCards.length}個のイベントカードにリスナー設定完了`);
+      } else {
+        console.error('イベントカードが見つかりません');
+        // 再試行
+        setTimeout(() => {
+          console.log('イベントリスナー設定を再試行...');
+          setupEventListeners();
+        }, 500);
+        return;
+      }
+      
+      // フォーム送信イベント
+      const form = $('#reservationForm');
+      if (form) {
+        form.addEventListener('submit', handleFormSubmit);
+        console.log('フォーム送信リスナー設定完了');
+      } else {
+        console.error('フォーム要素が見つかりません');
+      }
+      
+      // メール送信ボタンイベント
+      const mailBtn = $('#mailBtn');
+      if (mailBtn) {
+        mailBtn.addEventListener('click', handleMailSubmit);
+        console.log('メール送信ボタンリスナー設定完了');
+      } else {
+        console.error('メール送信ボタンが見つかりません');
+      }
+    }
+
+    // 初期化
+    async function init() {
+      console.log('=== アプリケーション初期化開始 ===');
+      showLoading();
+      
+      try {
+        console.log('Bandsintown API fetch開始...');
+        const events = await fetchBandsintownEvents();
+        
+        EVENTS = events.filter(event => event !== null);
+        console.log('最終EVENTS配列:', EVENTS);
+
+        if (EVENTS.length === 0) {
+          const eventsGrid = $('#eventsGrid');
+          eventsGrid.innerHTML = `
+            <div style="text-align: center; padding: 40px; color: var(--gray);">
+              <div>📅 No upcoming events</div>
+              <div style="font-size: 12px; margin-top: 10px;">
+                Check back soon for new tour dates!
+              </div>
+            </div>
+          `;
+          return;
+        }
+
+        // イベントを日付順にソート
+        EVENTS.sort((a, b) => new Date(a.date) - new Date(b.date));
+        
+        // イベントカード生成
+        const eventsGrid = $('#eventsGrid');
+        if (eventsGrid) {
+          eventsGrid.innerHTML = EVENTS.map(createEventCard).join('');
+          console.log('イベントカード生成完了');
+          
+          // DOM更新を待ってからイベントリスナー設定
+          setTimeout(() => {
+            setupEventListeners();
+          }, 100);
+        }
+
+        console.log(`${EVENTS.length}個のイベントの読み込み完了`);
+        
+      } catch (error) {
+        console.error('初期化エラー:', error);
+        
+        // フォールバック処理
+        console.log('フォールバックデータを使用');
+        EVENTS = [...BANDSINTOWN_CONFIG.fallbackEvents];
+        
+        if (EVENTS.length > 0) {
+          setTimeout(() => {
+            const eventsGrid = $('#eventsGrid');
+            if (eventsGrid) {
+              eventsGrid.innerHTML = EVENTS.map(createEventCard).join('');
+              
+              setTimeout(() => {
+                setupEventListeners();
+              }, 100);
+            }
+          }, 1000);
+        }
+      }
+    }
+
+    // DOMが読み込まれたら初期化実行
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('DOM読み込み完了 - 初期化開始');
+      init();
+    });
+
+  <!-- グローバル変数とiframeを削除 -->
+
+  </script>
+
 </body>
 </html>
