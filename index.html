@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -10,487 +10,3577 @@
   <meta property="og:image" content="https://takeda-mei.com/img/Twitter_takeda_mei_card.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:width" content="628">
-  <meta name="description" content="Mei Takeda Web site 武田鳴（たけだめい）の公式サイト" />
+  <meta name="description" content="MEI TAKEDA official Web site " />
   <meta name="twitter:site" content="@_takeda_mei_">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="武田鳴">
   <meta name="twitter:description" content="Mei Takeda official Web site">
   <meta name="twitter:image" content="https://takeda-mei.com/img/Twitter_takeda_mei_card_2.png" />
-  <title >武田 鳴 - MEI TAKEDA official site</title>
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined" rel="stylesheet">
-  <link href="css/ress.css" media="all" rel="stylesheet" type="text/css" media="screen and (min-width: 640px)" />
-  <link href="css/style.css" media="all" rel="stylesheet" type="text/css" />
-  <link href="css/responsive.css" media="all" rel="stylesheet" type="text/css"  />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css "> 
-  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous"> -->
-  <link rel="shortcut icon" href="img/favicon.ico" />
-  <link rel=”canonical” href=”https://takeda-mei.com” />
-  <script src="./js/page-loading.js"></script>
+    <title>MEI TAKEDA [1+1.=V.]</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: #000000;
+            color: #ffffff;
+            overflow: hidden;
+            height: 100vh;
+            user-select: none;
+            font-weight: 200;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            background: #000000;
+        }
+
+        .visualizer-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            background: #000000;
+        }
+
+        #mainCanvas {
+            width: 100%;
+            height: 100%;
+            background: #000000;
+            cursor: crosshair;
+            display: block;
+        }
+
+        .canvas-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .section-selector {
+            position: absolute;
+            border: 1px solid transparent;
+            transition: all 0.1s ease;
+            pointer-events: all;
+            cursor: pointer;
+            background: transparent;
+        }
+
+        .section-selector:hover {
+            border-color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .section-selector.selected {
+            border-color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .section-label {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            font-size: 8px;
+            color: #ffffff;
+            background: #000000;
+            padding: 1px 4px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 100;
+        }
+
+        .title {
+            font-size: 12px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: #ffffff;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .mono-button {
+            background: transparent;
+            border: 1px solid #ffffff;
+            color: #ffffff;
+            padding: 6px 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 300;
+            font-size: 10px;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            letter-spacing: 1px;
+        }
+
+        .mono-button:hover {
+            background: #ffffff;
+            color: #000000;
+        }
+
+        .mono-button:active {
+            background: #000000;
+            color: #ffffff;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .sidebar {
+            scrollbar-width: thin;
+            scrollbar-color: #ffffff #000000;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 60px;
+            right: 0;
+            width: 300px;
+            height: calc(100vh - 60px);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-left: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 15px;
+            transition: transform 0.2s ease;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .sidebar.hidden {
+            transform: translateX(100%);
+        }
+
+        /* Mobile Bottom Panel */
+        .mobile-panel {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            z-index: 150;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            max-height: 90vh;
+            overflow: hidden;
+        }
+
+        .mobile-panel.minimized {
+            transform: translateY(calc(100% - 60px));
+        }
+
+        .mobile-panel.half {
+            transform: translateY(calc(100% - 50vh));
+        }
+
+        .mobile-panel.full {
+            transform: translateY(0);
+        }
+
+        .panel-handle {
+            width: 100%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .panel-handle-bar {
+            width: 40px;
+            height: 4px;
+            background: #ffffff;
+            border-radius: 2px;
+        }
+
+        .panel-handle-text {
+            position: absolute;
+            right: 15px;
+            font-size: 10px;
+            letter-spacing: 1px;
+        }
+
+        .panel-content {
+            padding: 15px;
+            overflow-y: auto;
+            height: calc(90vh - 60px);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .panel-content::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .panel-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .panel-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .debug-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        .debug-title {
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 400;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .debug-info {
+            font-size: 9px;
+            line-height: 1.4;
+            color: #ffffff;
+            font-weight: 200;
+        }
+
+        .file-input-area {
+            border: 1px dashed #ffffff;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 15px;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            font-size: 10px;
+            font-weight: 300;
+            min-height: 44px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .file-input-area:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-style: solid;
+        }
+
+        .file-input-area.dragover {
+            background: rgba(255, 255, 255, 0.1);
+            border-style: solid;
+            border-color: #ffffff;
+        }
+
+        #fileInput, #fileInputMobile {
+            display: none;
+        }
+
+        .visualizer-modes {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .mode-button {
+            background: transparent;
+            border: 1px solid #ffffff;
+            color: #ffffff;
+            padding: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            font-weight: 300;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            letter-spacing: 1px;
+            min-height: 44px;
+        }
+
+        .mode-button:hover,
+        .mode-button.active {
+            background: #ffffff;
+            color: #000000;
+        }
+
+        .auto-checkbox {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 1px solid #ffffff;
+            background: transparent;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.1s ease;
+            flex-shrink: 0;
+        }
+
+        .auto-checkbox:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #ffffff;
+        }
+
+        .auto-checkbox:checked {
+            background: #ffffff;
+            border-color: #ffffff;
+        }
+
+        .auto-checkbox:checked::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 12px;
+            height: 12px;
+            background: #000000;
+        }
+
+        .auto-mode-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .control-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+            min-height: 44px;
+        }
+
+        .control-label {
+            font-size: 9px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            min-width: 120px;
+        }
+
+        .value-display {
+            font-size: 8px;
+            color: #ffffff;
+            min-width: 30px;
+            text-align: right;
+        }
+
+        .audio-controls {
+            margin-top: 15px;
+        }
+
+        .volume-control {
+            margin: 10px 0;
+        }
+
+        .volume-slider {
+            width: 100%;
+            height: 2px;
+            border-radius: 0;
+            background: transparent;
+            outline: none;
+            -webkit-appearance: none;
+            position: relative;
+            cursor: pointer;
+            min-height: 44px;
+        }
+
+        .volume-slider::-webkit-slider-track {
+            width: 100%;
+            height: 2px;
+            cursor: pointer;
+            background: #ffffff;
+            border: none;
+            border-radius: 0;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            border: 1px solid #ffffff;
+            height: 16px;
+            width: 16px;
+            border-radius: 0;
+            background: #000000;
+            cursor: pointer;
+            margin-top: -7px;
+            transition: all 0.1s ease;
+        }
+
+        .volume-slider::-webkit-slider-thumb:hover {
+            background: #ffffff;
+            border-color: #ffffff;
+        }
+
+        .volume-slider::-webkit-slider-thumb:active {
+            background: #ffffff;
+            transform: scale(1.2);
+        }
+
+        .volume-slider::-moz-range-track {
+            width: 100%;
+            height: 2px;
+            cursor: pointer;
+            background: #ffffff;
+            border: none;
+            border-radius: 0;
+        }
+
+        .volume-slider::-moz-range-thumb {
+            border: 1px solid #ffffff;
+            height: 16px;
+            width: 16px;
+            border-radius: 0;
+            background: #000000;
+            cursor: pointer;
+            transition: all 0.1s ease;
+        }
+
+        .volume-slider::-moz-range-thumb:hover {
+            background: #ffffff;
+        }
+
+        .status-indicator {
+            position: fixed;
+            top: 75px;
+            left: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 6px 12px;
+            font-size: 9px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            z-index: 10;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: #ffffff;
+            animation: blink 1s infinite;
+        }
+
+        .status-dot.active {
+            animation: none;
+        }
+
+        .auto-mode-indicator {
+            position: fixed;
+            top: 120px;
+            left: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 4px 8px;
+            font-size: 8px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            z-index: 10;
+        }
+
+        .auto-mode-indicator.visible {
+            opacity: 1;
+        }
+
+        @keyframes blink {
+            0%, 50% {
+                opacity: 1;
+            }
+            51%, 100% {
+                opacity: 0.3;
+            }
+        }
+
+        .fullscreen-mode {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9999;
+            background: #000000;
+        }
+
+        .strobe-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #ffffff;
+            opacity: 0;
+            z-index: 999;
+            pointer-events: none;
+        }
+
+        .takeda-select {
+            width: 100%;
+            background: #000000;
+            color: #ffffff;
+            border: 1px solid #ffffff;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 8px;
+            font-weight: 300;
+            padding: 12px 6px;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='square' stroke-linejoin='miter'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 4px center;
+            background-size: 12px;
+            padding-right: 20px;
+            min-height: 44px;
+        }
+
+        .takeda-select:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .takeda-select option {
+            background: #000000;
+            color: #ffffff;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 8px;
+            padding: 2px 4px;
+        }
+
+        .control-label-main {
+            font-size: 9px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            color: #ffffff;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .mobile-panel {
+                display: block;
+            }
+
+            .header {
+                height: 50px;
+                padding: 0 10px;
+            }
+
+            .title {
+                font-size: 10px;
+            }
+
+            .controls {
+                gap: 5px;
+            }
+
+            .mono-button {
+                padding: 8px 10px;
+                font-size: 8px;
+                min-height: 44px;
+            }
+
+            .status-indicator {
+                top: 60px;
+                left: 10px;
+                font-size: 8px;
+                padding: 4px 8px;
+            }
+
+            .auto-mode-indicator {
+                top: 95px;
+                left: 10px;
+                font-size: 7px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                height: 45px;
+            }
+
+            .title {
+                font-size: 9px;
+                letter-spacing: 1px;
+            }
+
+            .mono-button {
+                padding: 6px 8px;
+                font-size: 7px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-  <div class="wrapper">
-    <!-- header -->
-    <header class="header ">
-      <div class="container">
-        <h1 class="header-logo">
-          <a href=".">MEI TAKEDA</a>
-        </h1>
-        <nav class="gnav">
-          <ul class="gnav-list">
-            <li class="gnav-item"><a href="#news">News</a></li>
-            <li class="gnav-item"><a href="#live">Live</a></li>
-            <li class="gnav-item"><a href="#movie">Movie</a></li>
-            <li class="gnav-item"><a href="#works">Discography</a></li>
-            <li class="gnav-item"><a href="#about">Profile</a></li>
-            <li class="gnav-item"><a href="#contact">CONTACT</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-    <!-- /header -->
+    <div class="strobe-overlay" id="strobeOverlay"></div>
 
-    <main class="content">
+    <div class="container" id="container">
+        <div class="visualizer-container">
+            <canvas id="mainCanvas"></canvas>
 
-      <!-- mv -->
-      <div class="mv">
-        <canvas id="backgroundCanvas"></canvas>
-        <div class="mv-container">
-          <p id="takeda-mei-logo" class="mv-title"><img height="300" width="300" src="./img/takeda-mei-logo.png" alt=""></p>
-          <!-- <p class="mv-title"><img height="300" width="300" src="" alt=""></p> -->
-          <p class="mv-subtitle">Mei Takeda</p>
-          <p class="mv-text">
-            
-            <br class="sp-only"><br>
-            <br class="sp-only"><br>
-            That which we call a rose by any other name would smell as sweet.
-          </p>
-        </div>
-      </div>
-      <!-- /mv -->
-      <!-- news -->
-      <section class="skill section" id="news">
-        <div class="container">
-          <h2 class="title">News</h2>
-          <div class="skill-list">
-            <div class="skill-item">
-              <p class="skill-img"><img src="img/loud_a_solitude.png" alt=""></p>
-              <div class="skill-body">
-                <h3 class="skill-name"></h3>
-                <p class="skill-text">
-                  <a href="https://linkco.re/35EyqUh2"  target="_blank">EP「騒がしい孤独」が配信リリースされました<br>Spotify・YoutubeMusic・AppleMusic・AmazonMusic</a>
-                </p>
-              </div>
-            </div>
-            <div class="skill-item">
-              <p class="skill-img"><img src="img/dependency.png" alt="グッズページはこちらから"></p>
-              <div class="skill-body">
-                <h3 class="skill-name"></h3>
-                <p class="skill-text">
-                  <a href="./merch.html"  target="_blank">グッズページはこちらから</a>
-                </p>
-              </div>
+            <div class="status-indicator">
+                <div class="status-dot" id="statusDot"></div>
+                <span id="statusText">STANDBY</span>
             </div>
 
-          </div>
+            <div class="auto-mode-indicator" id="autoModeIndicator">
+                <div class="status-dot" id="autoStatusDot"></div>
+                <span id="autoModeText">AUTO_DISABLED</span>
+            </div>
         </div>
-      </section>
-      <!-- /news -->
 
-      <!-- Live -->
-      <section class="works-info" id="live" >
-        <h2 class="title">Concert Schedule</h2>
-  <a class="bit-widget-initializer"
-    
-	data-artist-name="id_15546128"
-	
-	data-events-to-display=""
-	data-background-color="rgba(246,246,246,1)"
-	data-separator-color="rgba(74,74,74,1)"
-	data-text-color="rgba(55,83,92,1)"
-	data-font="Helvetica"
-	data-auto-style="true"
-	
-	data-button-label-capitalization="lowercase"
-	data-header-capitalization="uppercase"
-	data-location-capitalization="capitalize"
-	data-venue-capitalization="uppercase"
-	data-display-local-dates="true"
-	data-local-dates-position="tab"
-	data-display-past-dates="false"
-	data-display-details="false"
-	data-display-lineup="true"
-	data-display-start-time="true"
-	data-social-share-icon="true"
-	data-display-limit="all"
-	
-	data-date-format="MMM. DD YYYY"
-	data-date-orientation="vertical"
-	data-date-border-color="#4A4A4A"
-	data-date-border-width="2px"
-	data-date-capitalization="capitalize"
-	data-date-border-radius="10px"
-	
-	data-event-ticket-cta-size="large"
-	data-event-custom-ticket-text=""
-	data-event-ticket-text="TICKETS"
-	data-event-ticket-icon="false"
-	data-event-ticket-cta-text-color="#FFFFFF"
-	data-event-ticket-cta-bg-color="rgba(144,199,196,1)"
-	data-event-ticket-cta-border-color="#4A4A4A"
-	data-event-ticket-cta-border-width="0px"
-	data-event-ticket-cta-border-radius="30px"
-	
-	data-sold-out-button-text-color="#FFFFFF"
-	data-sold-out-button-background-color="#4A4A4A"
-	data-sold-out-button-border-color="#4A4A4A"
-	data-sold-out-button-clickable="true"
-	
-	data-event-rsvp-position="hidden"
-	data-event-rsvp-cta-size="medium"
-	data-event-rsvp-only-show-icon="false"
-	data-event-rsvp-text="REMIND ME"
-	data-event-rsvp-icon="false"
-	data-event-rsvp-cta-text-color="#4A4A4A"
-	data-event-rsvp-cta-bg-color="#FFFFFF"
-	data-event-rsvp-cta-border-color="#4A4A4A"
-	data-event-rsvp-cta-border-width="1px"
-	data-event-rsvp-cta-border-radius="4px"
-	
-	data-follow-section-position="hidden"
-	data-follow-section-alignment="center"
-	data-follow-section-header-text="Get updates on new shows, new music, and more."
-	data-follow-section-cta-size="medium"
-	data-follow-section-cta-text="FOLLOW"
-	data-follow-section-cta-icon="true"
-	data-follow-section-cta-text-color="#FFFFFF"
-	data-follow-section-cta-bg-color="#4A4A4A"
-	data-follow-section-cta-border-color="#4A4A4A"
-	data-follow-section-cta-border-width="0px"
-	data-follow-section-cta-border-radius="4px"
-	
-	data-play-my-city-position="hidden"
-	data-play-my-city-alignment="Center"
-	data-play-my-city-header-text="Don’t see a show near you?"
-	data-play-my-city-cta-size="medium"
-	data-play-my-city-cta-text="REQUEST A SHOW"
-	data-play-my-city-cta-icon="true"
-	data-play-my-city-cta-text-color="#FFFFFF"
-	data-play-my-city-cta-bg-color="#4A4A4A"
-	data-play-my-city-cta-border-color="#4A4A4A"
-	data-play-my-city-cta-border-width="0px"
-	data-play-my-city-cta-border-radius="4px"
-	
-	data-optin-font=""
-	data-optin-text-color=""
-	data-optin-bg-color=""
-	data-optin-cta-text-color=""
-	data-optin-cta-bg-color=""
-	data-optin-cta-border-width=""
-	data-optin-cta-border-radius=""
-	data-optin-cta-border-color=""
-	
-	data-language="ja"
-	data-layout-breakpoint="900"
-	data-app-id=""
-	data-affil-code=""
-	data-bit-logo-position="hidden"
-	data-bit-logo-color="rgba(55,83,92,1)"
-	
-    ></a>
-  </section>
-
-      <!-- /Live Bandsintownの入れ込み終わり -->
-
-      <!-- Movie  　Youtube埋め込み　ここに映像関連-->
-      <section class="works section" id="movie">
-        <div class="container">
-          <h2 class="title">MOVIE</h2>
-          <div class="works-list">
-    
-
-            <a class="works-item" href="">
-              <div class="works-img  iframe-wrapper"><iframe  src="https://www.youtube.com/embed/x36ct54gJy8?si=J9udhnqB4iNg09HU"  title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-              <p class="works-name">錆びた花 MV</p>
-              <p class="works-info">ブアイソウの花言葉</p>
-            </a>
-     
-            <a class="works-item" href="">
-              <div class="works-img  iframe-wrapper"><iframe src="https://www.youtube.com/embed/aqxj36bYB5o?si=XqyvRUA-h7xrpfzZ"  title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-              <p class="works-name">夕の光 MV</p>
-              <p class="works-info"> </p>
-            </a>
-
-            <a class="works-item" href="">
-              <div class="works-img  iframe-wrapper"><iframe src="https://www.youtube.com/embed/7BwAlYUTJ2E?si=cqLEVvoTbxcND7YM"  title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-              <p class="works-name">即興演奏映像作品</p>
-              <p class="works-info"> Noise Code 1</p>
-            </a>
-
-
-
-
-          </div>
+        <div class="header">
+            <div class="title">MEI TAKEDA [1+1.=V.]</div>
+            <div class="controls">
+                <button class="mono-button" id="micButton">MIC</button>
+                <button class="mono-button" id="playButton">PLAY</button>
+                <button class="mono-button" id="stopButton">STOP</button>
+                <button class="mono-button" id="bandcampButton">BANDCAMP</button>
+                <button class="mono-button" id="contactButton">CONTACT</button>
+            </div>
         </div>
-      </section>
-      <!-- /works -->
 
-      <!-- Discography works section - 既存のDiscographyセクションを置き換え -->
-<section class="works section" id="works">
-  <div class="container">
-    <h2 class="title">Discography</h2>
-    <div class="discography-list">
+        <div class="sidebar" id="sidebar">
+            <div class="debug-panel">
+                <div class="debug-title">AUDIO_ANALYSIS</div>
+                <div class="debug-info" id="debugInfo">
+                    FREQ: 0000 Hz<br>
+                    AMP: 000%<br>
+                    BASS: 000%<br>
+                    MID: 000%<br>
+                    HIGH: 000%<br>
+                    BEAT: FALSE
+                </div>
+            </div>
 
-      <!-- 騒がしい孤独 EP　自分のLinkに最後変える -->    
-      <div class="discography-item">
-        <div class="release-info">
-          <h3 class="release-title">騒がしい孤独 ( EP) </h3>
-          <p class="release-description"> Loud a Solitude - 2025</p>
-        </div>
-        <div class="music-embed-wrapper">
-          <iframe 
-            class="spotify-embed" 
-            src="https://open.spotify.com/embed/album/2S4xvW3B3W3ndCikML5V6i?utm_source=generator" 
-            width="100%" 
-            height="352" 
-            frameborder="0" 
-            allowfullscreen="" 
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-            loading="lazy">
-          </iframe>
-        </div>
-        <div class="external-links">
-          <a href="https://linkco.re/35EyqUh2" target="_blank" class="external-link">各種配信・Link</a>
-        </div>
-      </div>
-            <div class="discography-item">
-        <div class="release-info">
-          <h3 class="release-title">騒がしい孤独について</h3>
-          <p class="release-description"> プレイリスト</p>
-        </div>
-        <div class="music-embed-wrapper">
-          <iframe 
-            class="spotify-embed" 
-            src="https://open.spotify.com/embed/playlist/3T9HLxaBDWMeqDkrslDwCe?utm_source=generator" 
-            width="100%" 
-            height="352" 
-            frameborder="0" 
-            allowfullscreen="" 
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-            loading="lazy">
-          </iframe>
-        </div>
-        <div class="external-links">
-        </div>
-      </div> 
+            <div class="file-input-area" id="fileArea">
+                <div style="font-size: 10px; font-weight: 300;">AUDIO_FILE_INPUT</div>
+                <div style="font-size: 8px; margin-top: 5px; font-weight: 200;">
+                    DROP_FILE_OR_CLICK
+                </div>
+                <input type="file" id="fileInput" accept="audio/*">
+            </div>
 
+            <div class="debug-panel">
+                <div class="debug-title">AUTO_MODE_ENGINE</div>
+                <div class="auto-mode-controls">
+                    <div class="control-row">
+                        <input type="checkbox" id="autoModeToggle" class="auto-checkbox">
+                        <label for="autoModeToggle" class="control-label">ENABLE_AUTO_MODE</label>
+                    </div>
 
+                    <div class="volume-control">
+                        <div class="control-row">
+                            <label class="control-label">SWITCH_INTERVAL</label>
+                            <span id="intervalDisplay" class="value-display">5.0s</span>
+                        </div>
+                        <input type="range" class="volume-slider" id="switchIntervalSlider" min="1" max="30" step="0.5"
+                            value="5">
+                    </div>
 
+                    <div class="control-row">
+                        <input type="checkbox" id="beatSyncToggle" class="auto-checkbox">
+                        <label for="beatSyncToggle" class="control-label">BEAT_SYNC_SWITCH</label>
+                    </div>
 
+                    <div class="control-row">
+                        <input type="checkbox" id="audioReactiveToggle" class="auto-checkbox">
+                        <label for="audioReactiveToggle" class="control-label">AUDIO_REACTIVE</label>
+                    </div>
 
+                    <div class="volume-control">
+                        <div class="control-row">
+                            <label class="control-label">REACTIVE_THRESHOLD</label>
+                            <span id="thresholdDisplay" class="value-display">70%</span>
+                        </div>
+                        <input type="range" class="volume-slider" id="reactiveThresholdSlider" min="10" max="95"
+                            value="70">
+                    </div>
 
+                    <div class="control-row">
+                        <input type="checkbox" id="adaptiveToggle" class="auto-checkbox" checked>
+                        <label for="adaptiveToggle" class="control-label">ADAPTIVE_MODE</label>
+                    </div>
 
-      <!-- 雪国 (Single) -->
-      <div class="discography-item">
-        <div class="release-info">
-          <h3 class="release-title">青い脂 (Single)</h3>
-          <p class="release-description">Blue Fat - 2025</p>
-        </div>
-        <div class="music-embed-wrapper">
-          <iframe 
-            class="bandcamp-embed" 
-             src="https://bandcamp.com/EmbeddedPlayer/album=3540475109/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" 
-            width="100%" 
-            height="120" 
-            frameborder="0" 
-            allowfullscreen="" 
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-            loading="lazy">
-          </iframe>
-        </div>
-        <div class="external-links">
-          <a href="https://mei-takeda.bandcamp.com/album/blue-fat-single" target="_blank" class="external-link">Bandcamp</a>
-          <!-- <a href="https://music.lnk.to/gkJRIj" target="_blank" class="external-link">配信各種</a> -->
-        </div>
-      </div>
+                    <div class="control-row">
+                        <input type="checkbox" id="randomModeToggle" class="auto-checkbox" checked>
+                        <label for="randomModeToggle" class="control-label">RANDOM_ORDER</label>
+                    </div>
 
-      <!-- 海月の実験 -->
-      <div class="discography-item">
-        <div class="release-info">
-          <h3 class="release-title">海月の実験</h3>
-          <p class="release-description">Jellyfish Experiment - 2023</p>
-        </div>
-        <div class="music-embed-wrapper">
-          <iframe 
-            class="bandcamp-embed" 
-            src="https://bandcamp.com/EmbeddedPlayer/album=3581156266/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" 
-            width="100%" 
-            height="120" 
-            frameborder="0" 
-            allowfullscreen="" 
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-            loading="lazy">
-          </iframe>
-        </div>
-        <div class="external-links">
-          <a href="https://mei-takeda.bandcamp.com/album/jellyfish-experiment" target="_blank" class="external-link">Bandcamp</a>
-        </div>
-      </div>
+                    <div class="volume-control">
+                        <div class="control-row">
+                            <label class="control-label">MULTI_VIEW_MODE</label>
+                            <span id="switchModeDisplay" class="value-display">GLOBAL</span>
+                        </div>
+                        <select id="switchModeSelect" class="takeda-select">
+                            <option value="global">GLOBAL_SYNC</option>
+                            <option value="individual">INDIVIDUAL</option>
+                            <option value="cascade">CASCADE</option>
+                        </select>
+                    </div>
 
-            <!-- Dependency -->
-      <div class="discography-item">
-        <div class="release-info">
-          <h3 class="release-title">Dependency</h3>
-          <p class="release-description">Dependency - 2023</p>
-        </div>
-        <div class="music-embed-wrapper">
-          <iframe 
-            class="bandcamp-embed" 
-            style="border: 0;"
-            src="https://bandcamp.com/EmbeddedPlayer/album=2784789568/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" 
-            width="100%" 
-            height="120" 
-            frameborder="0" 
-            allowfullscreen="" 
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-            loading="lazy">
-          </iframe>
-        </div>
-        <div class="external-links">
-          <a href="https://mei-takeda.bandcamp.com/album/dependency-ep" target="_blank" class="external-link">Bandcamp</a>
-        </div>
-      </div>
+                    <div class="volume-control">
+                        <div class="control-row">
+                            <label class="control-label">CHAOS_FACTOR</label>
+                            <span id="chaosDisplay" class="value-display">30%</span>
+                        </div>
+                        <input type="range" class="volume-slider" id="chaosSlider" min="0" max="100" value="30">
+                    </div>
 
-    
+                    <div style="border-top: 1px solid #ffffff; margin: 10px 0; padding-top: 10px;">
+                        <div class="control-row">
+                            <input type="checkbox" id="displayModeSwitchToggle" class="auto-checkbox">
+                            <label for="displayModeSwitchToggle" class="control-label">AUTO_DISPLAY_MODE</label>
+                        </div>
+
+                        <div class="volume-control">
+                            <div class="control-row">
+                                <label class="control-label">DISPLAY_INTERVAL</label>
+                                <span id="displayIntervalDisplay" class="value-display">15.0s</span>
+                            </div>
+                            <input type="range" class="volume-slider" id="displaySwitchSlider" min="5" max="60" step="1"
+                                value="15">
+                        </div>
+
+                        <div class="volume-control">
+                            <div class="control-row">
+                                <label class="control-label">SINGLE_WEIGHT</label>
+                                <span id="singleWeightDisplay" class="value-display">40%</span>
+                            </div>
+                            <input type="range" class="volume-slider" id="singleWeightSlider" min="0" max="100"
+                                value="40">
+                        </div>
+
+                        <div class="volume-control">
+                            <div class="control-row">
+                                <label class="control-label">QUAD_WEIGHT</label>
+                                <span id="quadWeightDisplay" class="value-display">40%</span>
+                            </div>
+                            <input type="range" class="volume-slider" id="quadWeightSlider" min="0" max="100"
+                                value="40">
+                        </div>
+
+                        <div class="volume-control">
+                            <div class="control-row">
+                                <label class="control-label">GRID_WEIGHT</label>
+                                <span id="gridWeightDisplay" class="value-display">20%</span>
+                            </div>
+                            <input type="range" class="volume-slider" id="gridWeightSlider" min="0" max="100"
+                                value="20">
+                        </div>
+                    </div>
+
+                    <div class="debug-panel" style="margin-top: 10px; padding: 6px; border: 1px solid #ffffff;">
+                        <div class="debug-title" style="margin-bottom: 4px; font-size: 8px;">MODE_SWITCH_LOG</div>
+                        <div id="modeSwitchLog"
+                            style="font-size: 7px; line-height: 1.2; color: #ffffff; max-height: 60px; overflow-y: auto;">
+                            WAITING_FOR_SWITCH...
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="debug-panel">
+                <div class="debug-title">DISPLAY_MODE</div>
+                <div class="visualizer-modes">
+                    <button class="mode-button active" data-display="single">SINGLE_VIEW</button>
+                    <button class="mode-button" data-display="quad">QUAD_SPLIT</button>
+                    <button class="mode-button" data-display="grid">GRID_VIEW</button>
+                </div>
+            </div>
+
+            <div class="debug-panel">
+                <div class="debug-title">CORE_MODES</div>
+                <div class="visualizer-modes">
+                    <button class="mode-button active" data-mode="takeda_data">DATA_STREAM</button>
+                    <button class="mode-button" data-mode="takeda_barcode">BARCODE</button>
+                    <button class="mode-button" data-mode="takeda_grid">DOT_MATRIX</button>
+                    <button class="mode-button" data-mode="takeda_strobe">STROBE</button>
+                    <button class="mode-button" data-mode="takeda_waveform">WAVEFORM</button>
+                    <button class="mode-button" data-mode="takeda_spectrum_grid">FREQ_GRID</button>
+                    <button class="mode-button" data-mode="takeda_spectrum_binary">BINARY_SPEC</button>
+                    <button class="mode-button" data-mode="takeda_spectrum_matrix">MATRIX_SPEC</button>
+                </div>
+            </div>
+
+            <div class="debug-panel">
+                <div class="debug-title">ADVANCED_MODES</div>
+                <div class="visualizer-modes">
+                    <button class="mode-button" data-mode="takeda_superposition">SUPERPOSITION</button>
+                    <button class="mode-button" data-mode="takeda_test_pattern">TEST_PATTERN</button>
+                    <button class="mode-button" data-mode="takeda_data_scan">DATA_SCAN</button>
+                    <button class="mode-button" data-mode="takeda_micro_macro">MICRO/MACRO</button>
+                    <button class="mode-button" data-mode="takeda_time_code">TIME/CODE</button>
+                    <button class="mode-button" data-mode="takeda_point_line">POINT/LINE/PLANE</button>
+                    <button class="mode-button" data-mode="takeda_dataplex">DATAPLEX</button>
+                    <button class="mode-button" data-mode="takeda_cyclo">CYCLO</button>
+                </div>
+            </div>
+
+            <div class="debug-panel">
+                <div class="debug-title">MATHEMATICAL_MODES</div>
+                <div class="visualizer-modes">
+                    <button class="mode-button" data-mode="takeda_formula">FORMULA</button>
+                    <button class="mode-button" data-mode="takeda_pi">PI_SEQUENCE</button>
+                    <button class="mode-button" data-mode="takeda_db">DECIBEL</button>
+                    <button class="mode-button" data-mode="takeda_matrix_nxn">MATRIX_NxN</button>
+                    <button class="mode-button" data-mode="takeda_supercodex">SUPERCODEX</button>
+                    <button class="mode-button" data-mode="takeda_data_flux">DATA_FLUX</button>
+                </div>
+            </div>
+
+            <div class="debug-panel">
+                <div class="debug-title">TECHNICAL_MODES</div>
+                <div class="visualizer-modes">
+                    <button class="mode-button" data-mode="takeda_oscilloscope">OSCILLOSCOPE</button>
+                    <button class="mode-button" data-mode="takeda_vectorscope">VECTORSCOPE</button>
+                    <button class="mode-button" data-mode="takeda_radar_sweep">RADAR_SWEEP</button>
+                    <button class="mode-button" data-mode="takeda_datamosh">DATAMOSH</button>
+                    <button class="mode-button" data-mode="takeda_glitch_matrix">GLITCH_MATRIX</button>
+                    <button class="mode-button" data-mode="takeda_interference">INTERFERENCE</button>
+                    <button class="mode-button" data-mode="takeda_binary">BINARY_RAIN</button>
+                    <button class="mode-button" data-mode="takeda_noise">WHITE_NOISE</button>
+                    <button class="mode-button" data-mode="takeda_scan">SCAN_LINE</button>
+                </div>
+            </div>
+
+            <div class="audio-controls">
+                <div class="debug-title">CONTROL_PARAMS</div>
+                <div class="volume-control">
+                    <label class="control-label-main">VOLUME</label>
+                    <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="80">
+                </div>
+                <div class="volume-control">
+                    <label class="control-label-main">SENSITIVITY</label>
+                    <input type="range" class="volume-slider" id="sensitivitySlider" min="1" max="10" value="5">
+                </div>
+                <div class="volume-control">
+                    <label class="control-label-main">STROBE_INTENSITY</label>
+                    <input type="range" class="volume-slider" id="strobeSlider" min="0" max="100" value="30">
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Bottom Panel - FULL CONTENT -->
+        <div class="mobile-panel minimized" id="mobilePanel">
+            <div class="panel-handle" id="panelHandle">
+                <div class="panel-handle-bar"></div>
+                <span class="panel-handle-text" id="panelHandleText">SWIPE UP</span>
+            </div>
+            <div class="panel-content" id="panelContent">
+                <div class="debug-panel">
+                    <div class="debug-title">AUDIO_ANALYSIS</div>
+                    <div class="debug-info" id="debugInfoMobile">
+                        FREQ: 0000 Hz<br>
+                        AMP: 000%<br>
+                        BASS: 000%<br>
+                        MID: 000%<br>
+                        HIGH: 000%<br>
+                        BEAT: FALSE
+                    </div>
+                </div>
+
+                <div class="file-input-area" id="fileAreaMobile">
+                    <div style="font-size: 10px; font-weight: 300;">AUDIO_FILE_INPUT</div>
+                    <div style="font-size: 8px; margin-top: 5px; font-weight: 200;">
+                        TAP_TO_SELECT_FILE
+                    </div>
+                    <input type="file" id="fileInputMobile" accept="audio/*">
+                </div>
+
+                <div class="debug-panel">
+                    <div class="debug-title">AUTO_MODE</div>
+                    <div class="auto-mode-controls">
+                        <div class="control-row">
+                            <input type="checkbox" id="autoModeToggleMobile" class="auto-checkbox">
+                            <label for="autoModeToggleMobile" class="control-label">ENABLE_AUTO</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="debug-panel">
+                    <div class="debug-title">DISPLAY_MODE</div>
+                    <div class="visualizer-modes">
+                        <button class="mode-button active" data-display="single" data-mobile="true">SINGLE_VIEW</button>
+                        <button class="mode-button" data-display="quad" data-mobile="true">QUAD_SPLIT</button>
+                        <button class="mode-button" data-display="grid" data-mobile="true">GRID_VIEW</button>
+                    </div>
+                </div>
+
+                <div class="debug-panel">
+                    <div class="debug-title">takeda_CORE_MODES</div>
+                    <div class="visualizer-modes">
+                        <button class="mode-button active" data-mode="takeda_data" data-mobile="true">DATA_STREAM</button>
+                        <button class="mode-button" data-mode="takeda_barcode" data-mobile="true">BARCODE</button>
+                        <button class="mode-button" data-mode="takeda_grid" data-mobile="true">DOT_MATRIX</button>
+                        <button class="mode-button" data-mode="takeda_strobe" data-mobile="true">STROBE</button>
+                        <button class="mode-button" data-mode="takeda_waveform" data-mobile="true">WAVEFORM</button>
+                        <button class="mode-button" data-mode="takeda_spectrum_grid" data-mobile="true">FREQ_GRID</button>
+                        <button class="mode-button" data-mode="takeda_spectrum_binary" data-mobile="true">BINARY_SPEC</button>
+                        <button class="mode-button" data-mode="takeda_spectrum_matrix" data-mobile="true">MATRIX_SPEC</button>
+                    </div>
+                </div>
+
+                <div class="debug-panel">
+                    <div class="debug-title">ADVANCED_MODES</div>
+                    <div class="visualizer-modes">
+                        <button class="mode-button" data-mode="takeda_superposition" data-mobile="true">SUPERPOSITION</button>
+                        <button class="mode-button" data-mode="takeda_test_pattern" data-mobile="true">TEST_PATTERN</button>
+                        <button class="mode-button" data-mode="takeda_data_scan" data-mobile="true">DATA_SCAN</button>
+                        <button class="mode-button" data-mode="takeda_micro_macro" data-mobile="true">MICRO/MACRO</button>
+                        <button class="mode-button" data-mode="takeda_time_code" data-mobile="true">TIME/CODE</button>
+                        <button class="mode-button" data-mode="takeda_point_line" data-mobile="true">POINT/LINE/PLANE</button>
+                        <button class="mode-button" data-mode="takeda_dataplex" data-mobile="true">DATAPLEX</button>
+                        <button class="mode-button" data-mode="takeda_cyclo" data-mobile="true">CYCLO</button>
+                    </div>
+                </div>
+
+                <div class="debug-panel">
+                    <div class="debug-title">MATHEMATICAL_MODES</div>
+                    <div class="visualizer-modes">
+                        <button class="mode-button" data-mode="takeda_formula" data-mobile="true">FORMULA</button>
+                        <button class="mode-button" data-mode="takeda_pi" data-mobile="true">PI_SEQUENCE</button>
+                        <button class="mode-button" data-mode="takeda_db" data-mobile="true">DECIBEL</button>
+                        <button class="mode-button" data-mode="takeda_matrix_nxn" data-mobile="true">MATRIX_NxN</button>
+                        <button class="mode-button" data-mode="takeda_supercodex" data-mobile="true">SUPERCODEX</button>
+                        <button class="mode-button" data-mode="takeda_data_flux" data-mobile="true">DATA_FLUX</button>
+                    </div>
+                </div>
+
+                <div class="debug-panel">
+                    <div class="debug-title">TECHNICAL_MODES</div>
+                    <div class="visualizer-modes">
+                        <button class="mode-button" data-mode="takeda_oscilloscope" data-mobile="true">OSCILLOSCOPE</button>
+                        <button class="mode-button" data-mode="takeda_vectorscope" data-mobile="true">VECTORSCOPE</button>
+                        <button class="mode-button" data-mode="takeda_radar_sweep" data-mobile="true">RADAR_SWEEP</button>
+                        <button class="mode-button" data-mode="takeda_datamosh" data-mobile="true">DATAMOSH</button>
+                        <button class="mode-button" data-mode="takeda_glitch_matrix" data-mobile="true">GLITCH_MATRIX</button>
+                        <button class="mode-button" data-mode="takeda_interference" data-mobile="true">INTERFERENCE</button>
+                        <button class="mode-button" data-mode="takeda_binary" data-mobile="true">BINARY_RAIN</button>
+                        <button class="mode-button" data-mode="takeda_noise" data-mobile="true">WHITE_NOISE</button>
+                        <button class="mode-button" data-mode="takeda_scan" data-mobile="true">SCAN_LINE</button>
+                    </div>
+                </div>
+
+                <div class="audio-controls">
+                    <div class="debug-title">CONTROL_PARAMS</div>
+                    <div class="volume-control">
+                        <label class="control-label-main">VOLUME</label>
+                        <input type="range" class="volume-slider" id="volumeSliderMobile" min="0" max="100" value="80">
+                    </div>
+                    <div class="volume-control">
+                        <label class="control-label-main">SENSITIVITY</label>
+                        <input type="range" class="volume-slider" id="sensitivitySliderMobile" min="1" max="10" value="5">
+                    </div>
+                    <div class="volume-control">
+                        <label class="control-label-main">STROBE_INTENSITY</label>
+                        <input type="range" class="volume-slider" id="strobeSliderMobile" min="0" max="100" value="30">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</section>
 
+    <script>
+        // FULL IMPLEMENTATION - ALL 31 MODES WITH ORIGINAL DRAW METHODS
+        class takedaAutoModeVisualizer {
+            constructor() {
+                this.canvas = document.getElementById('mainCanvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.audioContext = null;
+                this.analyser = null;
+                this.dataArray = null;
+                this.audioSource = null;
+                this.isPlaying = false;
+                this.isPaused = false;
+                this.currentMode = 'takeda_data';
+                this.displayMode = 'single';
+                this.sensitivity = 5;
+                this.volume = 0.8;
+                this.strobeIntensity = 0.3;
 
-      <!-- about -->
-      <section class="about section" id="about">
-        <div class="container">
-          <h2 class="title">Profile</h2>
-          <div class="profile">
-            <p class="profile-img">
-              <img src="img/profile_3.jpg" alt="武田鳴のアー写">
-            </p>
-            <div class="profile-body">
-              <p>
-                『武田 鳴 / MEI TAKEDA』 西京都葦原在住。<br>
-              ヨクナパトーファ郡ジェファーソン生まれ西京都育ち
-                <br>
-              1 + 1. = V. <br>
-              <br>
-              <br>
+                this.sections = [];
+                this.selectedSection = 0;
+
+                this.audioData = {
+                    frequency: 0,
+                    amplitude: 0,
+                    bass: 0,
+                    mid: 0,
+                    high: 0,
+                    beatDetected: false,
+                    peakFreq: 0,
+                    spectralCentroid: 0,
+                    rms: 0,
+                    zcr: 0
+                };
+
+                this.autoMode = {
+                    enabled: false,
+                    beatSync: false,
+                    audioReactive: false,
+                    adaptive: true,
+                    randomOrder: true,
+                    switchInterval: 5.0,
+                    reactiveThreshold: 0.7,
+                    chaosFactor: 0.3,
+                    displayModeSwitch: false,
+                    displaySwitchInterval: 15.0,
+                    lastDisplaySwitchTime: 0,
+                    displayModeWeights: {
+                        'single': 0.4,
+                        'quad': 0.4,
+                        'grid': 0.2
+                    },
+                    recentDisplayModes: [],
+                    targetView: 'all',
+                    switchMode: 'global',
+                    timer: null,
+                    displayTimer: null,
+                    lastSwitchTime: 0,
+                    lastBeatTime: 0,
+                    lastReactiveTime: 0,
+                    currentIndex: 0,
+                    recentModes: [],
+                    modeWeights: new Map(),
+                    energyHistory: [],
+                    frequencyProfile: new Array(10).fill(0),
+                    beatPattern: [],
+                    adaptiveInterval: 5.0,
+                    switchLog: []
+                };
+
+                this.availableModes = [
+                    { id: 'takeda_data', category: 'rhythmic', weight: 1.0, energy: 'mid' },
+                    { id: 'takeda_barcode', category: 'rhythmic', weight: 1.0, energy: 'high' },
+                    { id: 'takeda_strobe', category: 'rhythmic', weight: 0.8, energy: 'high' },
+                    { id: 'takeda_grid', category: 'rhythmic', weight: 0.9, energy: 'mid' },
+                    { id: 'takeda_spectrum_grid', category: 'analytical', weight: 1.0, energy: 'mid' },
+                    { id: 'takeda_spectrum_binary', category: 'analytical', weight: 0.9, energy: 'mid' },
+                    { id: 'takeda_spectrum_matrix', category: 'analytical', weight: 0.8, energy: 'high' },
+                    { id: 'takeda_oscilloscope', category: 'analytical', weight: 0.7, energy: 'low' },
+                    { id: 'takeda_vectorscope', category: 'analytical', weight: 0.6, energy: 'low' },
+                    { id: 'takeda_waveform', category: 'flow', weight: 0.8, energy: 'low' },
+                    { id: 'takeda_superposition', category: 'flow', weight: 0.7, energy: 'mid' },
+                    { id: 'takeda_interference', category: 'flow', weight: 0.6, energy: 'mid' },
+                    { id: 'takeda_data_flux', category: 'flow', weight: 0.8, energy: 'mid' },
+                    { id: 'takeda_datamosh', category: 'chaotic', weight: 0.5, energy: 'high' },
+                    { id: 'takeda_glitch_matrix', category: 'chaotic', weight: 0.6, energy: 'high' },
+                    { id: 'takeda_noise', category: 'chaotic', weight: 0.4, energy: 'high' },
+                    { id: 'takeda_binary', category: 'chaotic', weight: 0.7, energy: 'high' },
+                    { id: 'takeda_formula', category: 'mathematical', weight: 0.6, energy: 'low' },
+                    { id: 'takeda_pi', category: 'mathematical', weight: 0.5, energy: 'low' },
+                    { id: 'takeda_matrix_nxn', category: 'mathematical', weight: 0.7, energy: 'mid' },
+                    { id: 'takeda_db', category: 'mathematical', weight: 0.8, energy: 'mid' },
+                    { id: 'takeda_radar_sweep', category: 'technical', weight: 0.7, energy: 'mid' },
+                    { id: 'takeda_scan', category: 'technical', weight: 0.8, energy: 'mid' },
+                    { id: 'takeda_test_pattern', category: 'technical', weight: 0.5, energy: 'low' },
+                    { id: 'takeda_data_scan', category: 'advanced', weight: 0.8, energy: 'mid' },
+                    { id: 'takeda_micro_macro', category: 'advanced', weight: 0.6, energy: 'high' },
+                    { id: 'takeda_time_code', category: 'advanced', weight: 0.7, energy: 'low' },
+                    { id: 'takeda_point_line', category: 'advanced', weight: 0.6, energy: 'mid' },
+                    { id: 'takeda_dataplex', category: 'advanced', weight: 0.7, energy: 'mid' },
+                    { id: 'takeda_cyclo', category: 'advanced', weight: 0.8, energy: 'mid' },
+                    { id: 'takeda_supercodex', category: 'advanced', weight: 0.5, energy: 'high' }
+                ];
+
+                this.availableModes.forEach(mode => {
+                    this.autoMode.modeWeights.set(mode.id, mode.weight);
+                });
+
+                // takeda properties - ALL ORIGINAL ONES
+                this.dataStreamBuffer = [];
+                this.barcodeData = [];
+                this.dotMatrix = [];
+                this.strobeFrame = 0;
+                this.scanLinePos = 0;
+                this.interferencePattern = [];
+                this.binaryRain = [];
+                this.lastBeatTime = 0;
+                this.superpositionLayers = [];
+                this.testPatternGrid = [];
+                this.dataScanBuffer = [];
+                this.microMacroZoom = 1;
+                this.timeCodeSequence = [];
+                this.geometryPoints = [];
+                this.dataplexNodes = [];
+                this.cycloAngle = 0;
+                this.formulaBuffer = [];
+                this.piDigits = Math.PI.toString().replace('.', '').substring(0, 1000);
+                this.matrixSize = 8;
+                this.dataFluxStreams = [];
+                this.oscilloscopeBuffer = [];
+                this.vectorscopePoints = [];
+                this.radarSweepAngle = 0;
+                this.glitchBlocks = [];
+                this.datamoshOffset = { x: 0, y: 0 };
+
+                this.animationId = null;
+                this.frameCount = 0;
+                this.lastFrameTime = 0;
+
+                // Mobile panel state
+                this.isMobile = window.innerWidth <= 768;
+                this.panelState = 'minimized';
+
+                this.init();
+                this.setupEventListeners();
+                this.setupMobilePanel();
+                this.resize();
+                this.animate();
+            }
+
+            init() {
+                this.sections = [{ x: 0, y: 0, width: 1, height: 1, mode: this.currentMode }];
+                this.resize();
+                this.setupAudioContext();
+                this.initializetakedaElements();
+                this.updateAutoModeDisplay();
+                this.logModeSwitch(this.currentMode, 'init');
+            }
+
+            setupMobilePanel() {
+                if (!this.isMobile) return;
+
+                const panel = document.getElementById('mobilePanel');
+                const handle = document.getElementById('panelHandle');
                 
+                let startY = 0;
+                let currentY = 0;
+                let isDragging = false;
 
+                handle.addEventListener('touchstart', (e) => {
+                    startY = e.touches[0].clientY;
+                    isDragging = true;
+                });
 
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- /about -->
+                handle.addEventListener('touchmove', (e) => {
+                    if (!isDragging) return;
+                    e.preventDefault();
+                    currentY = e.touches[0].clientY;
+                });
 
-      <!-- contact -->
-      <section class="contact section" id="contact">
-        <div class="container">
-          <h2 class="title">CONTACT</h2>      
-              <div class="contact-wrapper">
-              
-              <!-- Left contact page --> 
+                handle.addEventListener('touchend', (e) => {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    
+                    const deltaY = currentY - startY;
+                    
+                    if (Math.abs(deltaY) < 50) {
+                        this.cyclePanelState();
+                    } else if (deltaY < -50) {
+                        this.expandPanel();
+                    } else if (deltaY > 50) {
+                        this.minimizePanel();
+                    }
+                });
+
+                handle.addEventListener('click', () => {
+                    this.cyclePanelState();
+                });
+            }
+
+            cyclePanelState() {
+                if (this.panelState === 'minimized') {
+                    this.setPanelState('half');
+                } else if (this.panelState === 'half') {
+                    this.setPanelState('full');
+                } else {
+                    this.setPanelState('minimized');
+                }
+            }
+
+            expandPanel() {
+                if (this.panelState === 'minimized') {
+                    this.setPanelState('half');
+                } else if (this.panelState === 'half') {
+                    this.setPanelState('full');
+                }
+            }
+
+            minimizePanel() {
+                if (this.panelState === 'full') {
+                    this.setPanelState('half');
+                } else if (this.panelState === 'half') {
+                    this.setPanelState('minimized');
+                }
+            }
+
+            setPanelState(state) {
+                const panel = document.getElementById('mobilePanel');
+                const handleText = document.getElementById('panelHandleText');
                 
-                <form id="contact-form" class="form-horizontal" role="form" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLScyAS5VCFRIxuATsZFghzHnLoC8ZBwbwT-Vk0Rk_tkbi4GALg/formResponse" method="POST"
-                target="hidden_iframe" onsubmit="submitted=true;" >
-                  <div class="form-group">
-                    <div class="col-sm-12">
-                      <input type="text" class="form-control" id="name" placeholder="NAME" name="entry.626363275" value="" required>
-                    </div>
-                  </div>
-            
-                  <div class="form-group">
-                    <div class="col-sm-12">
-                      <input type="email" class="form-control" id="email" placeholder="EMAIL" name="entry.258599309" value="" required>
-                    </div>
-                  </div>
-            
-                  <textarea class="form-control" rows="10" placeholder="MESSAGE" name="entry.216000898" required></textarea>
-                  
-                  <button class="btn btn-primary send-button" id="submit" type="submit" value="SEND">
-                    <div class="alt-send-button">
-                      <i class="fa fa-paper-plane"></i><span class="send-text">SEND</span>
-                    </div>
-                  
-                  </button>
-                  
-                </form>
+                panel.classList.remove('minimized', 'half', 'full');
+                panel.classList.add(state);
+                this.panelState = state;
+
+                if (state === 'minimized') {
+                    handleText.textContent = 'SWIPE UP';
+                } else if (state === 'half') {
+                    handleText.textContent = 'SWIPE';
+                } else {
+                    handleText.textContent = 'SWIPE DOWN';
+                }
+            }
+
+            initializetakedaElements() {
+                const width = window.innerWidth;
+                const height = window.innerHeight;
+
+                this.dataStreamBuffer = [];
+                for (let i = 0; i < 50; i++) {
+                    this.dataStreamBuffer.push({
+                        data: this.generateRandomData(),
+                        x: Math.random() * width,
+                        y: Math.random() * height,
+                        speed: Math.random() * 2 + 0.5
+                    });
+                }
+
+                this.dotMatrix = [];
+                for (let x = 0; x < width; x += 4) {
+                    for (let y = 0; y < height; y += 4) {
+                        this.dotMatrix.push({
+                            x: x,
+                            y: y,
+                            intensity: Math.random()
+                        });
+                    }
+                }
+
+                this.binaryRain = [];
+                for (let i = 0; i < width; i += 20) {
+                    this.binaryRain.push({
+                        x: i,
+                        chars: [],
+                        speed: Math.random() * 2 + 1
+                    });
+                }
+
+                this.interferencePattern = [];
+                for (let i = 0; i < 20; i++) {
+                    this.interferencePattern.push({
+                        frequency: Math.random() * 0.1 + 0.01,
+                        amplitude: Math.random() * 50 + 10,
+                        phase: Math.random() * Math.PI * 2
+                    });
+                }
+
+                this.barcodeData = [];
+                for (let i = 0; i < 100; i++) {
+                    this.barcodeData.push(Math.random() > 0.5 ? 1 : 0);
+                }
+
+                this.superpositionLayers = [];
+                this.testPatternGrid = [];
+                this.dataScanBuffer = [];
+                this.timeCodeSequence = [];
+                this.geometryPoints = [];
+                this.dataplexNodes = [];
+                this.formulaBuffer = [];
+                this.dataFluxStreams = [];
+                this.oscilloscopeBuffer = [];
+                this.vectorscopePoints = [];
+                this.glitchBlocks = [];
+
+                this.microMacroZoom = 1;
+                this.cycloAngle = 0;
+                this.radarSweepAngle = 0;
+                this.datamoshOffset = { x: 0, y: 0 };
+                this.scanLinePos = 0;
+            }
+
+            generateRandomData() {
+                const types = ['01', '10', '11', '00'];
+                const chars = '0123456789ABCDEF';
+                let result = '';
+
+                if (Math.random() > 0.5) {
+                    for (let i = 0; i < 12; i++) {
+                        result += types[Math.floor(Math.random() * types.length)];
+                    }
+                } else {
+                    for (let i = 0; i < 8; i++) {
+                        result += chars[Math.floor(Math.random() * chars.length)];
+                    }
+                }
+                return result;
+            }
+
+            setupAudioContext() {
+                try {
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    this.analyser = this.audioContext.createAnalyser();
+                    this.analyser.fftSize = 2048;
+                    this.analyser.smoothingTimeConstant = 0.3;
+                    this.dataArray = new Uint8Array(this.analyser.frequencyBinCount);
+
+                    this.gainNode = this.audioContext.createGain();
+                    this.gainNode.gain.value = this.volume;
+                    this.gainNode.connect(this.audioContext.destination);
+                    this.analyser.connect(this.gainNode);
+                } catch (error) {
+                    console.error('Audio context setup failed:', error);
+                }
+            }
+
+            resize() {
+                this.canvas.width = window.innerWidth * window.devicePixelRatio;
+                this.canvas.height = window.innerHeight * window.devicePixelRatio;
+                this.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+                this.canvas.style.width = window.innerWidth + 'px';
+                this.canvas.style.height = window.innerHeight + 'px';
+
+                this.isMobile = window.innerWidth <= 768;
+                this.initializetakedaElements();
+            }
+
+            setupEventListeners() {
+                window.addEventListener('resize', () => this.resize());
+                document.addEventListener('keydown', (e) => this.handleKeyboard(e));
+
+                const setupButton = (id, handler) => {
+                    const el = document.getElementById(id);
+                    if (el) el.addEventListener('click', handler);
+                };
+
+                setupButton('micButton', () => this.startMicrophone());
+                setupButton('playButton', () => this.togglePlayback());
+                setupButton('stopButton', () => this.stop());
+                setupButton('bandcampButton', () => window.open('https://mei-takeda.bandcamp.com/', '_blank'));
+                setupButton('contactButton', () =>  window.open('https://forms.gle/1pbT5vwbirb6d1KQ6', '_blank'));
+                this.setupFileInput('fileArea', 'fileInput');
+                this.setupFileInput('fileAreaMobile', 'fileInputMobile');
+
+                document.querySelectorAll('.mode-button[data-mode]').forEach(button => {
+                    button.addEventListener('click', () => {
+                        this.setMode(button.dataset.mode, 'manual');
+                        if (this.isMobile && button.dataset.mobile) {
+                            this.minimizePanel();
+                        }
+                    });
+                });
+
+                document.querySelectorAll('.mode-button[data-display]').forEach(button => {
+                    button.addEventListener('click', () => {
+                        this.setDisplayMode(button.dataset.display, 'manual');
+                        if (this.isMobile && button.dataset.mobile) {
+                            this.minimizePanel();
+                        }
+                    });
+                });
+
+                this.canvas.addEventListener('click', (e) => {
+                    if (this.displayMode !== 'single') {
+                        const rect = this.canvas.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        this.selectSection(x, y);
+                    } else if (this.isMobile) {
+                        this.cyclePanelState();
+                    }
+                });
+
+                this.syncSliders('volumeSlider', 'volumeSliderMobile', (value) => {
+                    this.volume = value / 100;
+                    if (this.gainNode) this.gainNode.gain.value = this.volume;
+                });
+
+                this.syncSliders('sensitivitySlider', 'sensitivitySliderMobile', (value) => {
+                    this.sensitivity = value;
+                });
+
+                this.syncSliders('strobeSlider', 'strobeSliderMobile', (value) => {
+                    this.strobeIntensity = value / 100;
+                });
+
+                this.syncCheckboxes('autoModeToggle', 'autoModeToggleMobile', (checked) => {
+                    this.autoMode.enabled = checked;
+                    if (checked) {
+                        this.startAutoMode();
+                    } else {
+                        this.stopAutoMode();
+                    }
+                    this.updateAutoModeDisplay();
+                });
+
+                // Desktop controls
+                const desktopControls = [
+                    ['switchIntervalSlider', 'intervalDisplay', (v) => {
+                        this.autoMode.switchInterval = parseFloat(v);
+                        if (this.autoMode.enabled) this.restartAutoModeTimer();
+                        return v + 's';
+                    }],
+                    ['reactiveThresholdSlider', 'thresholdDisplay', (v) => { 
+                        this.autoMode.reactiveThreshold = v / 100;
+                        return v + '%';
+                    }],
+                    ['chaosSlider', 'chaosDisplay', (v) => {
+                        this.autoMode.chaosFactor = v / 100;
+                        return v + '%';
+                    }],
+                    ['displaySwitchSlider', 'displayIntervalDisplay', (v) => {
+                        this.autoMode.displaySwitchInterval = parseFloat(v);
+                        if (this.autoMode.displayModeSwitch && this.autoMode.enabled) {
+                            this.restartDisplayModeTimer();
+                        }
+                        return v + 's';
+                    }],
+                    ['singleWeightSlider', 'singleWeightDisplay', (v) => {
+                        this.autoMode.displayModeWeights.single = v / 100;
+                        return v + '%';
+                    }],
+                    ['quadWeightSlider', 'quadWeightDisplay', (v) => {
+                        this.autoMode.displayModeWeights.quad = v / 100;
+                        return v + '%';
+                    }],
+                    ['gridWeightSlider', 'gridWeightDisplay', (v) => {
+                        this.autoMode.displayModeWeights.grid = v / 100;
+                        return v + '%';
+                    }]
+                ];
+
+                desktopControls.forEach(([sliderId, displayId, handler]) => {
+                    const slider = document.getElementById(sliderId);
+                    const display = document.getElementById(displayId);
+                    if (slider && display) {
+                        slider.addEventListener('input', (e) => {
+                            display.textContent = handler(e.target.value);
+                        });
+                    }
+                });
+
+                const checkboxControls = [
+                    ['beatSyncToggle', (e) => { this.autoMode.beatSync = e.target.checked; }],
+                    ['audioReactiveToggle', (e) => { this.autoMode.audioReactive = e.target.checked; }],
+                    ['adaptiveToggle', (e) => { this.autoMode.adaptive = e.target.checked; }],
+                    ['randomModeToggle', (e) => { 
+                        this.autoMode.randomOrder = e.target.checked;
+                        if (!this.autoMode.randomOrder) {
+                            this.autoMode.currentIndex = this.availableModes.findIndex(mode => mode.id === this.currentMode);
+                        }
+                    }],
+                    ['displayModeSwitchToggle', (e) => {
+                        this.autoMode.displayModeSwitch = e.target.checked;
+                        if (this.autoMode.displayModeSwitch && this.autoMode.enabled) {
+                            this.startDisplayModeTimer();
+                        } else {
+                            this.stopDisplayModeTimer();
+                        }
+                    }]
+                ];
+
+                checkboxControls.forEach(([id, handler]) => {
+                    const el = document.getElementById(id);
+                    if (el) el.addEventListener('change', handler);
+                });
+
+                const switchModeSelect = document.getElementById('switchModeSelect');
+                if (switchModeSelect) {
+                    switchModeSelect.addEventListener('change', (e) => {
+                        this.autoMode.switchMode = e.target.value;
+                        const display = document.getElementById('switchModeDisplay');
+                        if (display) display.textContent = e.target.value.toUpperCase();
+                    });
+                }
+            }
+
+            setupFileInput(areaId, inputId) {
+                const area = document.getElementById(areaId);
+                const input = document.getElementById(inputId);
                 
-              <!-- Left contact page --> 
+                if (!area || !input) return;
+
+                area.addEventListener('click', () => input.click());
                 
-                  <div class="direct-contact-container">
-            
-                    <ul class="contact-list">
-                      <li class="list-item"><i class="fa fa-map-marker fa-2x"><span class="contact-text place">Saikyoto, Japan</span></i></li>
-                      <li class="list-item"><i class="fa fa-envelope fa-2x"><span class="contact-text gmail"><a href="mailto:#" title="Send me an email">maitakedev@gmail.com</a></span></i></li>
-                    </ul>
-            
-                    <hr>
-                    <ul class="social-media-list">
-                      <li><a href="https://open.spotify.com/artist/5BAOXRf0O9X0RrD5t35IdI" target="_blank" class="contact-icon">
-                      <i><img src="/img/icon/Spotify_Icon_CMYK_Black.png" class="fa fa-spotify" aria-hidden="true"></i>Spotify</a>
-                      </li>
-                      <li><a href="https://www.youtube.com/channel/UCjLJPmPR29lRtpgch_LhKhA" target="_blank" class="contact-icon">
-                       <i> <img src="./img/icon/youtube-1.png" class="fa fa-youtube" aria-hidden="true"></i>Youtube</a>
-                      </li>
-                      <li><a href="https://x.com/_takeda_mei_" target="_blank" class="contact-icon">
-                       <i><img src="./img/icon/twitter-1.png" class="fa fa-twitter" aria-hidden="true"></i>Twitter</a>
-                      </li>
-                      <li><a href="https://www.instagram.com/_takeda_mei_/" target="_blank" class="contact-icon">
-                        <i><img src="./img/icon/instagram-1.png" class="fa fa-instagram" aria-hidden="true"></i>instgram</a>
-                      </li>       
-                    </ul>
-                    <hr>
+                area.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    area.classList.add('dragover');
+                });
+                
+                area.addEventListener('dragleave', () => {
+                    area.classList.remove('dragover');
+                });
+                
+                area.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    area.classList.remove('dragover');
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0) {
+                        this.loadAudioFile(files[0]);
+                    }
+                });
 
-                    </div>
-          
-          <!-- <div class="contact-list">
-            <a class="contact-item" href="https://x.com/takedamei_" target="_blank" rel="noopener">Twitter</a>   
-            <a class="contact-item" href="https://www.instagram.com/_takeda_mei_/" target="_blank" rel="noopener">Instagram</a>
-            <a class="contact-item" href="https://open.spotify.com/artist/5BAOXRf0O9X0RrD5t35IdI" target="_blank" rel="noopener">Spotify</a>
-            <a class="contact-item" href="https://www.youtube.com/channel/UCjLJPmPR29lRtpgch_LhKhA" target="_blank" rel="noopener">Youtube</a>
-            <span class="contact-item">maitakedev@gmail.com</span>
-          </div> -->
-        </div>
-      </section>
-      <!-- /contact -->
-      <div class="page-top" id="js-page-top">
-        <span class="material-icons-outlined">expand_less</span>
-      </div>
-    </main>
+                input.addEventListener('change', (e) => {
+                    if (e.target.files.length > 0) {
+                        this.loadAudioFile(e.target.files[0]);
+                    }
+                });
+            }
 
-    <!-- footer -->
-    <footer class="footer">
-      <div class="copyright">&copy;Mei Takeda</div>
-    </footer>
-    <!-- /footer -->
+            syncSliders(id1, id2, handler) {
+                const slider1 = document.getElementById(id1);
+                const slider2 = document.getElementById(id2);
+                
+                if (slider1) {
+                    slider1.addEventListener('input', (e) => {
+                        handler(e.target.value);
+                        if (slider2) slider2.value = e.target.value;
+                    });
+                }
+                
+                if (slider2) {
+                    slider2.addEventListener('input', (e) => {
+                        handler(e.target.value);
+                        if (slider1) slider1.value = e.target.value;
+                    });
+                }
+            }
 
-  </div>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  <script type='text/javascript' src="js/script.js"></script>
-  <script charset="utf-8" src="https://widgetv3.bandsintown.com/main.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
-  <script src="./js/background-anime.js"></script>
-  <script type="text/javascript">
-    let submitted = false;
-</script>
-<iframe
-    name="hidden_iframe"
-    id="hidden_iframe"
-    style="display: none"
-    onload="if(submitted){window.location='./thanks-form.html';}"
-></iframe>
+            syncCheckboxes(id1, id2, handler) {
+                const cb1 = document.getElementById(id1);
+                const cb2 = document.getElementById(id2);
+                
+                if (cb1) {
+                    cb1.addEventListener('change', (e) => {
+                        handler(e.target.checked);
+                        if (cb2) cb2.checked = e.target.checked;
+                    });
+                }
+                
+                if (cb2) {
+                    cb2.addEventListener('change', (e) => {
+                        handler(e.target.checked);
+                        if (cb1) cb1.checked = e.target.checked;
+                    });
+                }
+            }
+
+            handleKeyboard(e) {
+                switch (e.key.toLowerCase()) {
+                    case 'h':
+                        this.toggleUI();
+                        break;
+                    case 's':
+                        this.togglePlayback();
+                        break;
+                    case 'f':
+                        this.toggleFullscreen();
+                        break;
+                    case 'a':
+                        const toggle = document.getElementById(this.isMobile ? 'autoModeToggleMobile' : 'autoModeToggle');
+                        if (toggle) toggle.click();
+                        break;
+                    case ' ':
+                        e.preventDefault();
+                        this.togglePause();
+                        break;
+                }
+            }
+
+            toggleUI() {
+                if (this.isMobile) {
+                    this.cyclePanelState();
+                } else {
+                    const sidebar = document.getElementById('sidebar');
+                    sidebar.classList.toggle('hidden');
+                }
+            }
+
+            toggleFullscreen() {
+                const container = document.getElementById('container');
+                if (!document.fullscreenElement) {
+                    container.requestFullscreen().catch(err => {
+                        console.error('Fullscreen failed:', err);
+                    });
+                } else {
+                    document.exitFullscreen();
+                }
+            }
+
+            togglePlayback() {
+                if (this.isPlaying) {
+                    this.stop();
+                } else {
+                    this.startMicrophone();
+                }
+            }
+
+            togglePause() {
+                if (this.audioContext) {
+                    if (this.isPaused) {
+                        this.audioContext.resume();
+                        this.isPaused = false;
+                        this.updateStatus('PLAYING', true);
+                    } else {
+                        this.audioContext.suspend();
+                        this.isPaused = true;
+                        this.updateStatus('PAUSED', false);
+                    }
+                }
+            }
+
+            async startMicrophone() {
+                try {
+                    if (this.audioContext.state === 'suspended') {
+                        await this.audioContext.resume();
+                    }
+
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    this.audioSource = this.audioContext.createMediaStreamSource(stream);
+                    this.audioSource.connect(this.analyser);
+
+                    this.isPlaying = true;
+                    this.isPaused = false;
+                    this.updateStatus('MIC_ACTIVE', true);
+
+                    if (this.autoMode.enabled) {
+                        this.startAutoMode();
+                    }
+                } catch (error) {
+                    console.error('Microphone access failed:', error);
+                    this.updateStatus('MIC_DENIED', false);
+                }
+            }
+
+            async loadAudioFile(file) {
+                try {
+                    if (this.audioContext.state === 'suspended') {
+                        await this.audioContext.resume();
+                    }
+
+                    const arrayBuffer = await file.arrayBuffer();
+                    const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer);
+
+                    if (this.audioSource) {
+                        this.audioSource.disconnect();
+                    }
+
+                    this.audioSource = this.audioContext.createBufferSource();
+                    this.audioSource.buffer = audioBuffer;
+                    this.audioSource.connect(this.analyser);
+                    this.audioSource.loop = true;
+                    this.audioSource.start();
+
+                    this.isPlaying = true;
+                    this.isPaused = false;
+                    const fileName = file.name.substring(0, 15);
+                    this.updateStatus(`PLAYING: ${fileName}`, true);
+
+                    if (this.autoMode.enabled) {
+                        this.startAutoMode();
+                    }
+                } catch (error) {
+                    console.error('Audio file loading failed:', error);
+                    this.updateStatus('FILE_ERROR', false);
+                }
+            }
+
+            stop() {
+                if (this.audioSource) {
+                    try {
+                        this.audioSource.disconnect();
+                        if (this.audioSource.stop) {
+                            this.audioSource.stop();
+                        }
+                    } catch (error) {
+                        console.error('Stop error:', error);
+                    }
+                    this.audioSource = null;
+                }
+
+                this.isPlaying = false;
+                this.isPaused = false;
+                this.stopAutoMode();
+                this.updateStatus('STOPPED', false);
+            }
+
+            updateStatus(text, active) {
+                document.getElementById('statusText').textContent = text;
+                const statusDot = document.getElementById('statusDot');
+                if (active) {
+                    statusDot.classList.add('active');
+                } else {
+                    statusDot.classList.remove('active');
+                }
+            }
+
+            startAutoMode() {
+                this.stopAutoMode();
+
+                this.autoMode.energyHistory = [];
+                this.autoMode.frequencyProfile = new Array(10).fill(0);
+                this.autoMode.beatPattern = [];
+                this.autoMode.lastSwitchTime = Date.now();
+                this.autoMode.lastDisplaySwitchTime = Date.now();
+
+                this.autoMode.timer = setInterval(() => {
+                    this.autoModeSwitchLogic();
+                }, this.autoMode.switchInterval * 1000);
+
+                if (this.autoMode.displayModeSwitch) {
+                    this.startDisplayModeTimer();
+                }
+
+                this.updateAutoModeDisplay();
+            }
+
+            stopAutoMode() {
+                if (this.autoMode.timer) {
+                    clearInterval(this.autoMode.timer);
+                    this.autoMode.timer = null;
+                }
+                this.stopDisplayModeTimer();
+                this.updateAutoModeDisplay();
+            }
+
+            startDisplayModeTimer() {
+                this.stopDisplayModeTimer();
+                this.autoMode.displayTimer = setInterval(() => {
+                    this.autoDisplayModeSwitchLogic();
+                }, this.autoMode.displaySwitchInterval * 1000);
+            }
+
+            stopDisplayModeTimer() {
+                if (this.autoMode.displayTimer) {
+                    clearInterval(this.autoMode.displayTimer);
+                    this.autoMode.displayTimer = null;
+                }
+            }
+
+            restartAutoModeTimer() {
+                if (this.autoMode.enabled) {
+                    this.startAutoMode();
+                }
+            }
+
+            restartDisplayModeTimer() {
+                if (this.autoMode.displayModeSwitch && this.autoMode.enabled) {
+                    this.startDisplayModeTimer();
+                }
+            }
+
+            updateAutoModeDisplay() {
+                const indicator = document.getElementById('autoModeIndicator');
+                const text = document.getElementById('autoModeText');
+                const dot = document.getElementById('autoStatusDot');
+
+                if (this.autoMode.enabled) {
+                    indicator.classList.add('visible');
+                    text.textContent = 'AUTO_ENABLED';
+                    dot.classList.add('active');
+                } else {
+                    indicator.classList.remove('visible');
+                    text.textContent = 'AUTO_DISABLED';
+                    dot.classList.remove('active');
+                }
+            }
+
+            autoDisplayModeSwitchLogic() {
+                if (!this.autoMode.displayModeSwitch || !this.isPlaying) return;
+
+                const currentTime = Date.now();
+                const nextDisplayMode = this.selectNextDisplayMode();
+
+                if (nextDisplayMode !== this.displayMode) {
+                    this.setDisplayMode(nextDisplayMode, 'auto_display');
+                    this.autoMode.lastDisplaySwitchTime = currentTime;
+                }
+            }
+
+            selectNextDisplayMode() {
+                const availableModes = ['single', 'quad', 'grid'];
+                const candidateModes = availableModes.filter(mode => mode !== this.displayMode);
+                const filteredModes = candidateModes.filter(mode =>
+                    !this.autoMode.recentDisplayModes.includes(mode)
+                );
+
+                const modesToChooseFrom = filteredModes.length > 0 ? filteredModes : candidateModes;
+                const weights = modesToChooseFrom.map(mode => this.autoMode.displayModeWeights[mode]);
+                const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
+
+                if (totalWeight === 0) {
+                    return modesToChooseFrom[Math.floor(Math.random() * modesToChooseFrom.length)];
+                }
+
+                let random = Math.random() * totalWeight;
+                for (let i = 0; i < modesToChooseFrom.length; i++) {
+                    random -= weights[i];
+                    if (random <= 0) {
+                        const selectedMode = modesToChooseFrom[i];
+                        this.autoMode.recentDisplayModes.push(selectedMode);
+                        if (this.autoMode.recentDisplayModes.length > 2) {
+                            this.autoMode.recentDisplayModes.shift();
+                        }
+                        return selectedMode;
+                    }
+                }
+
+                return modesToChooseFrom[0];
+            }
+
+            setDisplayMode(mode, source = 'manual') {
+                this.displayMode = mode;
+
+                document.querySelectorAll('.mode-button[data-display]').forEach(button => {
+                    button.classList.remove('active');
+                    if (button.dataset.display === mode) {
+                        button.classList.add('active');
+                    }
+                });
+
+                this.setupSections();
+
+                if (source !== 'manual') {
+                    this.logDisplayModeSwitch(mode, source);
+                }
+            }
+
+            logDisplayModeSwitch(mode, source) {
+                const timestamp = new Date().toLocaleTimeString().split(':').slice(1).join(':');
+                const displayName = mode.toUpperCase() + '_VIEW';
+                const logEntry = `${timestamp} [${source.toUpperCase()}] => ${displayName}`;
+
+                this.autoMode.switchLog.unshift(logEntry);
+
+                if (this.autoMode.switchLog.length > 10) {
+                    this.autoMode.switchLog = this.autoMode.switchLog.slice(0, 10);
+                }
+
+                const logElement = document.getElementById('modeSwitchLog');
+                if (logElement) {
+                    logElement.innerHTML = this.autoMode.switchLog.join('<br>');
+                    logElement.scrollTop = 0;
+                }
+            }
+
+            analyzeAudioAdvanced() {
+                if (!this.analyser || !this.isPlaying) return;
+
+                this.analyser.getByteFrequencyData(this.dataArray);
+
+                let sum = 0;
+                let weightedSum = 0;
+                let totalWeight = 0;
+
+                for (let i = 0; i < this.dataArray.length; i++) {
+                    const value = this.dataArray[i];
+                    sum += value;
+
+                    const freq = (i / this.dataArray.length) * (this.audioContext.sampleRate / 2);
+                    weightedSum += freq * value;
+                    totalWeight += value;
+                }
+
+                this.audioData.amplitude = (sum / this.dataArray.length) / 255;
+                this.audioData.spectralCentroid = totalWeight > 0 ? weightedSum / totalWeight : 0;
+
+                const bassEnd = Math.floor(this.dataArray.length * 0.1);
+                const midEnd = Math.floor(this.dataArray.length * 0.5);
+                const highEnd = this.dataArray.length;
+
+                let bassSum = 0, midSum = 0, highSum = 0;
+
+                for (let i = 0; i < bassEnd; i++) {
+                    bassSum += this.dataArray[i];
+                }
+                for (let i = bassEnd; i < midEnd; i++) {
+                    midSum += this.dataArray[i];
+                }
+                for (let i = midEnd; i < highEnd; i++) {
+                    highSum += this.dataArray[i];
+                }
+
+                this.audioData.bass = (bassSum / bassEnd) / 255;
+                this.audioData.mid = (midSum / (midEnd - bassEnd)) / 255;
+                this.audioData.high = (highSum / (highEnd - midEnd)) / 255;
+
+                const currentTime = Date.now();
+                const bassThreshold = 0.6;
+                const timeSinceLastBeat = currentTime - this.autoMode.lastBeatTime;
+
+                this.audioData.beatDetected = this.audioData.bass > bassThreshold &&
+                    timeSinceLastBeat > 200 &&
+                    timeSinceLastBeat < 2000;
+
+                if (this.audioData.beatDetected) {
+                    this.autoMode.lastBeatTime = currentTime;
+                    this.autoMode.beatPattern.push(timeSinceLastBeat);
+
+                    if (this.autoMode.beatPattern.length > 16) {
+                        this.autoMode.beatPattern.shift();
+                    }
+                }
+
+                let rmsSum = 0;
+                for (let i = 0; i < this.dataArray.length; i++) {
+                    rmsSum += this.dataArray[i] * this.dataArray[i];
+                }
+                this.audioData.rms = Math.sqrt(rmsSum / this.dataArray.length) / 255;
+
+                this.autoMode.energyHistory.push({
+                    amplitude: this.audioData.amplitude,
+                    bass: this.audioData.bass,
+                    mid: this.audioData.mid,
+                    high: this.audioData.high,
+                    spectralCentroid: this.audioData.spectralCentroid,
+                    timestamp: currentTime
+                });
+
+                const thirtySecondsAgo = currentTime - 30000;
+                this.autoMode.energyHistory = this.autoMode.energyHistory.filter(
+                    entry => entry.timestamp > thirtySecondsAgo
+                );
+
+                this.updateFrequencyProfile();
+                this.updateDebugInfo();
+            }
+
+            updateFrequencyProfile() {
+                if (this.autoMode.energyHistory.length < 10) return;
+
+                const recent = this.autoMode.energyHistory.slice(-10);
+                const avgBass = recent.reduce((sum, entry) => sum + entry.bass, 0) / recent.length;
+                const avgMid = recent.reduce((sum, entry) => sum + entry.mid, 0) / recent.length;
+                const avgHigh = recent.reduce((sum, entry) => sum + entry.high, 0) / recent.length;
+                const avgCentroid = recent.reduce((sum, entry) => sum + entry.spectralCentroid, 0) / recent.length;
+
+                this.autoMode.frequencyProfile = [
+                    avgBass, avgMid, avgHigh, avgCentroid / 1000,
+                    this.autoMode.beatPattern.length > 0 ? 1 : 0,
+                    Math.max(...recent.map(e => e.amplitude))
+                ];
+            }
+
+            autoModeSwitchLogic() {
+                if (!this.autoMode.enabled || !this.isPlaying) return;
+
+                const currentTime = Date.now();
+                let shouldSwitch = false;
+                let switchReason = 'timer';
+
+                if (currentTime - this.autoMode.lastSwitchTime >= this.autoMode.switchInterval * 1000) {
+                    shouldSwitch = true;
+                    switchReason = 'timer';
+                }
+
+                if (this.autoMode.beatSync && this.audioData.beatDetected) {
+                    if (currentTime - this.autoMode.lastSwitchTime > 2000) {
+                        shouldSwitch = true;
+                        switchReason = 'beat';
+                    }
+                }
+
+                if (this.autoMode.audioReactive && this.audioData.amplitude > this.autoMode.reactiveThreshold) {
+                    if (currentTime - this.autoMode.lastSwitchTime > 3000) {
+                        shouldSwitch = true;
+                        switchReason = 'reactive';
+                    }
+                }
+
+                if (Math.random() < this.autoMode.chaosFactor * 0.1) {
+                    if (currentTime - this.autoMode.lastSwitchTime > 1000) {
+                        shouldSwitch = true;
+                        switchReason = 'chaos';
+                    }
+                }
+
+                if (shouldSwitch) {
+                    const nextMode = this.selectNextMode(switchReason);
+                    this.setMode(nextMode, switchReason);
+                    this.autoMode.lastSwitchTime = currentTime;
+                }
+            }
+
+            selectNextMode(reason) {
+                let candidateModes = [...this.availableModes];
+
+                candidateModes = candidateModes.filter(mode => mode.id !== this.currentMode);
+                candidateModes = candidateModes.filter(mode =>
+                    !this.autoMode.recentModes.includes(mode.id)
+                );
+
+                if (candidateModes.length === 0) {
+                    candidateModes = this.availableModes.filter(mode => mode.id !== this.currentMode);
+                }
+
+                let selectedMode;
+
+                if (this.autoMode.randomOrder) {
+                    if (this.autoMode.adaptive && this.autoMode.energyHistory.length > 5) {
+                        selectedMode = this.selectAdaptiveMode(candidateModes, reason);
+                    } else {
+                        selectedMode = this.selectWeightedRandomMode(candidateModes);
+                    }
+                } else {
+                    this.autoMode.currentIndex = (this.autoMode.currentIndex + 1) % this.availableModes.length;
+                    selectedMode = this.availableModes[this.autoMode.currentIndex].id;
+                }
+
+                this.autoMode.recentModes.push(selectedMode);
+                if (this.autoMode.recentModes.length > 5) {
+                    this.autoMode.recentModes.shift();
+                }
+
+                return selectedMode;
+            }
+
+            selectAdaptiveMode(candidateModes, reason) {
+                const profile = this.autoMode.frequencyProfile;
+                const [bass, mid, high, centroid, beatPresence, peakAmp] = profile;
+
+                const scores = candidateModes.map(mode => {
+                    let score = mode.weight;
+
+                    if (mode.energy === 'high' && peakAmp > 0.7) score += 0.5;
+                    if (mode.energy === 'mid' && peakAmp > 0.3 && peakAmp < 0.8) score += 0.3;
+                    if (mode.energy === 'low' && peakAmp < 0.4) score += 0.4;
+
+                    if (bass > 0.6 && mode.category === 'rhythmic') score += 0.4;
+                    if (high > 0.5 && mode.category === 'chaotic') score += 0.3;
+                    if (centroid > 2000 && mode.category === 'analytical') score += 0.3;
+                    if (beatPresence && mode.category === 'rhythmic') score += 0.5;
+
+                    if (reason === 'beat' && mode.category === 'rhythmic') score += 0.6;
+                    if (reason === 'reactive' && mode.category === 'chaotic') score += 0.4;
+                    if (reason === 'chaos') score += Math.random() * 0.5;
+
+                    return { mode: mode.id, score };
+                });
+
+                const totalScore = scores.reduce((sum, item) => sum + item.score, 0);
+                let random = Math.random() * totalScore;
+
+                for (const item of scores) {
+                    random -= item.score;
+                    if (random <= 0) {
+                        return item.mode;
+                    }
+                }
+
+                return candidateModes[0].id;
+            }
+
+            selectWeightedRandomMode(candidateModes) {
+                const totalWeight = candidateModes.reduce((sum, mode) => sum + mode.weight, 0);
+                let random = Math.random() * totalWeight;
+
+                for (const mode of candidateModes) {
+                    random -= mode.weight;
+                    if (random <= 0) {
+                        return mode.id;
+                    }
+                }
+
+                return candidateModes[0].id;
+            }
+
+            setMode(mode, source = 'manual') {
+                this.currentMode = mode;
+
+                document.querySelectorAll('.mode-button[data-mode]').forEach(button => {
+                    button.classList.remove('active');
+                    if (button.dataset.mode === mode) {
+                        button.classList.add('active');
+                    }
+                });
+
+                if (this.displayMode === 'single') {
+                    this.sections[0].mode = mode;
+                } else if (this.displayMode === 'quad') {
+                    if (source !== 'manual') {
+                        if (this.autoMode.switchMode === 'global') {
+                            this.sections.forEach(section => {
+                                section.mode = mode;
+                            });
+                        } else if (this.autoMode.switchMode === 'individual') {
+                            this.sections.forEach((section, index) => {
+                                if (index === 0) {
+                                    section.mode = mode;
+                                } else {
+                                    const randomMode = this.selectRandomMode(mode);
+                                    section.mode = randomMode;
+                                }
+                            });
+                        } else {
+                            const targetIndex = this.frameCount % this.sections.length;
+                            this.sections[targetIndex].mode = mode;
+                        }
+                    } else {
+                        this.sections[this.selectedSection].mode = mode;
+                    }
+                } else if (this.displayMode === 'grid') {
+                    if (source !== 'manual') {
+                        if (this.autoMode.switchMode === 'global') {
+                            this.sections.forEach(section => {
+                                section.mode = mode;
+                            });
+                        } else if (this.autoMode.switchMode === 'individual') {
+                            const numToUpdate = Math.floor(Math.random() * 4) + 2;
+                            const indices = this.getRandomIndices(this.sections.length, numToUpdate);
+                            indices.forEach((index, i) => {
+                                if (i === 0) {
+                                    this.sections[index].mode = mode;
+                                } else {
+                                    this.sections[index].mode = this.selectRandomMode(mode);
+                                }
+                            });
+                        } else {
+                            const targetIndex = Math.floor(Date.now() / 1000) % this.sections.length;
+                            this.sections[targetIndex].mode = mode;
+                        }
+                    } else {
+                        this.sections[this.selectedSection].mode = mode;
+                    }
+                }
+
+                if (this.displayMode !== 'single') {
+                    this.updateSectionLabels();
+                }
+
+                if (source !== 'manual') {
+                    this.logModeSwitch(mode, source);
+                }
+            }
+
+            selectRandomMode(excludeMode) {
+                const availableModes = this.availableModes.filter(m => m.id !== excludeMode);
+                return availableModes[Math.floor(Math.random() * availableModes.length)].id;
+            }
+
+            getRandomIndices(max, count) {
+                const indices = [];
+                while (indices.length < count) {
+                    const randomIndex = Math.floor(Math.random() * max);
+                    if (!indices.includes(randomIndex)) {
+                        indices.push(randomIndex);
+                    }
+                }
+                return indices;
+            }
+
+            updateSectionLabels() {
+                document.querySelectorAll('.section-selector').forEach((selector, index) => {
+                    const label = selector.querySelector('.section-label');
+                    if (label && this.sections[index]) {
+                        label.textContent = this.sections[index].mode.toUpperCase().replace('takeda_', '');
+                    }
+                });
+            }
+
+            logModeSwitch(mode, source) {
+                const timestamp = new Date().toLocaleTimeString().split(':').slice(1).join(':');
+                const displayName = mode.toUpperCase().replace('takeda_', '');
+                const logEntry = `${timestamp} [${source.toUpperCase()}] -> ${displayName}`;
+
+                this.autoMode.switchLog.unshift(logEntry);
+
+                if (this.autoMode.switchLog.length > 10) {
+                    this.autoMode.switchLog = this.autoMode.switchLog.slice(0, 10);
+                }
+
+                const logElement = document.getElementById('modeSwitchLog');
+                if (logElement) {
+                    logElement.innerHTML = this.autoMode.switchLog.join('<br>');
+                    logElement.scrollTop = 0;
+                }
+            }
+
+            updateDebugInfo() {
+                const debugInfo = `
+                    FREQ: ${Math.round(this.audioData.spectralCentroid).toString().padStart(4, '0')} Hz<br>
+                    AMP: ${Math.round(this.audioData.amplitude * 100).toString().padStart(3, '0')}%<br>
+                    BASS: ${Math.round(this.audioData.bass * 100).toString().padStart(3, '0')}%<br>
+                    MID: ${Math.round(this.audioData.mid * 100).toString().padStart(3, '0')}%<br>
+                    HIGH: ${Math.round(this.audioData.high * 100).toString().padStart(3, '0')}%<br>
+                    BEAT: ${this.audioData.beatDetected ? 'TRUE' : 'FALSE'}
+                `;
+                
+                const desktop = document.getElementById('debugInfo');
+                const mobile = document.getElementById('debugInfoMobile');
+                
+                if (desktop) desktop.innerHTML = debugInfo;
+                if (mobile) mobile.innerHTML = debugInfo;
+            }
+
+            setupSections() {
+                const container = document.querySelector('.visualizer-container');
+                document.querySelectorAll('.canvas-overlay').forEach(el => el.remove());
+
+                if (this.displayMode === 'single') {
+                    this.sections = [{ x: 0, y: 0, width: 1, height: 1, mode: this.currentMode }];
+                    return;
+                }
+
+                const overlay = document.createElement('div');
+                overlay.className = 'canvas-overlay';
+                container.appendChild(overlay);
+
+                if (this.displayMode === 'quad') {
+                    this.sections = [
+                        { x: 0, y: 0, width: 0.5, height: 0.5, mode: 'takeda_data' },
+                        { x: 0.5, y: 0, width: 0.5, height: 0.5, mode: 'takeda_spectrum_grid' },
+                        { x: 0, y: 0.5, width: 0.5, height: 0.5, mode: 'takeda_oscilloscope' },
+                        { x: 0.5, y: 0.5, width: 0.5, height: 0.5, mode: 'takeda_strobe' }
+                    ];
+                } else if (this.displayMode === 'grid') {
+                    this.sections = [];
+                    const modes = [
+                        'takeda_data', 'takeda_spectrum_grid', 'takeda_superposition',
+                        'takeda_barcode', 'takeda_test_pattern', 'takeda_oscilloscope',
+                        'takeda_grid', 'takeda_formula', 'takeda_vectorscope'
+                    ];
+
+                    for (let i = 0; i < 3; i++) {
+                        for (let j = 0; j < 3; j++) {
+                            this.sections.push({
+                                x: j / 3, y: i / 3, width: 1 / 3, height: 1 / 3,
+                                mode: modes[i * 3 + j] || 'takeda_data'
+                            });
+                        }
+                    }
+                }
+
+                this.sections.forEach((section, index) => {
+                    const selector = document.createElement('div');
+                    selector.className = 'section-selector';
+                    if (index === this.selectedSection) {
+                        selector.classList.add('selected');
+                    }
+
+                    selector.style.left = (section.x * window.innerWidth) + 'px';
+                    selector.style.top = (section.y * window.innerHeight) + 'px';
+                    selector.style.width = (section.width * window.innerWidth) + 'px';
+                    selector.style.height = (section.height * window.innerHeight) + 'px';
+
+                    const label = document.createElement('div');
+                    label.className = 'section-label';
+                    label.textContent = section.mode.toUpperCase().replace('takeda_', '');
+                    selector.appendChild(label);
+
+                    selector.addEventListener('click', () => {
+                        this.selectedSection = index;
+                        this.updateSectionSelection();
+                    });
+
+                    overlay.appendChild(selector);
+                });
+            }
+
+            selectSection(x, y) {
+                const rect = this.canvas.getBoundingClientRect();
+                const normalizedX = x / rect.width;
+                const normalizedY = y / rect.height;
+
+                for (let i = 0; i < this.sections.length; i++) {
+                    const section = this.sections[i];
+                    if (normalizedX >= section.x && normalizedX <= section.x + section.width &&
+                        normalizedY >= section.y && normalizedY <= section.y + section.height) {
+                        this.selectedSection = i;
+                        this.updateSectionSelection();
+                        break;
+                    }
+                }
+            }
+
+            updateSectionSelection() {
+                document.querySelectorAll('.section-selector').forEach((selector, index) => {
+                    if (index === this.selectedSection) {
+                        selector.classList.add('selected');
+                    } else {
+                        selector.classList.remove('selected');
+                    }
+                });
+
+                const selectedMode = this.sections[this.selectedSection].mode;
+                document.querySelectorAll('.mode-button[data-mode]').forEach(button => {
+                    button.classList.remove('active');
+                    if (button.dataset.mode === selectedMode) {
+                        button.classList.add('active');
+                    }
+                });
+            }
+
+            // ====== ALL 31 ORIGINAL takeda VISUALIZATION METHODS ======
+
+            drawtakedaDataStream(section) {
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                this.ctx.fillStyle = '#ffffff';
+                this.ctx.font = '16px JetBrains Mono';
+
+                this.dataStreamBuffer.forEach((stream) => {
+                    stream.y += stream.speed + this.audioData.amplitude * 5;
+                    if (stream.y > offsetY + height) {
+                        stream.y = offsetY - 20;
+                        stream.data = this.generateRandomData();
+                        stream.x = offsetX + Math.random() * width;
+                    }
+
+                    if (stream.x >= offsetX && stream.x <= offsetX + width &&
+                        stream.y >= offsetY && stream.y <= offsetY + height) {
+
+                        const alpha = Math.max(0.3, this.audioData.amplitude + 0.2);
+                        this.ctx.globalAlpha = alpha;
+                        this.ctx.fillText(stream.data, stream.x, stream.y);
+
+                        if (this.audioData.beatDetected && Math.random() < 0.3) {
+                            this.ctx.fillText(this.generateRandomData(), stream.x + Math.random() * 40 - 20, stream.y + Math.random() * 40 - 20);
+                        }
+                    }
+                });
+
+                this.ctx.globalAlpha = 1;
+            }
+
+            drawtakedaBarcode(section) {
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                if (!this.dataArray) return;
+
+                this.ctx.fillStyle = '#ffffff';
+                const barWidth = width / this.dataArray.length;
+
+                for (let i = 0; i < this.dataArray.length; i++) {
+                    const intensity = this.dataArray[i] / 255;
+                    const barHeight = intensity * height * (this.sensitivity / 5);
+
+                    if (intensity > 0.1) {
+                        this.ctx.fillRect(
+                            offsetX + i * barWidth,
+                            offsetY + (height - barHeight) / 2,
+                            barWidth * 0.8,
+                            barHeight
+                        );
+                    }
+
+                    if (i % 3 === 0) {
+                        this.ctx.fillRect(offsetX + i * barWidth, offsetY, 1, height);
+                    }
+                }
+
+                this.ctx.globalAlpha = 0.3;
+                for (let y = offsetY; y < offsetY + height; y += 4) {
+                    this.ctx.fillRect(offsetX, y, width, 1);
+                }
+                this.ctx.globalAlpha = 1;
+            }
+
+            drawtakedaDotMatrix(section) {
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                this.ctx.fillStyle = '#ffffff';
+
+                this.dotMatrix.forEach(dot => {
+                    if (dot.x >= offsetX && dot.x <= offsetX + width &&
+                        dot.y >= offsetY && dot.y <= offsetY + height) {
+
+                        const distFromCenter = Math.sqrt(
+                            Math.pow(dot.x - (offsetX + width / 2), 2) +
+                            Math.pow(dot.y - (offsetY + height / 2), 2)
+                        );
+                        const maxDist = Math.sqrt(width * width + height * height) / 2;
+                        const positionFactor = 1 - (distFromCenter / maxDist);
+
+                        dot.intensity = this.audioData.amplitude * positionFactor + Math.random() * 0.1;
+
+                        if (dot.intensity > 0.2) {
+                            this.ctx.globalAlpha = Math.min(1, dot.intensity);
+                            this.ctx.fillRect(dot.x, dot.y, 2, 2);
+                        }
+                    }
+                });
+
+                this.ctx.globalAlpha = 1;
+            }
+
+            drawtakedaStrobe(section) {
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                const strobeIntensity = this.audioData.amplitude * this.strobeIntensity;
+
+                if (strobeIntensity > 0.3) {
+                    this.ctx.fillStyle = '#ffffff';
+                    this.ctx.globalAlpha = strobeIntensity;
+                    this.ctx.fillRect(offsetX, offsetY, width, height);
+
+                    if (strobeIntensity > 0.7) {
+                        const strobeOverlay = document.getElementById('strobeOverlay');
+                        strobeOverlay.style.opacity = strobeIntensity * 0.8;
+                        setTimeout(() => {
+                            strobeOverlay.style.opacity = '0';
+                        }, 50);
+                    }
+                } else {
+                    this.ctx.fillStyle = '#ffffff';
+                    this.ctx.globalAlpha = 0.1;
+
+                    for (let x = offsetX; x < offsetX + width; x += 8) {
+                        for (let y = offsetY; y < offsetY + height; y += 8) {
+                            if (Math.random() < this.audioData.amplitude) {
+                                this.ctx.fillRect(x, y, 4, 4);
+                            }
+                        }
+                    }
+                }
+
+                this.ctx.globalAlpha = 1;
+            }
+
+            drawtakedaWaveform(section) {
+                if (!this.analyser) return;
+
+                const bufferLength = this.analyser.frequencyBinCount;
+                const dataArray = new Uint8Array(bufferLength);
+                this.analyser.getByteTimeDomainData(dataArray);
+
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                this.ctx.strokeStyle = '#ffffff';
+                this.ctx.lineWidth = 1;
+
+                const sliceWidth = width / bufferLength;
+                let x = offsetX;
+
+                this.ctx.beginPath();
+                for (let i = 0; i < bufferLength; i++) {
+                    const v = dataArray[i] / 128.0;
+                    const y = offsetY + (v * height / 2);
+
+                    if (i === 0) {
+                        this.ctx.moveTo(x, y);
+                    } else {
+                        this.ctx.lineTo(x, y);
+                    }
+                    x += sliceWidth;
+                }
+                this.ctx.stroke();
+
+                this.ctx.globalAlpha = 0.2;
+                for (let i = 0; i < 10; i++) {
+                    const y = offsetY + (i / 10) * height;
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(offsetX, y);
+                    this.ctx.lineTo(offsetX + width, y);
+                    this.ctx.stroke();
+                }
+                this.ctx.globalAlpha = 1;
+            }
+
+            drawtakedaSpectrum(section) {
+                if (!this.dataArray) return;
+
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                this.ctx.fillStyle = '#ffffff';
+
+                const gridCols = 12;
+                const gridRows = 8;
+                const cellWidth = width / gridCols;
+                const cellHeight = height / gridRows;
+
+                this.ctx.globalAlpha = 0.3;
+                for (let i = 0; i <= gridCols; i++) {
+                    const x = offsetX + i * cellWidth;
+                    this.ctx.fillRect(x, offsetY, 1, height);
+                }
+                for (let i = 0; i <= gridRows; i++) {
+                    const y = offsetY + i * cellHeight;
+                    this.ctx.fillRect(offsetX, y, width, 1);
+                }
+                this.ctx.globalAlpha = 1;
+
+                for (let col = 0; col < gridCols; col++) {
+                    for (let row = 0; row < gridRows; row++) {
+                        const dataIndex = Math.floor((col / gridCols) * this.dataArray.length);
+                        const intensity = this.dataArray[dataIndex] / 255;
+
+                        const cellX = offsetX + col * cellWidth;
+                        const cellY = offsetY + row * cellHeight;
+
+                        if (intensity > 0.1 && row < intensity * gridRows) {
+                            this.ctx.globalAlpha = intensity;
+                            this.ctx.fillRect(cellX + 1, cellY + 1, cellWidth - 2, cellHeight - 2);
+                        }
+                    }
+                }
+
+                this.ctx.globalAlpha = 1;
+            }
+
+            drawtakedaBinarySpectrum(section) {
+                if (!this.dataArray) return;
+
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                this.ctx.fillStyle = '#ffffff';
+                this.ctx.font = '18px JetBrains Mono';
+
+                const binaryRows = Math.floor(height / 24);
+                const binaryCols = Math.floor(width / 14);
+
+                for (let row = 0; row < binaryRows; row++) {
+                    for (let col = 0; col < binaryCols; col++) {
+                        const dataIndex = Math.floor((col / binaryCols) * this.dataArray.length);
+                        const intensity = this.dataArray[dataIndex] / 255;
+
+                        if (intensity > 0.1) {
+                            const threshold = Math.sin((col + row) * 0.1 + Date.now() * 0.001) * 0.5 + 0.5;
+                            const binaryStr = intensity > threshold ? '1' : '0';
+
+                            this.ctx.globalAlpha = intensity;
+                            this.ctx.fillText(binaryStr, offsetX + col * 14, offsetY + row * 24 + 18);
+                        }
+                    }
+                }
+
+                this.ctx.globalAlpha = 1;
+            }
+
+            drawtakedaDataMatrixSpectrum(section) {
+                if (!this.dataArray) return;
+
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                this.ctx.fillStyle = '#ffffff';
+                this.ctx.font = '14px JetBrains Mono';
+
+                const matrixCols = 15;
+                const matrixRows = 10;
+                const cellW = width / matrixCols;
+                const cellH = height / matrixRows;
+
+                for (let row = 0; row < matrixRows; row++) {
+                    for (let col = 0; col < matrixCols; col++) {
+                        const dataIndex = Math.floor((col / matrixCols) * this.dataArray.length);
+                        const intensity = this.dataArray[dataIndex] / 255;
+
+                        const cellX = offsetX + col * cellW;
+                        const cellY = offsetY + row * cellH;
+
+                        if (intensity > 0.05 && row < intensity * matrixRows) {
+                            this.ctx.globalAlpha = Math.min(1, intensity + 0.2);
+
+                            let displayChar = '';
+                            const hexValue = Math.floor(intensity * 15).toString(16).toUpperCase();
+                            const binaryValue = Math.floor(intensity * 3).toString(2);
+
+                            if (col % 3 === 0) {
+                                displayChar = hexValue;
+                            } else if (col % 3 === 1) {
+                                displayChar = binaryValue;
+                            } else {
+                                displayChar = Math.floor(intensity * 9).toString();
+                            }
+
+                            if (intensity > 0.3) {
+                                this.ctx.fillRect(cellX, cellY, cellW, cellH);
+                                this.ctx.fillStyle = '#000000';
+                                this.ctx.fillText(displayChar, cellX + 1, cellY + cellH - 1);
+                                this.ctx.fillStyle = '#ffffff';
+                            } else {
+                                this.ctx.fillText(displayChar, cellX + 1, cellY + cellH - 1);
+                            }
+                        }
+                    }
+                }
+
+                this.ctx.globalAlpha = 1;
+            }
+
+            drawtakedaSuperposition(section) {
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                this.ctx.globalCompositeOperation = 'screen';
+                this.ctx.strokeStyle = '#ffffff';
+                this.ctx.lineWidth = 1;
+                this.ctx.globalAlpha = 0.3;
+
+                for (let i = 0; i < 5; i++) {
+                    const phase = Date.now() * 0.001 + i * Math.PI / 3;
+                    const amplitude = this.audioData.amplitude * 50;
+
+                    this.ctx.beginPath();
+                    for (let x = offsetX; x < offsetX + width; x += 2) {
+                        const y1 = offsetY + height / 2 + Math.sin(x * 0.02 + phase) * amplitude;
+
+                        if (x === offsetX) {
+                            this.ctx.moveTo(x, y1);
+                        } else {
+                            this.ctx.lineTo(x, y1);
+                        }
+                    }
+                    this.ctx.stroke();
+                }
+
+                this.ctx.globalCompositeOperation = 'source-over';
+                this.ctx.globalAlpha = 1;
+            }
+
+            drawtakedaTestPattern(section) {
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                this.ctx.fillStyle = '#ffffff';
+
+                const gridSize = 16;
+                const cellW = width / gridSize;
+                const cellH = height / gridSize;
+
+                for (let x = 0; x < gridSize; x++) {
+                    for (let y = 0; y < gridSize; y++) {
+                        const cellX = offsetX + x * cellW;
+                        const cellY = offsetY + y * cellH;
+
+                        const pattern = (x + y) % 4;
+                        const intensity = this.audioData.amplitude;
+
+                        if (pattern === 0 && intensity > 0.2) {
+                            this.ctx.fillRect(cellX, cellY, cellW, cellH);
+                        } else if (pattern === 1 && intensity > 0.4) {
+                            this.ctx.fillRect(cellX, cellY, cellW, 2);
+                            this.ctx.fillRect(cellX, cellY + cellH / 2, cellW, 2);
+                        } else if (pattern === 2 && intensity > 0.6) {
+                            if ((x + y) % 2 === 0) {
+                                this.ctx.fillRect(cellX, cellY, cellW, cellH);
+                            }
+                        }
+                    }
+                }
+            }
+
+            drawtakedaDataScan(section) {
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                this.ctx.fillStyle = '#ffffff';
+                this.ctx.font = '12px JetBrains Mono';
+
+                if (this.dataScanBuffer.length < 50) {
+                    this.dataScanBuffer.push({
+                        data: this.generateScanData(),
+                        x: offsetX,
+                        y: offsetY + Math.random() * height,
+                        speed: 2 + this.audioData.amplitude * 5
+                    });
+                }
+
+                this.dataScanBuffer = this.dataScanBuffer.filter(scan => {
+                    scan.x += scan.speed;
+
+                    if (scan.x < offsetX + width) {
+                        this.ctx.globalAlpha = Math.max(0.3, this.audioData.amplitude);
+                        this.ctx.fillText(scan.data, scan.x, scan.y);
+                        return true;
+                    }
+                    return false;
+                });
+
+                this.ctx.globalAlpha = 1;
+            }
+
+            generateScanData() {
+                const types = ['SCAN:', 'DATA:', 'FREQ:', 'AMP:', 'TIME:'];
+                const type = types[Math.floor(Math.random() * types.length)];
+                const value = Math.floor(Math.random() * 9999).toString().padStart(4, '0');
+                return `${type}${value}`;
+            }
+
+            drawtakedaMicroMacro(section) {
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                this.microMacroZoom = 1 + this.audioData.amplitude * 10;
+
+                this.ctx.fillStyle = '#ffffff';
+
+                const microScale = 1 / this.microMacroZoom;
+                for (let x = 0; x < width * this.microMacroZoom; x += 4) {
+                    for (let y = 0; y < height * this.microMacroZoom; y += 4) {
+                        const screenX = offsetX + (x * microScale) % width;
+                        const screenY = offsetY + (y * microScale) % height;
+
+                        if (Math.random() < this.audioData.amplitude) {
+                            this.ctx.fillRect(screenX, screenY, 1, 1);
+                        }
+                    }
+                }
+            }
+
+            drawtakedaTimeCode(section) {
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                this.ctx.fillStyle = '#ffffff';
+                this.ctx.font = '16px JetBrains Mono';
+
+                const now = Date.now();
+                const timeCode = now.toString();
+                const audioTime = Math.floor(this.audioData.amplitude * 999999);
+
+                const codes = [
+                    `TIME: ${timeCode.substring(7)}`,
+                    `AUDIO: ${audioTime.toString().padStart(6, '0')}`,
+                    `FRAME: ${this.frameCount.toString().padStart(8, '0')}`,
+                    `FREQ: ${Math.floor(this.audioData.spectralCentroid)}`,
+                    `BEAT: ${this.audioData.beatDetected ? '1' : '0'}`
+                ];
+
+                codes.forEach((code, index) => {
+                    const y = offsetY + 30 + index * 22;
+                    this.ctx.globalAlpha = 0.8;
+                    this.ctx.fillText(code, offsetX + 10, y);
+                });
+
+                this.ctx.globalAlpha = 1;
+            }
+
+            drawtakedaPointLinePlane(section) {
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                this.ctx.fillStyle = '#ffffff';
+                this.ctx.strokeStyle = '#ffffff';
+
+                for (let i = 0; i < 50; i++) {
+                    const x = offsetX + Math.random() * width;
+                    const y = offsetY + Math.random() * height;
+                    const size = this.audioData.amplitude * 3;
+
+                    this.ctx.globalAlpha = Math.random() * this.audioData.amplitude + 0.2;
+                    this.ctx.fillRect(x, y, size, size);
+                }
+
+                this.ctx.globalAlpha = 0.5;
+                for (let i = 0; i < 10; i++) {
+                    const x1 = offsetX + Math.random() * width;
+                    const y1 = offsetY + Math.random() * height;
+                    const x2 = offsetX + Math.random() * width;
+                    const y2 = offsetY + Math.random() * height;
+
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(x1, y1);
+                    this.ctx.lineTo(x2, y2);
+                    this.ctx.stroke();
+                }
+
+                this.ctx.globalAlpha = 1;
+            }
+
+            drawtakedaDataplex(section) {
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                if (this.dataplexNodes.length < 20) {
+                    for (let i = 0; i < 20; i++) {
+                        this.dataplexNodes.push({
+                            x: offsetX + Math.random() * width,
+                            y: offsetY + Math.random() * height,
+                            data: this.generateRandomData(),
+                            connections: []
+                        });
+                    }
+                }
+
+                this.ctx.fillStyle = '#ffffff';
+                this.ctx.strokeStyle = '#ffffff';
+                this.ctx.font = '12px JetBrains Mono';
+
+                this.dataplexNodes.forEach((node) => {
+                    node.x += (Math.random() - 0.5) * this.audioData.amplitude * 2;
+                    node.y += (Math.random() - 0.5) * this.audioData.amplitude * 2;
+
+                    node.x = Math.max(offsetX, Math.min(offsetX + width, node.x));
+                    node.y = Math.max(offsetY, Math.min(offsetY + height, node.y));
+
+                    this.ctx.globalAlpha = 0.8;
+                    this.ctx.fillRect(node.x - 2, node.y - 2, 4, 4);
+                    this.ctx.fillText(node.data.substring(0, 4), node.x + 5, node.y);
+                });
+
+                this.ctx.globalAlpha = 1;
+            }
+
+            drawtakedaCyclo(section) {
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const centerX = section.x * this.canvas.width / window.devicePixelRatio + width / 2;
+                const centerY = section.y * this.canvas.height / window.devicePixelRatio + height / 2;
+
+                this.cycloAngle += 0.02 + this.audioData.amplitude * 0.1;
+
+                this.ctx.strokeStyle = '#ffffff';
+                this.ctx.fillStyle = '#ffffff';
+
+                const maxRadius = Math.min(width, height) / 2 - 20;
+                for (let r = 20; r < maxRadius; r += 20) {
+                    this.ctx.globalAlpha = 0.3;
+                    this.ctx.beginPath();
+                    this.ctx.arc(centerX, centerY, r, 0, Math.PI * 2);
+                    this.ctx.stroke();
+
+                    const points = Math.floor(r / 5);
+                    for (let i = 0; i < points; i++) {
+                        const angle = (i / points) * Math.PI * 2 + this.cycloAngle;
+                        const x = centerX + Math.cos(angle) * r;
+                        const y = centerY + Math.sin(angle) * r;
+
+                        const intensity = this.dataArray ? this.dataArray[i * 2 % this.dataArray.length] / 255 : 0;
+                        if (intensity > 0.3) {
+                            this.ctx.globalAlpha = intensity;
+                            this.ctx.fillRect(x - 1, y - 1, 2, 2);
+                        }
+                    }
+                }
+
+                this.ctx.globalAlpha = 1;
+            }
+
+            drawtakedaFormula(section) {
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                this.ctx.fillStyle = '#ffffff';
+                this.ctx.font = '14px JetBrains Mono';
+
+                const formulas = [
+                    'f(x) = sin(x) * cos(y)',
+                    'E = mc²',
+                    'x = (-b ± √(b²-4ac)) / 2a',
+                    'Σ(n=1 to ∞) 1/n²',
+                    'lim(x→0) sin(x)/x = 1',
+                    '∇²φ = 0',
+                    'e^(iπ) + 1 = 0'
+                ];
+
+                formulas.forEach((formula, index) => {
+                    const y = offsetY + 30 + index * 22;
+                    const intensity = this.dataArray ? this.dataArray[index * 10 % this.dataArray.length] / 255 : 0.5;
+
+                    if (intensity > 0.2) {
+                        this.ctx.globalAlpha = intensity;
+                        this.ctx.fillText(formula, offsetX + 10, y);
+                    }
+                });
+
+                this.ctx.globalAlpha = 1;
+            }
+
+            drawtakedaPi(section) {
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                this.ctx.fillStyle = '#ffffff';
+                this.ctx.font = '20px JetBrains Mono';
+
+                const piStr = this.piDigits;
+                const cols = Math.floor(width / 14);
+                const rows = Math.floor(height / 24);
+
+                for (let row = 0; row < rows; row++) {
+                    for (let col = 0; col < cols; col++) {
+                        const index = row * cols + col;
+                        if (index < piStr.length) {
+                            const digit = piStr[index];
+                            const x = offsetX + col * 14;
+                            const y = offsetY + row * 24 + 18;
+
+                            const intensity = this.audioData.amplitude + Math.random() * 0.3;
+                            this.ctx.globalAlpha = Math.min(1, intensity);
+
+                            this.ctx.fillText(digit, x, y);
+                        }
+                    }
+                }
+
+                this.ctx.globalAlpha = 1;
+            }
+
+            drawtakedaDB(section) {
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                if (!this.dataArray) return;
+
+                this.ctx.fillStyle = '#ffffff';
+                this.ctx.font = '14px JetBrains Mono';
+
+                for (let i = 0; i < this.dataArray.length && i < 15; i++) {
+                    const amplitude = this.dataArray[i] / 255;
+                    const db = amplitude > 0 ? 20 * Math.log10(amplitude) : -Infinity;
+
+                    const y = offsetY + 30 + i * 22;
+                    const dbText = isFinite(db) ? db.toFixed(1) + 'dB' : '-∞dB';
+
+                    this.ctx.globalAlpha = Math.max(0.3, amplitude);
+                    this.ctx.fillText(`${i.toString().padStart(2, '0')}: ${dbText}`, offsetX + 10, y);
+                }
+
+                this.ctx.globalAlpha = 1;
+            }
+
+            drawtakedaMatrixNxN(section) {
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                this.ctx.fillStyle = '#ffffff';
+                this.ctx.font = '18px JetBrains Mono';
+
+                const n = this.matrixSize;
+                const cellW = width / n;
+                const cellH = height / n;
+
+                for (let row = 0; row < n; row++) {
+                    for (let col = 0; col < n; col++) {
+                        const cellX = offsetX + col * cellW;
+                        const cellY = offsetY + row * cellH;
+
+                        const value = Math.floor(Math.random() * 10);
+                        const intensity = this.audioData.amplitude + Math.random() * 0.5;
+
+                        if (intensity > 0.3) {
+                            this.ctx.globalAlpha = intensity;
+                            this.ctx.fillText(value.toString(), cellX + cellW / 2 - 8, cellY + cellH / 2 + 6);
+                        }
+                    }
+                }
+
+                this.ctx.globalAlpha = 1;
+            }
+
+            drawtakedaSupercodex(section) {
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                this.ctx.fillStyle = '#ffffff';
+                this.ctx.font = '14px JetBrains Mono';
+
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                const cols = Math.floor(width / 12);
+                const rows = Math.floor(height / 18);
+
+                for (let row = 0; row < rows; row++) {
+                    for (let col = 0; col < cols; col++) {
+                        const char = chars[Math.floor(Math.random() * chars.length)];
+                        const x = offsetX + col * 12;
+                        const y = offsetY + row * 18 + 14;
+
+                        const intensity = this.audioData.amplitude + Math.random() * 0.4;
+                        if (intensity > 0.3) {
+                            this.ctx.globalAlpha = intensity;
+                            this.ctx.fillText(char, x, y);
+                        }
+                    }
+                }
+
+                this.ctx.globalAlpha = 1;
+            }
+
+            drawtakedaDataFlux(section) {
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                if (this.dataFluxStreams.length < 20) {
+                    for (let i = 0; i < 20; i++) {
+                        this.dataFluxStreams.push({
+                            x: offsetX + Math.random() * width,
+                            y: offsetY + Math.random() * height,
+                            vx: (Math.random() - 0.5) * 4,
+                            vy: (Math.random() - 0.5) * 4,
+                            data: Math.floor(Math.random() * 255).toString(16).toUpperCase()
+                        });
+                    }
+                }
+
+                this.ctx.fillStyle = '#ffffff';
+                this.ctx.font = '16px JetBrains Mono';
+
+                this.dataFluxStreams.forEach(stream => {
+                    stream.x += stream.vx + this.audioData.amplitude * 2;
+                    stream.y += stream.vy + this.audioData.amplitude * 2;
+
+                    if (stream.x < offsetX || stream.x > offsetX + width) stream.vx *= -1;
+                    if (stream.y < offsetY || stream.y > offsetY + height) stream.vy *= -1;
+
+                    stream.x = Math.max(offsetX, Math.min(offsetX + width, stream.x));
+                    stream.y = Math.max(offsetY, Math.min(offsetY + height, stream.y));
+
+                    this.ctx.globalAlpha = this.audioData.amplitude + 0.3;
+                    this.ctx.fillText(stream.data, stream.x, stream.y);
+                });
+
+                this.ctx.globalAlpha = 1;
+            }
+
+            drawtakedaOscilloscope(section) {
+                if (!this.analyser) return;
+
+                const bufferLength = this.analyser.frequencyBinCount;
+                const dataArray = new Uint8Array(bufferLength);
+                this.analyser.getByteTimeDomainData(dataArray);
+
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                this.ctx.strokeStyle = '#ffffff';
+                this.ctx.lineWidth = 1;
+
+                this.ctx.globalAlpha = 0.2;
+                for (let i = 0; i < 10; i++) {
+                    const y = offsetY + (i / 10) * height;
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(offsetX, y);
+                    this.ctx.lineTo(offsetX + width, y);
+                    this.ctx.stroke();
+                }
+                for (let i = 0; i < 10; i++) {
+                    const x = offsetX + (i / 10) * width;
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(x, offsetY);
+                    this.ctx.lineTo(x, offsetY + height);
+                    this.ctx.stroke();
+                }
+
+                this.ctx.globalAlpha = 1;
+                const sliceWidth = width / bufferLength;
+                let x = offsetX;
+
+                this.ctx.beginPath();
+                for (let i = 0; i < bufferLength; i++) {
+                    const v = dataArray[i] / 128.0;
+                    const y = offsetY + (v * height / 2);
+
+                    if (i === 0) {
+                        this.ctx.moveTo(x, y);
+                    } else {
+                        this.ctx.lineTo(x, y);
+                    }
+                    x += sliceWidth;
+                }
+                this.ctx.stroke();
+            }
+
+            drawtakedaVectorscope(section) {
+                if (!this.analyser) return;
+
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const centerX = section.x * this.canvas.width / window.devicePixelRatio + width / 2;
+                const centerY = section.y * this.canvas.height / window.devicePixelRatio + height / 2;
+
+                this.ctx.strokeStyle = '#ffffff';
+                this.ctx.fillStyle = '#ffffff';
+
+                this.ctx.globalAlpha = 0.2;
+                for (let r = 20; r < Math.min(width, height) / 2; r += 20) {
+                    this.ctx.beginPath();
+                    this.ctx.arc(centerX, centerY, r, 0, Math.PI * 2);
+                    this.ctx.stroke();
+                }
+
+                this.ctx.globalAlpha = 0.8;
+                for (let i = 0; i < this.dataArray.length && i < 50; i++) {
+                    const angle = (i / 50) * Math.PI * 2;
+                    const magnitude = (this.dataArray[i] / 255) * (Math.min(width, height) / 2 - 20);
+
+                    const x = centerX + Math.cos(angle) * magnitude;
+                    const y = centerY + Math.sin(angle) * magnitude;
+
+                    this.ctx.fillRect(x - 1, y - 1, 2, 2);
+                }
+
+                this.ctx.globalAlpha = 1;
+            }
+
+            drawtakedaRadarSweep(section) {
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const centerX = section.x * this.canvas.width / window.devicePixelRatio + width / 2;
+                const centerY = section.y * this.canvas.height / window.devicePixelRatio + height / 2;
+
+                this.radarSweepAngle += 0.05 + this.audioData.amplitude * 0.1;
+
+                this.ctx.strokeStyle = '#ffffff';
+                this.ctx.fillStyle = '#ffffff';
+
+                this.ctx.globalAlpha = 0.3;
+                const maxRadius = Math.min(width, height) / 2 - 10;
+                for (let r = 30; r < maxRadius; r += 30) {
+                    this.ctx.beginPath();
+                    this.ctx.arc(centerX, centerY, r, 0, Math.PI * 2);
+                    this.ctx.stroke();
+                }
+
+                this.ctx.globalAlpha = 0.8;
+                this.ctx.beginPath();
+                this.ctx.moveTo(centerX, centerY);
+                this.ctx.lineTo(
+                    centerX + Math.cos(this.radarSweepAngle) * maxRadius,
+                    centerY + Math.sin(this.radarSweepAngle) * maxRadius
+                );
+                this.ctx.stroke();
+
+                if (this.dataArray) {
+                    for (let i = 0; i < this.dataArray.length && i < 20; i++) {
+                        const intensity = this.dataArray[i] / 255;
+                        if (intensity > 0.3) {
+                            const angle = Math.random() * Math.PI * 2;
+                            const distance = Math.random() * maxRadius;
+                            const x = centerX + Math.cos(angle) * distance;
+                            const y = centerY + Math.sin(angle) * distance;
+
+                            this.ctx.globalAlpha = intensity;
+                            this.ctx.fillRect(x - 2, y - 2, 4, 4);
+                        }
+                    }
+                }
+
+                this.ctx.globalAlpha = 1;
+            }
+
+            drawtakedaDatamosh(section) {
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                this.datamoshOffset.x += (Math.random() - 0.5) * this.audioData.amplitude * 10;
+                this.datamoshOffset.y += (Math.random() - 0.5) * this.audioData.amplitude * 10;
+
+                this.ctx.fillStyle = '#ffffff';
+                this.ctx.font = '16px JetBrains Mono';
+
+                const chars = '0123456789ABCDEF';
+                const cols = Math.floor(width / 12);
+                const rows = Math.floor(height / 18);
+
+                for (let row = 0; row < rows; row++) {
+                    for (let col = 0; col < cols; col++) {
+                        const char = chars[Math.floor(Math.random() * chars.length)];
+                        let x = offsetX + col * 12 + this.datamoshOffset.x;
+                        let y = offsetY + row * 18 + this.datamoshOffset.y;
+
+                        x = ((x - offsetX) % width) + offsetX;
+                        y = ((y - offsetY) % height) + offsetY;
+
+                        if (Math.random() < this.audioData.amplitude + 0.1) {
+                            this.ctx.globalAlpha = Math.random();
+                            this.ctx.fillText(char, x, y);
+                        }
+                    }
+                }
+
+                this.ctx.globalAlpha = 1;
+            }
+
+            drawtakedaGlitchMatrix(section) {
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                this.ctx.fillStyle = '#ffffff';
+
+                const blockSize = 8;
+                const cols = Math.floor(width / blockSize);
+                const rows = Math.floor(height / blockSize);
+
+                for (let row = 0; row < rows; row++) {
+                    for (let col = 0; col < cols; col++) {
+                        const x = offsetX + col * blockSize;
+                        const y = offsetY + row * blockSize;
+
+                        if (Math.random() < this.audioData.amplitude * 0.5) {
+                            const glitchType = Math.floor(Math.random() * 3);
+
+                            if (glitchType === 0) {
+                                this.ctx.fillRect(x, y, blockSize, blockSize);
+                            } else if (glitchType === 1) {
+                                for (let i = 0; i < blockSize; i += 2) {
+                                    this.ctx.fillRect(x, y + i, blockSize, 1);
+                                }
+                            } else {
+                                for (let i = 0; i < blockSize; i += 2) {
+                                    this.ctx.fillRect(x + i, y, 1, blockSize);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            drawtakedaInterference(section) {
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                this.ctx.strokeStyle = '#ffffff';
+                this.ctx.lineWidth = 1;
+                this.ctx.globalAlpha = 0.7;
+
+                this.interferencePattern.forEach((pattern) => {
+                    pattern.phase += pattern.frequency * this.audioData.amplitude * 10;
+
+                    this.ctx.beginPath();
+                    for (let x = offsetX; x < offsetX + width; x += 2) {
+                        const y1 = offsetY + height / 2 + Math.sin(x * 0.05 + pattern.phase) * pattern.amplitude * this.audioData.amplitude;
+
+                        if (x === offsetX) {
+                            this.ctx.moveTo(x, y1);
+                        } else {
+                            this.ctx.lineTo(x, y1);
+                        }
+                    }
+                    this.ctx.stroke();
+                });
+
+                this.ctx.globalAlpha = 1;
+            }
+
+            drawtakedaBinaryRain(section) {
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                this.ctx.fillStyle = '#ffffff';
+                this.ctx.font = '20px JetBrains Mono';
+
+                this.binaryRain.forEach(column => {
+                    if (column.x >= offsetX && column.x <= offsetX + width) {
+                        if (Math.random() < 0.1 + this.audioData.amplitude * 0.3) {
+                            column.chars.push({
+                                char: Math.random() > 0.5 ? '1' : '0',
+                                y: offsetY,
+                                alpha: 1
+                            });
+                        }
+
+                        column.chars = column.chars.filter(char => {
+                            char.y += column.speed + this.audioData.bass * 3;
+                            char.alpha -= 0.02;
+
+                            if (char.y > offsetY && char.y < offsetY + height && char.alpha > 0) {
+                                this.ctx.globalAlpha = char.alpha;
+                                this.ctx.fillText(char.char, column.x, char.y);
+                            }
+
+                            return char.alpha > 0 && char.y < offsetY + height + 20;
+                        });
+                    }
+                });
+
+                this.ctx.globalAlpha = 1;
+            }
+
+            drawtakedaWhiteNoise(section) {
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                const imageData = this.ctx.createImageData(Math.floor(width / 4), Math.floor(height / 4));
+                const data = imageData.data;
+                const intensity = this.audioData.amplitude;
+
+                for (let i = 0; i < data.length; i += 4) {
+                    const noise = Math.random() * 255 * intensity;
+                    data[i] = noise;
+                    data[i + 1] = noise;
+                    data[i + 2] = noise;
+                    data[i + 3] = 255;
+                }
+
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = Math.floor(width / 4);
+                tempCanvas.height = Math.floor(height / 4);
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCtx.putImageData(imageData, 0, 0);
+
+                this.ctx.save();
+                this.ctx.imageSmoothingEnabled = false;
+                this.ctx.drawImage(tempCanvas, offsetX, offsetY, width, height);
+                this.ctx.restore();
+            }
+
+            drawtakedaScanLine(section) {
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                this.scanLinePos += 2 + this.audioData.amplitude * 5;
+                if (this.scanLinePos > height) {
+                    this.scanLinePos = 0;
+                }
+
+                this.ctx.fillStyle = '#ffffff';
+
+                const scanY = offsetY + this.scanLinePos;
+                this.ctx.globalAlpha = 0.8;
+                this.ctx.fillRect(offsetX, scanY, width, 2);
+
+                for (let i = 1; i <= 10; i++) {
+                    const trailY = scanY - i * 4;
+                    if (trailY >= offsetY) {
+                        this.ctx.globalAlpha = 0.8 / i;
+                        this.ctx.fillRect(offsetX, trailY, width, 1);
+                    }
+                }
+
+                this.ctx.font = '14px JetBrains Mono';
+                this.ctx.globalAlpha = 0.6;
+                const scanData = `SCAN_LINE: ${Math.floor(this.scanLinePos).toString().padStart(4, '0')}`;
+                this.ctx.fillText(scanData, offsetX + 10, scanY - 8);
+
+                this.ctx.globalAlpha = 0.3;
+                for (let x = offsetX; x < offsetX + width; x += 8) {
+                    if (Math.random() < this.audioData.amplitude) {
+                        this.ctx.fillRect(x, scanY, 4, 2);
+                    }
+                }
+
+                this.ctx.globalAlpha = 1;
+            }
+
+            animate() {
+                const currentTime = Date.now();
+
+                if (currentTime - this.lastFrameTime < 16) {
+                    this.animationId = requestAnimationFrame(() => this.animate());
+                    return;
+                }
+                this.lastFrameTime = currentTime;
+
+                this.ctx.fillStyle = '#000000';
+                this.ctx.fillRect(0, 0, this.canvas.width / window.devicePixelRatio, this.canvas.height / window.devicePixelRatio);
+
+                this.analyzeAudioAdvanced();
+
+                if (this.autoMode.enabled && this.isPlaying) {
+                    const currentTime = Date.now();
+                    let shouldSwitch = false;
+                    let shouldSwitchDisplay = false;
+                    let reason = '';
+
+                    if (this.autoMode.beatSync && this.audioData.beatDetected) {
+                        if (currentTime - this.autoMode.lastSwitchTime > 2000) {
+                            shouldSwitch = true;
+                            reason = 'beat';
+
+                            if (this.autoMode.displayModeSwitch &&
+                                currentTime - this.autoMode.lastDisplaySwitchTime > 8000 &&
+                                this.audioData.bass > 0.8) {
+                                shouldSwitchDisplay = true;
+                            }
+                        }
+                    }
+
+                    if (this.autoMode.audioReactive && this.audioData.amplitude > this.autoMode.reactiveThreshold) {
+                        if (currentTime - this.autoMode.lastSwitchTime > 3000) {
+                            shouldSwitch = true;
+                            reason = 'reactive';
+
+                            if (this.autoMode.displayModeSwitch &&
+                                currentTime - this.autoMode.lastDisplaySwitchTime > 10000 &&
+                                this.audioData.amplitude > 0.9) {
+                                shouldSwitchDisplay = true;
+                            }
+                        }
+                    }
+
+                    if (this.autoMode.displayModeSwitch && Math.random() < this.autoMode.chaosFactor * 0.05) {
+                        if (currentTime - this.autoMode.lastDisplaySwitchTime > 12000) {
+                            shouldSwitchDisplay = true;
+                            reason = 'chaos';
+                        }
+                    }
+
+                    if (shouldSwitch) {
+                        const nextMode = this.selectNextMode(reason);
+                        this.setMode(nextMode, reason);
+                        this.autoMode.lastSwitchTime = currentTime;
+                    }
+
+                    if (shouldSwitchDisplay) {
+                        const nextDisplayMode = this.selectNextDisplayMode();
+                        if (nextDisplayMode !== this.displayMode) {
+                            this.setDisplayMode(nextDisplayMode, reason + '_display');
+                            this.autoMode.lastDisplaySwitchTime = currentTime;
+                        }
+                    }
+                }
+
+                this.sections.forEach(section => {
+                    this.ctx.save();
+
+                    const x = section.x * this.canvas.width / window.devicePixelRatio;
+                    const y = section.y * this.canvas.height / window.devicePixelRatio;
+                    const width = section.width * this.canvas.width / window.devicePixelRatio;
+                    const height = section.height * this.canvas.height / window.devicePixelRatio;
+
+                    this.ctx.beginPath();
+                    this.ctx.rect(x, y, width, height);
+                    this.ctx.clip();
+
+                    switch (section.mode) {
+                        case 'takeda_data': this.drawtakedaDataStream(section); break;
+                        case 'takeda_barcode': this.drawtakedaBarcode(section); break;
+                        case 'takeda_grid': this.drawtakedaDotMatrix(section); break;
+                        case 'takeda_strobe': this.drawtakedaStrobe(section); break;
+                        case 'takeda_waveform': this.drawtakedaWaveform(section); break;
+                        case 'takeda_spectrum_grid': this.drawtakedaSpectrum(section); break;
+                        case 'takeda_spectrum_binary': this.drawtakedaBinarySpectrum(section); break;
+                        case 'takeda_spectrum_matrix': this.drawtakedaDataMatrixSpectrum(section); break;
+                        case 'takeda_superposition': this.drawtakedaSuperposition(section); break;
+                        case 'takeda_test_pattern': this.drawtakedaTestPattern(section); break;
+                        case 'takeda_data_scan': this.drawtakedaDataScan(section); break;
+                        case 'takeda_micro_macro': this.drawtakedaMicroMacro(section); break;
+                        case 'takeda_time_code': this.drawtakedaTimeCode(section); break;
+                        case 'takeda_point_line': this.drawtakedaPointLinePlane(section); break;
+                        case 'takeda_dataplex': this.drawtakedaDataplex(section); break;
+                        case 'takeda_cyclo': this.drawtakedaCyclo(section); break;
+                        case 'takeda_formula': this.drawtakedaFormula(section); break;
+                        case 'takeda_pi': this.drawtakedaPi(section); break;
+                        case 'takeda_db': this.drawtakedaDB(section); break;
+                        case 'takeda_matrix_nxn': this.drawtakedaMatrixNxN(section); break;
+                        case 'takeda_supercodex': this.drawtakedaSupercodex(section); break;
+                        case 'takeda_data_flux': this.drawtakedaDataFlux(section); break;
+                        case 'takeda_oscilloscope': this.drawtakedaOscilloscope(section); break;
+                        case 'takeda_vectorscope': this.drawtakedaVectorscope(section); break;
+                        case 'takeda_radar_sweep': this.drawtakedaRadarSweep(section); break;
+                        case 'takeda_datamosh': this.drawtakedaDatamosh(section); break;
+                        case 'takeda_glitch_matrix': this.drawtakedaGlitchMatrix(section); break;
+                        case 'takeda_interference': this.drawtakedaInterference(section); break;
+                        case 'takeda_binary': this.drawtakedaBinaryRain(section); break;
+                        case 'takeda_noise': this.drawtakedaWhiteNoise(section); break;
+                        case 'takeda_scan': this.drawtakedaScanLine(section); break;
+                        default: this.drawtakedaDataStream(section); break;
+                    }
+
+                    this.ctx.restore();
+                });
+
+                this.frameCount++;
+                this.animationId = requestAnimationFrame(() => this.animate());
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            new takedaAutoModeVisualizer();
+        });
+    </script>
 </body>
 </html>
