@@ -682,6 +682,18 @@
         const openDate = new Date(eventDate.getTime() - 30 * 60 * 1000);
         const openTime = openDate.toTimeString().slice(0, 5);
         
+            let advancePrice = 2500;
+    let doorPrice = 3000;
+    
+    if (btEvent.description) {
+      const priceMatch = btEvent.description.match(/¥(\d{1,5})/g);
+      if (priceMatch && priceMatch.length >= 2) {
+        advancePrice = parseInt(priceMatch[0].replace('¥', ''));
+        doorPrice = parseInt(priceMatch[1].replace('¥', ''));
+      }
+    }
+
+
         const converted = {
           id: btEvent.id || `bt-event-${index}`,
           title: btEvent.title || btEvent.description || 'Live Performance',
@@ -693,8 +705,8 @@
             start: startTime
           },
           price: {
-            advance: 3000,
-            door: 3500
+            advance: advancePrice,
+            door: doorPrice
           }
         };
         
