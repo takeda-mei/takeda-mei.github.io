@@ -228,8 +228,8 @@
     <div class="next-steps fade-in fade-in-delay-3">
       <h3>次のステップ</h3>
       <p>
-        確認メールを送信いたします。<br>
-        ご質問やご不明な点がございましたら、お気軽にお問い合わせください。<br>
+        <br>
+        ご質問やご不明な点がございましたら、SNS等でお気軽にお問い合わせください。<br>
         当日は開場時間の30分前からご入場いただけます。
       </p>
     </div>
@@ -248,7 +248,7 @@
 
   <script>
     // カウントダウンタイマー
-    let countdown = 5;
+    let countdown = 10;
     const countdownElement = document.getElementById('countdown');
     
     const timer = setInterval(() => {
@@ -276,7 +276,7 @@
             <div class="event-title">${eventTitle || 'ライブイベント'}</div>
             <div class="event-info">
               ${eventDate ? `${formatDate(eventDate)} / ` : ''}${eventVenue || '会場未定'}<br>
-              詳細は確認メールをご覧ください
+              
             </div>
           `;
         }
