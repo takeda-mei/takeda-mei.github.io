@@ -1,1067 +1,587 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>武田 鳴 / MEI TAKEDA - Tour Dates & Tickets</title>
-  <meta name="description" content="Takeda Mei ライブチケット予約 - 最新のツアー情報とチケット予約" />
-  <meta property="og:image" content="https://takeda-mei.com/img/Twitter_takeda_mei_card.png">
-  <meta name="twitter:image" content="https://takeda-mei.com/img/Twitter_takeda_mei_card_2.png" />
-    <meta name="description" content="Mei Takeda Web site 武田鳴チケット予約" />
-  <meta name="twitter:site" content="@_takeda_mei_">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="武田鳴チケット予約">
-  <style>
-    :root {
-      --bg: #000000;
-      --white: #ffffff;
-      --gray: #808080;
-      --light-gray: #cccccc;
-      --dark-gray: #333333;
-      --accent: #ff0080;
-      --red: #ff0000;
-      --green: #00ff00;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>武田 鳴 / MEI TAKEDA - Tour Dates & Tickets</title>
+<meta name="description" content="Mei Takeda Web site 武田鳴チケット予約">
+<meta property="og:image" content="https://takeda-mei.com/img/Twitter_takeda_mei_card.png">
+<meta name="twitter:image" content="https://takeda-mei.com/img/Twitter_takeda_mei_card_2.png">
+<meta name="twitter:site" content="@_takeda_mei_">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="武田鳴チケット予約">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500;600&display=swap');
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+  :root {
+    --bg: #08080a;
+    --surface: #131316;
+    --surface-hover: #1a1a1e;
+    --border: #28282e;
+    --border-bright: #3a3a42;
+    --border-active: #50505a;
+    --text: #e8e6e2;
+    --text-secondary: #a8a4a0;
+    --text-dim: #6a6660;
+    --text-label: #807c78;
+    --highlight: #ffffff;
+    --select-bg: #141e14;
+    --select-border: #2a4a2a;
+    --select-text: #8abd8a;
+    --error: #cc4444;
+    --success: #44aa66;
+    --mono: 'IBM Plex Mono', 'Courier New', monospace;
+    --sans: 'Noto Sans JP', 'IBM Plex Mono', sans-serif;
+  }
 
-    html, body {
-      height: 100%;
-    }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-      color: var(--white);
-      background: var(--bg);
-      line-height: 1.4;
-      overflow-x: hidden;
-    }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.7;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
 
-    /* API接続状況表示 */
-    .api-status {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      background: var(--dark-gray);
-      padding: 8px 12px;
-      border: 1px solid var(--gray);
-      font-size: 10px;
-      color: var(--gray);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      z-index: 1000;
-      display: none;
-    }
+  .container { max-width: 660px; margin: 0 auto; padding: 48px 24px 80px; }
 
-    .api-status.show {
-      display: block;
-    }
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 44px; }
+  .header-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+  .header-title { font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-secondary); }
+  .header-label { font-size: 10px; color: var(--text-dim); letter-spacing: 0.12em; }
+  .header-name { font-size: 26px; font-weight: 400; letter-spacing: 0.06em; color: var(--highlight); margin-bottom: 4px; font-family: var(--sans); }
+  .header-sub { font-size: 12px; color: var(--text-dim); letter-spacing: 0.06em; }
 
-    .api-status.success {
-      border-color: var(--green);
-      color: var(--green);
-    }
+  .section-label {
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--text-label); margin-bottom: 20px; padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
 
-    .api-status.error {
-      border-color: var(--red);
-      color: var(--red);
-    }
+  /* LOADING */
+  .loading { text-align: center; padding: 56px 20px; color: var(--text-dim); font-size: 12px; letter-spacing: 0.12em; }
+  .loading-dot { display: inline-block; animation: blink 1.2s infinite; }
+  .loading-dot:nth-child(2) { animation-delay: 0.2s; }
+  .loading-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes blink { 0%,80%,100% { opacity:.2; } 40% { opacity:1; } }
 
-    /* ヘッダー */
-    .header {
-      padding: 20px;
-      text-align: center;
-      border-bottom: 1px solid var(--dark-gray);
-      margin-bottom: 40px;
-    }
+  /* EVENT CARDS */
+  .event-list { margin-bottom: 48px; }
+  .event-card {
+    border: 1px solid var(--border); padding: 24px; margin-bottom: 14px;
+    cursor: pointer; transition: all .15s ease; position: relative; background: var(--surface);
+  }
+  .event-card:hover { background: var(--surface-hover); border-color: var(--border-bright); }
+  .event-card.selected { background: var(--select-bg); border-color: var(--select-border); }
+  .event-card.selected .event-date { color: var(--select-text); }
+  .event-card.past { opacity:.3; pointer-events:none; }
+  .event-card.past::after { content:'ENDED'; position:absolute; right:24px; top:24px; font-size:10px; letter-spacing:.15em; color:var(--text-dim); }
 
-    .artist-name {
-      font-size: clamp(24px, 4vw, 48px);
-      font-weight: 700;
-      letter-spacing: -1px;
-      margin-bottom: 8px;
-      text-transform: uppercase;
-    }
+  .event-date-row { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px; }
+  .event-date { font-size:18px; font-weight:500; color:var(--highlight); letter-spacing:.04em; }
+  .event-day { font-size:12px; color:var(--text-secondary); }
+  .event-title-text { font-size:14px; font-weight:500; color:var(--text); margin-bottom:6px; font-family:var(--sans); }
+  .event-venue { font-size:15px; color:var(--text); margin-bottom:16px; font-family:var(--sans); }
 
-    .tagline {
-      font-size: 14px;
-      color: var(--gray);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
+  .event-meta {
+    display:grid; grid-template-columns:1fr 1fr 1.5fr; gap:4px;
+    font-size:13px; margin-bottom:16px; padding:14px 16px;
+    background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.05);
+  }
+  .meta-item { display:flex; flex-direction:column; gap:4px; }
+  .meta-label { font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:var(--text-dim); }
+  .meta-value { color:var(--text-secondary); font-size:13px; }
 
-    /* メインコンテナ */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
+  .event-acts { font-size:12px; color:var(--text-dim); font-family:var(--sans); line-height:1.8; }
+  .event-acts strong { color:var(--text-secondary); font-weight:400; }
 
-    /* イベントリスト */
-    .events-section {
-      margin-bottom: 60px;
-    }
+  /* NO EVENTS / REQUEST */
+  .no-events-message { text-align:center; padding:40px 20px 32px; color:var(--text-dim); font-size:13px; line-height:2.2; }
+  .request-box { border:1px solid var(--border); background:var(--surface); padding:28px; margin-top:8px; }
+  .request-title { font-size:12px; letter-spacing:.15em; text-transform:uppercase; color:var(--text-secondary); margin-bottom:6px; }
+  .request-desc { font-size:13px; color:var(--text-dim); margin-bottom:24px; line-height:1.7; font-family:var(--sans); }
 
-    .section-title {
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 20px;
-      color: var(--white);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
+  /* FORM */
+  .form-section { display:none; }
+  .form-section.active { display:block; }
 
-    .events-grid {
-      display: grid;
-      gap: 1px;
-      background: var(--dark-gray);
-      border: 1px solid var(--dark-gray);
-    }
+  .selected-event-summary { background:var(--surface); border:1px solid var(--border); padding:20px 24px; margin-bottom:28px; font-size:13px; }
+  .summary-line { display:flex; justify-content:space-between; color:var(--text); margin-bottom:6px; }
+  .summary-line:last-child { margin-bottom:0; }
+  .summary-label { color:var(--text-dim); font-size:10px; letter-spacing:.12em; text-transform:uppercase; min-width:100px; }
+  .summary-value { text-align:right; color:var(--text-secondary); }
 
-    .event-card {
-      background: var(--bg);
-      padding: 20px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      gap: 20px;
-      align-items: center;
-      min-height: 80px;
-    }
+  .form-group { margin-bottom:24px; }
+  .form-label { display:block; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-secondary); margin-bottom:10px; font-weight:500; }
+  .form-label .req { color:var(--text-dim); font-weight:400; }
 
-    .event-card:hover {
-      background: var(--dark-gray);
-    }
+  input,select,textarea {
+    width:100%; background:var(--bg); border:1px solid var(--border);
+    color:var(--text); font-family:var(--mono); font-size:14px; padding:14px 16px;
+    outline:none; transition:border-color .2s ease; -webkit-appearance:none; border-radius:0;
+  }
+  input:focus,select:focus,textarea:focus { border-color:var(--border-active); background:var(--surface); }
+  input::placeholder,textarea::placeholder { color:var(--text-dim); }
+  select { cursor:pointer; color:var(--text-secondary); }
+  textarea { resize:vertical; min-height:90px; }
+  input[readonly] { color:var(--text-dim); cursor:default; }
 
-    .event-card.selected {
-      background: var(--accent);
-      color: var(--white);
-    }
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
 
-    .event-date {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-width: 60px;
-    }
+  .btn {
+    display:inline-block; font-family:var(--mono); font-size:12px;
+    letter-spacing:.14em; text-transform:uppercase; padding:16px 32px;
+    border:1px solid var(--border-bright); background:transparent;
+    color:var(--text); cursor:pointer; transition:all .15s ease; text-decoration:none;
+  }
+  .btn:hover { background:var(--highlight); color:var(--bg); border-color:var(--highlight); }
+  .btn-row { display:flex; gap:12px; margin-top:36px; }
+  .btn-back { color:var(--text-dim); border-color:var(--border); }
+  .btn-back:hover { background:var(--surface-hover); color:var(--text); border-color:var(--border-bright); }
 
-    .date-month {
-      font-size: 12px;
-      color: var(--gray);
-      text-transform: uppercase;
-    }
+  .status-msg { margin-top:20px; padding:14px; text-align:center; font-size:13px; border:1px solid var(--border); display:none; }
+  .status-msg.success { background:rgba(68,170,102,.1); border-color:var(--success); color:var(--success); display:block; }
+  .status-msg.error { background:rgba(204,68,68,.1); border-color:var(--error); color:var(--error); display:block; }
 
-    .date-day {
-      font-size: 24px;
-      font-weight: 700;
-      line-height: 1;
-    }
+  .footer { margin-top:60px; padding-top:24px; border-top:1px solid var(--border); font-size:11px; color:var(--text-dim); text-align:center; }
+  .footer a { color:var(--text-dim); text-decoration:none; }
+  .footer a:hover { color:var(--text-secondary); }
 
-    .event-card.selected .date-month,
-    .event-card.selected .date-day {
-      color: var(--white);
-    }
-
-    .event-info {
-      flex: 1;
-    }
-
-    .event-title {
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 4px;
-      color: var(--white);
-    }
-
-    .event-venue {
-      font-size: 14px;
-      color: var(--gray);
-      margin-bottom: 2px;
-    }
-
-    .event-time {
-      font-size: 12px;
-      color: var(--gray);
-    }
-
-    .event-card.selected .event-venue,
-    .event-card.selected .event-time {
-      color: var(--light-gray);
-    }
-
-    .event-actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .price-info {
-      text-align: right;
-    }
-
-    .price-main {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--white);
-    }
-
-    .price-door {
-      font-size: 12px;
-      color: var(--gray);
-    }
-
-    .event-card.selected .price-main,
-    .event-card.selected .price-door {
-      color: var(--white);
-    }
-
-    .btn {
-      padding: 8px 16px;
-      border: 1px solid var(--white);
-      background: transparent;
-      color: var(--white);
-      text-decoration: none;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: inline-block;
-    }
-
-    .btn:hover {
-      background: var(--white);
-      color: var(--bg);
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: var(--white);
-    }
-
-    .btn-primary:hover {
-      background: var(--white);
-      color: var(--accent);
-      border-color: var(--white);
-    }
-
-    /* 予約フォーム */
-    .booking-section {
-      display: none;
-      background: var(--dark-gray);
-      padding: 40px;
-      margin-top: 20px;
-      border: 1px solid var(--gray);
-    }
-
-    .booking-section.show {
-      display: block;
-      animation: slideDown 0.3s ease-out;
-    }
-
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .booking-title {
-      font-size: 20px;
-      font-weight: 600;
-      margin-bottom: 20px;
-      color: var(--white);
-    }
-
-    .selected-event-summary {
-      background: var(--bg);
-      padding: 20px;
-      margin-bottom: 30px;
-      border-left: 4px solid var(--accent);
-    }
-
-    .summary-title {
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
-
-    .summary-details {
-      font-size: 14px;
-      color: var(--gray);
-      line-height: 1.6;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-bottom: 20px;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-group.full-width {
-      grid-column: 1 / -1;
-    }
-
-    label {
-      display: block;
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 8px;
-      color: var(--white);
-    }
-
-    input, select, textarea {
-      width: 100%;
-      background: var(--bg);
-      color: var(--white);
-      border: 1px solid var(--gray);
-      padding: 12px 16px;
-      font-family: inherit;
-      font-size: 14px;
-      outline: none;
-      transition: border-color 0.3s ease;
-    }
-
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--accent);
-    }
-
-    input::placeholder, textarea::placeholder {
-      color: var(--gray);
-    }
-
-    /* フッター */
-    .footer {
-      margin-top: 80px;
-      padding: 40px 20px;
-      text-align: center;
-      border-top: 1px solid var(--dark-gray);
-      color: var(--gray);
-      font-size: 12px;
-    }
-
-    .bandsintown-credit {
-      margin-top: 20px;
-    }
-
-    .bandsintown-link {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    .bandsintown-link:hover {
-      text-decoration: underline;
-    }
-
-    /* ステータス */
-    .status {
-      margin-top: 20px;
-      padding: 15px;
-      text-align: center;
-      font-size: 14px;
-      border: 1px solid var(--gray);
-    }
-
-    .status.success {
-      background: rgba(0, 255, 0, 0.1);
-      border-color: var(--green);
-      color: var(--green);
-    }
-
-    .status.error {
-      background: rgba(255, 0, 0, 0.1);
-      border-color: var(--red);
-      color: var(--red);
-    }
-
-    /* レスポンシブ */
-    @media (max-width: 768px) {
-      .event-card {
-        grid-template-columns: auto 1fr;
-        gap: 15px;
-      }
-      
-      .event-actions {
-        grid-column: 1 / -1;
-        margin-top: 15px;
-        justify-content: flex-start;
-      }
-
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .container {
-        padding: 0 10px;
-      }
-      
-      .booking-section {
-        padding: 20px;
-      }
-    }
-  </style>
+  @media (max-width:480px) {
+    .container { padding:28px 16px 60px; }
+    .event-card { padding:20px; }
+    .event-meta { grid-template-columns:1fr 1fr; gap:12px; }
+    .event-date { font-size:16px; }
+    .btn-row { flex-direction:column; }
+    .btn { text-align:center; }
+    .summary-line { flex-direction:column; gap:2px; }
+    .summary-value { text-align:left; }
+    .form-row { grid-template-columns:1fr; }
+  }
+</style>
 </head>
 <body>
-  <div class="api-status" id="apiStatus">
-    <!-- API接続状況 -->
-  </div>
 
-  <header class="header">
-    <h1 class="artist-name">武田 鳴 チケット予約フォーム</h1>
-    <p class="tagline">行きたいライブの日程を選んでください</p>
-  </header>
-
-  <div class="container">
-    <!-- イベント一覧 -->
-    <section class="events-section">
-      <h2 class="section-title">Tour Dates</h2>
-      <div class="events-grid" id="eventsGrid">
-        <!-- イベントがJavaScriptで動的に生成される -->
-      </div>
-    </section>
-
-    <!-- 予約フォーム -->
-    <section class="booking-section" id="bookingSection">
-      <h3 class="booking-title">Reserve Your Tickets</h3>
-      
-      <div class="selected-event-summary" id="eventSummary">
-        <!-- 選択されたイベントの詳細 -->
-      </div>
-
-      <!-- !! entry IDを正しい値に更新してください !! -->
-      <form id="reservationForm" role="form" method="POST"
-            action="https://docs.google.com/forms/d/e/1FAIpQLSf7TGrqnpnEOnR_AzyaVAJlAGWun2ZbL9YxXlwWiibZAEuG1Q/formResponse">
-        
-        <div class="form-grid">
-          <div class="form-group">
-            <label for="name">名前 *</label>
-            <!-- entry IDを更新: entry.817030556 -->
-            <input type="text" id="name" name="entry.817030556" required placeholder="山田太郎" />
-          </div>
-          
-          <div class="form-group">
-            <label for="email">Email *</label>
-            <!-- entry IDを更新: entry.594301832 -->
-            <input type="email" id="email" name="entry.594301832" required placeholder="you@example.com" />
-          </div>
-        </div>
-
-        <div class="form-grid">
-          <div class="form-group">
-            <label for="tickets">チケット枚数 *</label>
-            <!-- entry IDを更新: entry.845925255 -->
-            <select id="tickets" name="entry.845925255" required>
-              <option value="">選択してください</option>
-              <option value="１枚">1枚</option>
-              <option value="２枚">2枚</option>
-              <option value="３枚">3枚</option>
-              <option value="４枚">4枚</option>
-            </select>
-          </div>
-          
-          <div class="form-group">
-            <label for="eventTitle">イベント</label>
-            <!-- entry IDを更新: entry.885220633 -->
-            <input type="text" id="eventTitle" name="entry.885220633" readonly />
-          </div>
-        </div>
-
-        <div class="form-group full-width">
-          <label for="message">メッセージ（任意）</label>
-          <!-- entry IDを更新: entry.1558980968 -->
-          <textarea id="message" name="entry.1558980968" rows="3" placeholder="ご質問やご要望があればお書きください"></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="verification">Bot確認: 3 + 4 = ?</label>
-          <input type="text" id="verification" name="verification" required placeholder="答えを入力" style="max-width: 100px;" />
-        </div>
-
-        <!-- 隠しフィールド（必要に応じて） -->
-        <input type="hidden" name="entry.35324790" id="eventDate" />
-        <input type="hidden" name="entry.1354862515" id="eventVenue" />
-
-        <div style="display: flex; gap: 10px; margin-top: 30px;">
-          <button type="submit" class="btn btn-primary">予約を送信</button>
-          <button type="button" class="btn" id="mailBtn">メールで送信</button>
-        </div>
-
-        <div id="formStatus" class="status" style="display: none;"></div>
-      </form>
-    </section>
-  </div>
-
-  <footer class="footer">
-    <p>© 2025 Takeda Mei. All rights reserved.</p>
-    <div class="bandsintown-credit">
-      <a href="https://bandsintown.com/a/15127-takeda-mei" class="bandsintown-link" target="_blank" rel="noopener">
-        Powered by Bandsintown - Follow for tour updates
-      </a>
+<div class="container">
+  <div class="header">
+    <div class="header-top">
+      <span class="header-title">Ticket Reservation</span>
+      <span class="header-label">1+1.=V.</span>
     </div>
-  </footer>
+    <div class="header-name">武田 鳴</div>
+    <div class="header-sub">MEI TAKEDA — Live Schedule & Reservation</div>
+  </div>
 
-  <script>
-    // Bandsintown API設定
-    const BANDSINTOWN_CONFIG = {
-      artistName: '武田 鳴',
-      appId: '610e81a3e048378adaaea829de59f64b',
-      apiUrl: 'https://rest.bandsintown.com/artists',
-      fallbackEvents: [
-        {
-          id: 'fallback-kyoto-2026-01',
-          title: 'Three-Man Live (Saikyoto)',
-          date: '2026-01-24',
-          venue: 'Kyoto Nano',
-          city: 'Kyoto',
-          time: { open: '18:30', start: '19:00' },
-          price: { advance: 3000, door: 3500 }
-        },
-        {
-          id: 'fallback-tokyo-2026-02',
-          title: 'Noise Night Vol.12',
-          date: '2026-02-15',
-          venue: 'Shibuya WWW',
-          city: 'Tokyo',
-          time: { open: '19:00', start: '19:30' },
-          price: { advance: 2500, door: 3000 }
-        }
-      ]
-    };
+  <!-- EVENT LIST -->
+  <div id="event-section" class="event-list">
+    <div class="section-label">Upcoming Events</div>
+    <div id="event-container">
+      <div class="loading">FETCHING EVENTS<span class="loading-dot">.</span><span class="loading-dot">.</span><span class="loading-dot">.</span></div>
+    </div>
+  </div>
 
-    let EVENTS = [];
-    let selectedEvent = null;
+  <!-- TICKET RESERVATION FORM (Google Form) -->
+  <div id="form-section" class="form-section">
+    <div class="section-label">Reservation Form</div>
+    <div id="selected-summary" class="selected-event-summary"></div>
 
-    // DOM要素の取得
-    const $ = (selector) => document.querySelector(selector);
+    <form id="reservationForm"
+          action="https://docs.google.com/forms/d/e/1FAIpQLSf7TGrqnpnEOnR_AzyaVAJlAGWun2ZbL9YxXlwWiibZAEuG1Q/formResponse"
+          method="POST">
 
-    // API接続状況表示
-    function showApiStatus(message, type = 'info') {
-      const status = $('#apiStatus');
-      if (status) {
-        status.textContent = message;
-        status.className = `api-status show ${type}`;
-        setTimeout(() => {
-          status.classList.remove('show');
-        }, 3000);
-      }
-    }
-
-    // ローディング表示
-    function showLoading() {
-      const eventsGrid = $('#eventsGrid');
-      if (eventsGrid) {
-        eventsGrid.innerHTML = `
-          <div style="text-align: center; padding: 40px; color: var(--gray);">
-            <div style="margin-bottom: 20px;">🎵</div>
-            <div>Loading events from Bandsintown...</div>
-          </div>
-        `;
-      }
-      showApiStatus('Connecting to Bandsintown API...', 'info');
-    }
-
-    // エラー表示
-    function showError() {
-      const eventsGrid = $('#eventsGrid');
-      if (eventsGrid) {
-        eventsGrid.innerHTML = `
-          <div style="text-align: center; padding: 40px; color: var(--red);">
-            <div>⚠️ Unable to connect to Bandsintown</div>
-            <div style="font-size: 12px; margin-top: 10px; color: var(--gray);">
-              Artist not found or API connection failed.<br>
-              Using sample event data for demonstration.
-            </div>
-          </div>
-        `;
-      }
-    }
-
-    // 日付フォーマット関数
-    function formatDate(dateStr) {
-      const date = new Date(dateStr);
-      const month = date.toLocaleDateString('ja-JP', { month: 'short' }).replace('月', '月');
-      const day = date.getDate();
-      return { month, day };
-    }
-
-    // イベントカード生成
-    function createEventCard(event) {
-      const { month, day } = formatDate(event.date);
-      
-      return `
-        <div class="event-card" data-event-id="${event.id}">
-          <div class="event-date">
-            <div class="date-month">${month}</div>
-            <div class="date-day">${day}</div>
-          </div>
-          <div class="event-info">
-            <div class="event-title">${event.title}</div>
-            <div class="event-venue">${event.venue}, ${event.city}</div>
-            <div class="event-time">Open ${event.time.open} / Start ${event.time.start}</div>
-          </div>
-          <div class="event-actions">
-            <div class="price-info">
-              <div class="price-main">¥${event.price.advance.toLocaleString()}</div>
-              <div class="price-door">Door ¥${event.price.door.toLocaleString()}</div>
-            </div>
-          </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">名前 <span class="req">*</span></label>
+          <input type="text" id="f-name" name="entry.817030556" required placeholder="お名前">
         </div>
-      `;
+        <div class="form-group">
+          <label class="form-label">Email <span class="req">*</span></label>
+          <input type="email" id="f-email" name="entry.594301832" required placeholder="your@email.com">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">チケット枚数 <span class="req">*</span></label>
+          <select id="f-tickets" name="entry.845925255" required>
+            <option value="" disabled selected>選択してください</option>
+            <option value="１枚">1枚</option>
+            <option value="２枚">2枚</option>
+            <option value="３枚">3枚</option>
+            <option value="４枚">4枚</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">イベント</label>
+          <input type="text" id="f-event-title" name="entry.885220633" readonly>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">メッセージ <span class="req">(任意)</span></label>
+        <textarea id="f-message" name="entry.1558980968" placeholder="ご質問やご要望があれば"></textarea>
+      </div>
+
+      <div class="form-group" style="max-width:200px;">
+        <label class="form-label">Bot確認: 3 + 4 = ?</label>
+        <input type="text" id="f-verify" required placeholder="答えを入力">
+      </div>
+
+      <!-- 隠しフィールド -->
+      <input type="hidden" name="entry.35324790" id="f-event-date">
+      <input type="hidden" name="entry.1354862515" id="f-event-venue">
+
+      <div class="btn-row">
+        <button type="button" class="btn btn-back" onclick="showEvents()">← Back</button>
+        <button type="submit" class="btn">予約を送信</button>
+        <button type="button" class="btn btn-back" id="mailBtn">メールで送信</button>
+      </div>
+
+      <div id="formStatus" class="status-msg"></div>
+    </form>
+  </div>
+
+  <!-- LIVE REQUEST (no events) -->
+  <div id="request-section" class="form-section">
+    <div class="no-events-message">
+      現在予定されているライブはありません<br>
+      NO UPCOMING EVENTS
+    </div>
+    <div class="request-box">
+      <div class="request-title">Live Request</div>
+      <div class="request-desc">あなたの街でライブしてほしい、こんなイベントに出てほしい等の<br>リクエストがあればお聞かせください。</div>
+      <form id="request-form">
+        <div class="form-group">
+          <label class="form-label">名前 <span class="req">*</span></label>
+          <input type="text" id="r-name" placeholder="お名前" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email <span class="req">*</span></label>
+          <input type="email" id="r-email" placeholder="your@email.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">リクエスト内容 <span class="req">*</span></label>
+          <textarea id="r-message" placeholder="例：大阪でライブしてほしい / ○○のイベントに出てほしい" required></textarea>
+        </div>
+        <div class="btn-row">
+          <button type="submit" class="btn">リクエストを送信</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="footer">
+    <a href="https://takeda-mei.com">← takeda-mei.com</a>
+  </div>
+</div>
+
+<script>
+// ============================================================
+//  設定
+// ============================================================
+const BIT_ARTIST = '武田 鳴';
+const BIT_APP_ID = '610e81a3e048378adaaea829de59f64b';
+const MAILTO = 'maitakedev@gmail.com';
+
+// description フォーマット:
+//   OPEN:18:00 | START:18:30 | ADV:2500 | DOOR:3000 | NOTE:+1D
+//   または PRICE:前売 ¥2,500 / 当日 ¥3,000（+1D）
+
+const OVERRIDES = {};
+const MANUAL_EVENTS = [];
+
+// ============================================================
+const DAYS_JP = ['日','月','火','水','木','金','土'];
+let allEvents = [];
+let selectedEvent = null;
+
+// ── description パース ──
+function parseDescription(desc) {
+  if (!desc) return {};
+  const result = {};
+  const parts = desc.split('|').map(s => s.trim());
+  let adv = '', door = '', note = '';
+
+  for (const part of parts) {
+    let m;
+    if ((m = part.match(/^OPEN\s*[:：]\s*(.+)/i))) result.open = m[1].trim();
+    else if ((m = part.match(/^START\s*[:：]\s*(.+)/i))) result.start = m[1].trim();
+    else if ((m = part.match(/^PRICE\s*[:：]\s*(.+)/i))) result.price = m[1].trim();
+    else if ((m = part.match(/^ADV\s*[:：]\s*(.+)/i))) adv = m[1].trim();
+    else if ((m = part.match(/^DOOR\s*[:：]\s*(.+)/i))) door = m[1].trim();
+    else if ((m = part.match(/^NOTE\s*[:：]\s*(.+)/i))) note = m[1].trim();
+  }
+
+  // ADV/DOOR → price文字列
+  if (!result.price && (adv || door)) {
+    const p = [];
+    if (adv) p.push(`前売 ¥${Number(adv).toLocaleString()}`);
+    if (door) p.push(`当日 ¥${Number(door).toLocaleString()}`);
+    result.price = p.join(' / ');
+    if (note) result.price += `（${note}）`;
+  }
+
+  // フォールバック: ¥数字 を拾う（元のコードと同じロジック）
+  if (!result.price && desc) {
+    const priceMatch = desc.match(/¥(\d{1,6})/g);
+    if (priceMatch && priceMatch.length >= 2) {
+      const a = parseInt(priceMatch[0].replace('¥',''));
+      const d = parseInt(priceMatch[1].replace('¥',''));
+      result.price = `前売 ¥${a.toLocaleString()} / 当日 ¥${d.toLocaleString()}`;
+    } else if (priceMatch && priceMatch.length === 1) {
+      const a = parseInt(priceMatch[0].replace('¥',''));
+      result.price = `¥${a.toLocaleString()}`;
     }
+  }
 
-    // Bandsintown APIからイベント情報を取得
-    async function fetchBandsintownEvents() {
-      try {
-        const encodedArtist = encodeURIComponent(BANDSINTOWN_CONFIG.artistName);
-        const url = `${BANDSINTOWN_CONFIG.apiUrl}/${encodedArtist}/events?app_id=${BANDSINTOWN_CONFIG.appId}`;
-        
-        console.log('Fetching events from Bandsintown API...', url);
-        showApiStatus('Fetching events...', 'info');
-        
-        const response = await fetch(url);
-        
-        if (!response.ok) {
-          if (response.status === 404) {
-            throw new Error(`Artist "${BANDSINTOWN_CONFIG.artistName}" not found on Bandsintown.`);
-          }
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const bandsintownEvents = await response.json();
-        console.log('Bandsintown API response:', bandsintownEvents);
-        showApiStatus('Connected to Bandsintown', 'success');
-        
-        if (!Array.isArray(bandsintownEvents) || bandsintownEvents.length === 0) {
-          console.log('No events found on Bandsintown, using fallback data');
-          showApiStatus('No events on Bandsintown', 'error');
-          return BANDSINTOWN_CONFIG.fallbackEvents;
-        }
-        
-        console.log('Found', bandsintownEvents.length, 'events on Bandsintown');
-        showApiStatus(`Found ${bandsintownEvents.length} events`, 'success');
-        
-        const convertedEvents = bandsintownEvents.map((event, index) => {
-          return convertBandsintownEvent(event, index);
-        }).filter(event => event !== null);
-        
-        console.log('Successfully converted', convertedEvents.length, 'events');
-        return convertedEvents;
-        
-      } catch (error) {
-        console.warn('Bandsintown API error:', error.message);
-        showApiStatus('Using offline data', 'error');
-        return BANDSINTOWN_CONFIG.fallbackEvents;
-      }
-    }
+  return result;
+}
 
-    // Bandsintownのイベントデータをアプリケーション用に変換
-    function convertBandsintownEvent(btEvent, index = 0) {
-      try {
-        const eventDate = new Date(btEvent.starts_at || btEvent.datetime);
-        if (isNaN(eventDate.getTime())) {
-          console.error('Invalid date:', btEvent.starts_at || btEvent.datetime);
-          return null;
-        }
-        
-        const dateStr = eventDate.toISOString().split('T')[0];
-        const startTime = eventDate.toTimeString().slice(0, 5);
-        
-        const openDate = new Date(eventDate.getTime() - 30 * 60 * 1000);
-        const openTime = openDate.toTimeString().slice(0, 5);
-        
-            let advancePrice = 2500;
-    let doorPrice = 3000;
-    
-    if (btEvent.description) {
-      const priceMatch = btEvent.description.match(/¥(\d{1,5})/g);
-      if (priceMatch && priceMatch.length >= 2) {
-        advancePrice = parseInt(priceMatch[0].replace('¥', ''));
-        doorPrice = parseInt(priceMatch[1].replace('¥', ''));
-      }
-    }
+function formatDate(dateStr) {
+  const d = new Date(dateStr + 'T00:00:00');
+  if (isNaN(d)) return { full: dateStr, dow: '' };
+  return {
+    full: `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`,
+    dow: DAYS_JP[d.getDay()]
+  };
+}
 
+function isPast(dateStr) {
+  const today = new Date(); today.setHours(0,0,0,0);
+  return new Date(dateStr + 'T00:00:00') < today;
+}
 
-        const converted = {
-          id: btEvent.id || `bt-event-${index}`,
-          title: btEvent.title || btEvent.description || 'Live Performance',
-          date: dateStr,
-          venue: btEvent.venue ? btEvent.venue.name : 'TBD',
-          city: btEvent.venue ? btEvent.venue.city : 'TBD',
-          time: {
-            open: openTime,
-            start: startTime
-          },
-          price: {
-            advance: advancePrice,
-            door: doorPrice
-          }
-        };
-        
-        return converted;
-        
-      } catch (error) {
-        console.error('Error converting Bandsintown event:', error, btEvent);
-        return null;
-      }
-    }
+// ── Bandsintown API ──
+async function fetchBITEvents() {
+  try {
+    const url = `https://rest.bandsintown.com/artists/${encodeURIComponent(BIT_ARTIST)}/events?app_id=${BIT_APP_ID}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    if (!Array.isArray(data)) return [];
 
-    // イベント選択処理
-    function selectEvent(eventId) {
-      console.log('Selecting event:', eventId);
-      
-      // 全てのイベントカードから選択状態を削除
-      const allEventCards = document.querySelectorAll('.event-card');
-      for (let i = 0; i < allEventCards.length; i++) {
-        allEventCards[i].classList.remove('selected');
-      }
-      
-      // 指定されたイベントカードを選択状態にする
-      const selectedCard = document.querySelector(`.event-card[data-event-id="${eventId}"]`);
-      if (selectedCard) {
-        selectedCard.classList.add('selected');
-        console.log('Event card selected successfully');
+    return data.map(ev => {
+      const parsed = parseDescription(ev.description || '');
+      const override = OVERRIDES[String(ev.id)] || {};
+      const dt = new Date(ev.datetime);
+      const dateOnly = `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
+      const startTime = `${String(dt.getHours()).padStart(2,'0')}:${String(dt.getMinutes()).padStart(2,'0')}`;
+
+      // open = descriptionから、なければ開演30分前
+      let openTime = parsed.open || '';
+      if (!openTime && startTime !== '00:00') {
+        const openDt = new Date(dt.getTime() - 30 * 60 * 1000);
+        openTime = `${String(openDt.getHours()).padStart(2,'0')}:${String(openDt.getMinutes()).padStart(2,'0')}`;
       }
 
-      selectedEvent = EVENTS.find(event => event.id === eventId);
-      if (selectedEvent) {
-        updateBookingSection(selectedEvent);
-        const bookingSection = $('#bookingSection');
-        if (bookingSection) {
-          bookingSection.classList.add('show');
-          
-          setTimeout(() => {
-            bookingSection.scrollIntoView({ 
-              behavior: 'smooth', 
-              block: 'start' 
-            });
-          }, 100);
-        }
-      }
-    }
+      let venueName = ev.venue?.name || '';
+      const city = ev.venue?.city || '';
+      if (city) venueName += `（${city}）`;
 
-    // 予約セクション更新
-    function updateBookingSection(event) {
-      const { month, day } = formatDate(event.date);
-      
-      const eventSummary = $('#eventSummary');
-      if (eventSummary) {
-        eventSummary.innerHTML = `
-          <div class="summary-title">${event.title}</div>
-          <div class="summary-details">
-            ${month} ${day} at ${event.venue}, ${event.city}<br>
-            Open ${event.time.open} / Start ${event.time.start}<br>
-            Advance ¥${event.price.advance.toLocaleString()} / Door ¥${event.price.door.toLocaleString()}
-          </div>
-        `;
-      }
-      
-      const eventTitleField = $('#eventTitle');
-      const eventDateField = $('#eventDate');
-      const eventVenueField = $('#eventVenue');
-      
-      if (eventTitleField) eventTitleField.value = event.title;
-      if (eventDateField) eventDateField.value = event.date;
-      if (eventVenueField) eventVenueField.value = `${event.venue}, ${event.city}`;
-    }
-
-    // フォームバリデーション関数
-    function validateForm() {
-      console.log('=== フォームバリデーション開始 ===');
-      
-      const nameField = $('#name');
-      const emailField = $('#email');
-      const ticketsField = $('#tickets');
-      const verificationField = $('#verification');
-      
-      // フィールドの存在確認
-      if (!nameField || !emailField || !ticketsField || !verificationField) {
-        console.error('必須フィールドが見つかりません');
-        return false;
-      }
-      
-      // 値の取得と確認
-      const name = nameField.value.trim();
-      const email = emailField.value.trim();
-      const tickets = ticketsField.value;
-      const verification = verificationField.value.trim();
-      
-      console.log('フィールド値:', { name, email, tickets, verification });
-      
-      // 必須項目チェック
-      if (!name) {
-        showStatus('名前を入力してください', 'error');
-        nameField.focus();
-        return false;
-      }
-      
-      if (!email) {
-        showStatus('メールアドレスを入力してください', 'error');
-        emailField.focus();
-        return false;
-      }
-      
-      if (!tickets) {
-        showStatus('チケット枚数を選択してください', 'error');
-        ticketsField.focus();
-        return false;
-      }
-      
-      // メールアドレス形式チェック
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        showStatus('有効なメールアドレスを入力してください', 'error');
-        emailField.focus();
-        return false;
-      }
-      
-      // 確認問題チェック
-      if (verification !== '7') {
-        showStatus('確認問題の答えが正しくありません (3 + 4 = 7)', 'error');
-        verificationField.focus();
-        return false;
-      }
-      
-      console.log('バリデーション成功');
-      return true;
-    }
-
-    // フォーム送信処理（修正版）
-    function handleFormSubmit(e) {
-      e.preventDefault(); // まず送信を停止
-      console.log('=== フォーム送信開始 ===');
-      
-      // バリデーション実行
-      if (!validateForm()) {
-        console.log('バリデーション失敗');
-        return;
-      }
-      
-      console.log('バリデーション成功 - 送信を実行');
-      showStatus('送信中...', 'success');
-      
-      // フォームデータを取得
-      const form = e.target;
-      const formData = new FormData(form);
-      
-      // Googleフォームに直接POST送信（fetch使用）
-      fetch(form.action, {
-        method: 'POST',
-        body: formData,
-        mode: 'no-cors' // CORS制限を回避
-      }).then(() => {
-        console.log('Googleフォームへの送信完了');
-      }).catch((error) => {
-        console.log('送信処理:', error);
-        // no-corsモードではエラーが発生することがあるが、実際には送信されている
-      });
-      
-      // 送信完了後、成功ページへ遷移
-      setTimeout(() => {
-        console.log('成功ページへ遷移開始');
-        
-        if (selectedEvent) {
-          const eventParams = new URLSearchParams({
-            event: selectedEvent.title,
-            date: selectedEvent.date,
-            venue: selectedEvent.venue,
-            city: selectedEvent.city
-          });
-          
-          window.location.href = `success.html?${eventParams.toString()}`;
-        } else {
-          window.location.href = 'success.html';
-        }
-      }, 1500);
-      
-      console.log('フォーム送信実行完了');
-    }
-
-    // メール送信処理
-    function handleMailSubmit() {
-      console.log('=== メール送信開始 ===');
-      
-      if (!selectedEvent) {
-        showStatus('イベントを選択してください', 'error');
-        return;
-      }
-      
-      if (!validateForm()) {
-        console.log('メール送信 - バリデーション失敗');
-        return;
-      }
-      
-      const form = $('#reservationForm');
-      const formData = new FormData(form);
-      const data = Object.fromEntries(formData.entries());
-      
-      const subject = `[チケット予約] ${selectedEvent.title}`;
-      const body = `
-イベント: ${selectedEvent.title}
-日程: ${selectedEvent.date}
-会場: ${selectedEvent.venue}, ${selectedEvent.city}
-枚数: ${data.tickets || '未選択'}枚
-
-氏名: ${data.name || ''}
-メール: ${data.email || ''}
-メッセージ: ${data.message || ''}
-      `.trim();
-      
-      const mailtoUrl = `mailto:info@takeda-mei.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      window.location.href = mailtoUrl;
-      console.log('メールクライアント起動');
-    }
-
-    // ステータス表示
-    function showStatus(message, type = 'success') {
-      console.log(`ステータス表示: ${message} (${type})`);
-      const status = $('#formStatus');
-      if (status) {
-        status.textContent = message;
-        status.className = `status ${type}`;
-        status.style.display = 'block';
-        
-        setTimeout(() => {
-          status.style.display = 'none';
-        }, 5000);
-      }
-    }
-
-    // イベントリスナー設定
-    function setupEventListeners() {
-      console.log('=== イベントリスナー設定開始 ===');
-      
-      // イベントカードのクリックイベント（for文を使用）
-      const eventCards = document.querySelectorAll('.event-card');
-      console.log(`見つかったイベントカード数: ${eventCards.length}`);
-      
-      if (eventCards.length > 0) {
-        for (let i = 0; i < eventCards.length; i++) {
-          const card = eventCards[i];
-          const eventId = card.dataset.eventId;
-          
-          console.log(`イベントカード${i + 1}にリスナー設定: ${eventId}`);
-          
-          card.addEventListener('click', function() {
-            console.log(`イベントカード${i + 1}がクリックされました: ${eventId}`);
-            selectEvent(eventId);
-          });
-        }
-        console.log(`${eventCards.length}個のイベントカードにリスナー設定完了`);
-      } else {
-        console.error('イベントカードが見つかりません');
-        // 再試行
-        setTimeout(() => {
-          console.log('イベントリスナー設定を再試行...');
-          setupEventListeners();
-        }, 500);
-        return;
-      }
-      
-      // フォーム送信イベント
-      const form = $('#reservationForm');
-      if (form) {
-        form.addEventListener('submit', handleFormSubmit);
-        console.log('フォーム送信リスナー設定完了');
-      } else {
-        console.error('フォーム要素が見つかりません');
-      }
-      
-      // メール送信ボタンイベント
-      const mailBtn = $('#mailBtn');
-      if (mailBtn) {
-        mailBtn.addEventListener('click', handleMailSubmit);
-        console.log('メール送信ボタンリスナー設定完了');
-      } else {
-        console.error('メール送信ボタンが見つかりません');
-      }
-    }
-
-    // 初期化
-    async function init() {
-      console.log('=== アプリケーション初期化開始 ===');
-      showLoading();
-      
-      try {
-        console.log('Bandsintown API fetch開始...');
-        const events = await fetchBandsintownEvents();
-        
-        EVENTS = events.filter(event => event !== null);
-        console.log('最終EVENTS配列:', EVENTS);
-
-        if (EVENTS.length === 0) {
-          const eventsGrid = $('#eventsGrid');
-          eventsGrid.innerHTML = `
-            <div style="text-align: center; padding: 40px; color: var(--gray);">
-              <div>📅 No upcoming events</div>
-              <div style="font-size: 12px; margin-top: 10px;">
-                Check back soon for new tour dates!
-              </div>
-            </div>
-          `;
-          return;
-        }
-
-        // イベントを日付順にソート
-        EVENTS.sort((a, b) => new Date(a.date) - new Date(b.date));
-        
-        // イベントカード生成
-        const eventsGrid = $('#eventsGrid');
-        if (eventsGrid) {
-          eventsGrid.innerHTML = EVENTS.map(createEventCard).join('');
-          console.log('イベントカード生成完了');
-          
-          // DOM更新を待ってからイベントリスナー設定
-          setTimeout(() => {
-            setupEventListeners();
-          }, 100);
-        }
-
-        console.log(`${EVENTS.length}個のイベントの読み込み完了`);
-        
-      } catch (error) {
-        console.error('初期化エラー:', error);
-        
-        // フォールバック処理
-        console.log('フォールバックデータを使用');
-        EVENTS = [...BANDSINTOWN_CONFIG.fallbackEvents];
-        
-        if (EVENTS.length > 0) {
-          setTimeout(() => {
-            const eventsGrid = $('#eventsGrid');
-            if (eventsGrid) {
-              eventsGrid.innerHTML = EVENTS.map(createEventCard).join('');
-              
-              setTimeout(() => {
-                setupEventListeners();
-              }, 100);
-            }
-          }, 1000);
-        }
-      }
-    }
-
-    // DOMが読み込まれたら初期化実行
-    document.addEventListener('DOMContentLoaded', function() {
-      console.log('DOM読み込み完了 - 初期化開始');
-      init();
+      return {
+        id: String(ev.id),
+        date: dateOnly,
+        title: ev.title || '',
+        venue: override.venue || venueName,
+        city: city,
+        open: override.open || openTime,
+        start: override.start || parsed.start || startTime,
+        price: override.price || parsed.price || '',
+        acts: override.acts || (ev.lineup?.length > 0 ? ev.lineup : ['武田鳴']),
+      };
     });
+  } catch (err) {
+    console.error('Bandsintown fetch error:', err);
+    return null;
+  }
+}
 
-  <!-- グローバル変数とiframeを削除 -->
+// ── レンダリング ──
+function renderEvents() {
+  const container = document.getElementById('event-container');
+  const upcoming = allEvents.filter(e => !isPast(e.date));
+  const past = allEvents.filter(e => isPast(e.date));
+  const sorted = [...upcoming, ...past];
 
-  </script>
+  if (upcoming.length === 0) {
+    document.getElementById('event-section').style.display = 'none';
+    document.getElementById('request-section').classList.add('active');
+    return;
+  }
 
+  container.innerHTML = sorted.map((ev, i) => {
+    const { full, dow } = formatDate(ev.date);
+    const ended = isPast(ev.date);
+
+    let metaHTML = '';
+    if (ev.open || ev.start || ev.price) {
+      metaHTML = '<div class="event-meta">';
+      if (ev.open) metaHTML += `<div class="meta-item"><span class="meta-label">Open</span><span class="meta-value">${ev.open}</span></div>`;
+      if (ev.start) metaHTML += `<div class="meta-item"><span class="meta-label">Start</span><span class="meta-value">${ev.start}</span></div>`;
+      if (ev.price) metaHTML += `<div class="meta-item"><span class="meta-label">Price</span><span class="meta-value">${ev.price}</span></div>`;
+      metaHTML += '</div>';
+    }
+
+    const titleHTML = ev.title ? `<div class="event-title-text">${ev.title}</div>` : '';
+
+    return `
+      <div class="event-card ${ended ? 'past' : ''}" data-index="${i}" onclick="${ended ? '' : `selectEvent(${i})`}">
+        <div class="event-date-row">
+          <span class="event-date">${full}</span>
+          <span class="event-day">${dow}</span>
+        </div>
+        ${titleHTML}
+        <div class="event-venue">${ev.venue}</div>
+        ${metaHTML}
+        <div class="event-acts"><strong>出演:</strong> ${ev.acts.join(' / ')}</div>
+      </div>`;
+  }).join('');
+}
+
+function selectEvent(index) {
+  const upcoming = allEvents.filter(e => !isPast(e.date));
+  const past = allEvents.filter(e => isPast(e.date));
+  selectedEvent = [...upcoming, ...past][index];
+  if (!selectedEvent || isPast(selectedEvent.date)) return;
+
+  document.querySelectorAll('.event-card').forEach((el, i) => el.classList.toggle('selected', i === index));
+
+  // サマリー表示
+  const { full, dow } = formatDate(selectedEvent.date);
+  let html = `<div class="summary-line"><span class="summary-label">Date</span><span class="summary-value">${full}（${dow}）</span></div>`;
+  html += `<div class="summary-line"><span class="summary-label">Venue</span><span class="summary-value">${selectedEvent.venue}</span></div>`;
+  if (selectedEvent.open || selectedEvent.start) {
+    html += `<div class="summary-line"><span class="summary-label">Open / Start</span><span class="summary-value">${[selectedEvent.open, selectedEvent.start].filter(Boolean).join(' / ')}</span></div>`;
+  }
+  if (selectedEvent.price) {
+    html += `<div class="summary-line"><span class="summary-label">Price</span><span class="summary-value">${selectedEvent.price}</span></div>`;
+  }
+  document.getElementById('selected-summary').innerHTML = html;
+
+  // 隠しフィールドにイベント情報をセット
+  document.getElementById('f-event-title').value = selectedEvent.title || `${full} ${selectedEvent.venue}`;
+  document.getElementById('f-event-date').value = selectedEvent.date;
+  document.getElementById('f-event-venue').value = selectedEvent.venue;
+
+  document.getElementById('event-section').style.display = 'none';
+  document.getElementById('form-section').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showEvents() {
+  document.getElementById('event-section').style.display = '';
+  document.getElementById('form-section').classList.remove('active');
+  selectedEvent = null;
+  document.querySelectorAll('.event-card').forEach(el => el.classList.remove('selected'));
+}
+
+function showStatus(msg, type) {
+  const el = document.getElementById('formStatus');
+  el.textContent = msg;
+  el.className = `status-msg ${type}`;
+  setTimeout(() => { el.style.display = 'none'; el.className = 'status-msg'; }, 5000);
+}
+
+// ── Google Form 送信 ──
+document.getElementById('reservationForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  // バリデーション
+  const verify = document.getElementById('f-verify').value.trim();
+  if (verify !== '7') {
+    showStatus('確認問題の答えが正しくありません (3 + 4 = 7)', 'error');
+    document.getElementById('f-verify').focus();
+    return;
+  }
+
+  if (!selectedEvent) {
+    showStatus('イベントを選択してください', 'error');
+    return;
+  }
+
+  showStatus('送信中...', 'success');
+
+  const form = e.target;
+  const formData = new FormData(form);
+
+  // Google Form に POST（no-cors）
+  fetch(form.action, {
+    method: 'POST',
+    body: formData,
+    mode: 'no-cors'
+  }).then(() => {
+    console.log('Google Form 送信完了');
+  }).catch((err) => {
+    console.log('送信処理:', err);
+  });
+
+  // 成功ページへ遷移
+  setTimeout(() => {
+    if (selectedEvent) {
+      const params = new URLSearchParams({
+        event: selectedEvent.title || '',
+        date: selectedEvent.date,
+        venue: selectedEvent.venue,
+        city: selectedEvent.city || ''
+      });
+      window.location.href = `thanks-form.html?${params.toString()}`;
+    } else {
+      window.location.href = 'thanks-form.html';
+    }
+  }, 1500);
+});
+
+// ── メール送信 ──
+document.getElementById('mailBtn').addEventListener('click', function() {
+  if (!selectedEvent) { showStatus('イベントを選択してください', 'error'); return; }
+
+  const verify = document.getElementById('f-verify').value.trim();
+  if (verify !== '7') { showStatus('確認問題の答えが正しくありません', 'error'); return; }
+
+  const name = document.getElementById('f-name').value;
+  const email = document.getElementById('f-email').value;
+  const tickets = document.getElementById('f-tickets').value;
+  const message = document.getElementById('f-message').value;
+  const { full } = formatDate(selectedEvent.date);
+
+  const subject = encodeURIComponent(`【チケット予約】${selectedEvent.title || full + ' ' + selectedEvent.venue}`);
+  const body = encodeURIComponent(
+    `チケット予約\n────────────────\n` +
+    `日程: ${full}\n会場: ${selectedEvent.venue}\n` +
+    (selectedEvent.open ? `開場: ${selectedEvent.open}\n` : '') +
+    (selectedEvent.start ? `開演: ${selectedEvent.start}\n` : '') +
+    (selectedEvent.price ? `料金: ${selectedEvent.price}\n` : '') +
+    `────────────────\n` +
+    `名前: ${name}\nEmail: ${email}\n枚数: ${tickets}\n` +
+    (message ? `メッセージ: ${message}\n` : '') +
+    `────────────────\n`
+  );
+  window.location.href = `mailto:${MAILTO}?subject=${subject}&body=${body}`;
+});
+
+// ── ライブリクエスト送信 ──
+document.getElementById('request-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const name = document.getElementById('r-name').value;
+  const email = document.getElementById('r-email').value;
+  const message = document.getElementById('r-message').value;
+  const subject = encodeURIComponent(`【ライブリクエスト】${name}`);
+  const body = encodeURIComponent(`ライブリクエスト\n────────────────\n名前: ${name}\nEmail: ${email}\n\n${message}\n────────────────\n`);
+  window.location.href = `mailto:${MAILTO}?subject=${subject}&body=${body}`;
+});
+
+// ── 初期化 ──
+async function init() {
+  const bitEvents = await fetchBITEvents();
+  allEvents = bitEvents === null ? [...MANUAL_EVENTS] : [...bitEvents, ...MANUAL_EVENTS];
+  allEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
+  renderEvents();
+}
+
+init();
+</script>
 </body>
 </html>
