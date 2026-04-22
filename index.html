@@ -724,9 +724,10 @@
             <div class="title">MEI TAKEDA [1+1.=V.]</div>
             <div class="controls">
                 <button class="mono-button" id="micButton">MIC</button>
-                <button class="mono-button" id="playButton">PLAY</button>
-                <button class="mono-button" id="stopButton">STOP</button>
-                <button class="mono-button" id="bandcampButton">BANDCAMP</button>
+                <button class="mono-button" id="playButton">▶︎</button>
+                <button class="mono-button" id="stopButton">▫️</button>
+                <button class="mono-button" id="bandcampButton">LISTEN</button>
+                  <button class="mono-button" id="scheduleButton">SCHEDULE</button>
                 <button class="mono-button" id="contactButton">CONTACT</button>
             </div>
         </div>
@@ -1438,7 +1439,8 @@
                 setupButton('micButton', () => this.startMicrophone());
                 setupButton('playButton', () => this.togglePlayback());
                 setupButton('stopButton', () => this.stop());
-                setupButton('bandcampButton', () => window.open('https://mei-takeda.bandcamp.com/', '_blank'));
+                setupButton('bandcampButton', () => window.open('/listen.html', '_blank'));
+                setupButton('scheduleButton', () => window.open('/ticket-form.html', '_blank'));
                 setupButton('contactButton', () =>  window.open('https://forms.gle/1pbT5vwbirb6d1KQ6', '_blank'));
                 this.setupFileInput('fileArea', 'fileInput');
                 this.setupFileInput('fileAreaMobile', 'fileInputMobile');

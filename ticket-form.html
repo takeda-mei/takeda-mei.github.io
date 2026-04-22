@@ -161,9 +161,69 @@
     .summary-value { text-align:left; }
     .form-row { grid-template-columns:1fr; }
   }
+
+.nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 0 20px;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+    z-index: 1000;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+  }
+  .nav__logo { font-weight: 500; white-space: nowrap; flex-shrink: 0; }
+  .nav__logo .dim { color: var(--dim); }
+
+  .nav__links { display: flex; gap: 24px; list-style: none; }
+  .nav__links a { color: var(--dim); transition: color 0.15s; padding: 4px 0; }
+  .nav__links a:hover,
+  .nav__links a[aria-current="page"] { color: var(--fg); }
+  .nav__links a[aria-current="page"]::before {
+    content: ""; display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--accent);
+    margin-right: 6px;
+    vertical-align: middle;
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 640px) {
+    .nav { padding: 0 12px; font-size: 10px; gap: 10px; }
+    .nav__logo .full { display: none; }
+    .nav__logo .short { display: inline; }
+    .nav__links { gap: 14px; }
+  }
+  @media (min-width: 641px) { .nav__logo .short { display: none; } }
+  @media (max-width: 380px) {
+    .nav { padding: 0 10px; gap: 8px; }
+    .nav__links { gap: 10px; }
+  }
+
+  
 </style>
 </head>
 <body>
+
+<nav class="nav" aria-label="primary">
+  <a href="/" class="nav__logo">
+    <span class="full">MEI TAKEDA <span class="dim">[1+1.=V.]</span></span>
+    <span class="short">MEI.T <span class="dim">[1+1.=V.]</span></span>
+  </a>
+  <ul class="nav__links">
+    <li><a href="/listen.html" aria-current="page">LISTEN</a></li>
+    <li><a href="/ticket-form.html">SCHEDULE</a></li>
+    <li><a href="https://forms.gle/1pbT5vwbirb6d1KQ6" target="_blank" >CONTACT</a></li>
+  </ul>
+</nav>
+
 
 <div class="container">
   <div class="header">
@@ -287,8 +347,10 @@ const BIT_APP_ID = '610e81a3e048378adaaea829de59f64b';
 const MAILTO = 'maitakedev@gmail.com';
 
 // description フォーマット:
-//   OPEN:18:00 | START:18:30 | ADV:2500 | DOOR:3000 | NOTE:+1D
-//   または PRICE:前売 ¥2,500 / 当日 ¥3,000（+1D）
+//   OPEN:18:30 | START:19:00 | ADV:2000 | DOOR:2500 | NOTE:+1Drink ¥500 | VENUE:京都livehouse nano | ACTS:武田 鳴, ゲスト1, ゲスト2
+//   - VENUE, ACTS は任意（省略可）
+//   - ACTS は , / 、 / ， のいずれかで区切り
+//   - VENUE が指定された場合、Bandsintown の title 末尾の "@◯◯" サフィックスは自動除去される
 
 const OVERRIDES = {};
 const MANUAL_EVENTS = [];
@@ -313,6 +375,8 @@ function parseDescription(desc) {
     else if ((m = part.match(/^ADV\s*[:：]\s*(.+)/i))) adv = m[1].trim();
     else if ((m = part.match(/^DOOR\s*[:：]\s*(.+)/i))) door = m[1].trim();
     else if ((m = part.match(/^NOTE\s*[:：]\s*(.+)/i))) note = m[1].trim();
+    else if ((m = part.match(/^VENUE\s*[:：]\s*(.+)/i))) result.venue = m[1].trim();
+    else if ((m = part.match(/^ACTS?\s*[:：]\s*(.+)/i))) result.acts = m[1].trim();
   }
 
   // ADV/DOOR → price文字列
@@ -377,20 +441,41 @@ async function fetchBITEvents() {
         openTime = `${String(openDt.getHours()).padStart(2,'0')}:${String(openDt.getMinutes()).padStart(2,'0')}`;
       }
 
-      let venueName = ev.venue?.name || '';
+      // venue: description の VENUE 優先、なければ Bandsintown の venue.name
       const city = ev.venue?.city || '';
-      if (city) venueName += `（${city}）`;
+      const baseVenueName = parsed.venue || ev.venue?.name || '';
+      let venueName = baseVenueName;
+      if (city && baseVenueName && !baseVenueName.includes(city)) {
+        venueName += `（${city}）`;
+      }
+
+      // title: VENUE が description にあるときだけ、末尾の "@◯◯" を除去
+      //        （Bandsintown 側で title と venue.name に同じ "イベント名@会場" を入れている場合の重複回避）
+      let titleClean = ev.title || '';
+      if (parsed.venue) {
+        titleClean = titleClean.replace(/\s*[@＠][^@＠]+$/, '').trim();
+      }
+
+      // acts: description の ACTS 優先、なければ Bandsintown lineup、それもなければ武田鳴
+      let actsList;
+      if (parsed.acts) {
+        actsList = parsed.acts.split(/[,、，]/).map(s => s.trim()).filter(Boolean);
+      } else if (Array.isArray(ev.lineup) && ev.lineup.length > 0) {
+        actsList = ev.lineup;
+      } else {
+        actsList = ['武田鳴'];
+      }
 
       return {
         id: String(ev.id),
         date: dateOnly,
-        title: ev.title || '',
+        title: titleClean,
         venue: override.venue || venueName,
         city: city,
         open: override.open || openTime,
         start: override.start || parsed.start || startTime,
         price: override.price || parsed.price || '',
-        acts: override.acts || (ev.lineup?.length > 0 ? ev.lineup : ['武田鳴']),
+        acts: override.acts || actsList,
       };
     });
   } catch (err) {
@@ -425,7 +510,10 @@ function renderEvents() {
       metaHTML += '</div>';
     }
 
-    const titleHTML = ev.title ? `<div class="event-title-text">${ev.title}</div>` : '';
+    // title と venue（都市名サフィックス除去後）が同一なら title は出さない（重複防止）
+    const venueBare = (ev.venue || '').replace(/（[^）]+）\s*$/, '').trim();
+    const showTitle = ev.title && ev.title.trim() !== venueBare;
+    const titleHTML = showTitle ? `<div class="event-title-text">${ev.title}</div>` : '';
 
     return `
       <div class="event-card ${ended ? 'past' : ''}" data-index="${i}" onclick="${ended ? '' : `selectEvent(${i})`}">

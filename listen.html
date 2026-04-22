@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- YouTube embed の Error 153 (Video player configuration error) 対策。
+     ページ全体の referrer policy を明示することで Referer ヘッダが
+     正しく送信されるようにする。
+     これがないと youtube-nocookie でも youtube.com でも Error 153 が発生する。 -->
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<title>LISTEN — MEI TAKEDA [1+1.=V.]</title>
+<meta name="description" content="武田 鳴 audio releases. Spotify, Bandcamp, Apple Music, YouTube.">
+<meta property="og:title" content="LISTEN — MEI TAKEDA [1+1.=V.]">
+<meta property="og:description" content="武田 鳴 audio releases.">
+<meta property="og:type" content="music.musician">
+<meta property="og:url" content="https://takeda-mei.com/listen.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #000;
+    --fg: #fff;
+    --dim: #666;
+    --line: #222;
+    --accent: #00ff66;
+    --warn: #ff3300;
+    --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  body { min-height: 100vh; padding-top: 48px; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: var(--accent); }
+
+  /* ============================================================
+     TOP NAV
+     ============================================================ */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 0 20px;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+    z-index: 1000;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+  }
+  .nav__logo { font-weight: 500; white-space: nowrap; flex-shrink: 0; }
+  .nav__logo .dim { color: var(--dim); }
+
+  .nav__links { display: flex; gap: 24px; list-style: none; }
+  .nav__links a { color: var(--dim); transition: color 0.15s; padding: 4px 0; }
+  .nav__links a:hover,
+  .nav__links a[aria-current="page"] { color: var(--fg); }
+  .nav__links a[aria-current="page"]::before {
+    content: ""; display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--accent);
+    margin-right: 6px;
+    vertical-align: middle;
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 640px) {
+    .nav { padding: 0 12px; font-size: 10px; gap: 10px; }
+    .nav__logo .full { display: none; }
+    .nav__logo .short { display: inline; }
+    .nav__links { gap: 14px; }
+  }
+  @media (min-width: 641px) { .nav__logo .short { display: none; } }
+  @media (max-width: 380px) {
+    .nav { padding: 0 10px; gap: 8px; }
+    .nav__links { gap: 10px; }
+  }
+
+  /* ============================================================
+     MAIN
+     ============================================================ */
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  .page-header {
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+  }
+  .page-header__id { color: var(--dim); font-size: 10px; letter-spacing: 0.15em; }
+  .page-header__title {
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    margin-top: 4px;
+  }
+  .page-header__meta {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+    font-size: 11px;
+    color: var(--dim);
+    flex-wrap: wrap;
+  }
+  .page-header__meta span::before { content: "▸ "; color: var(--accent); }
+
+  section { margin-bottom: 56px; }
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--dim);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::before {
+    content: "";
+    display: inline-block;
+    width: 8px; height: 8px;
+    background: var(--accent);
+  }
+  .section-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  /* ============================================================
+     EMBED CARDS (Spotify)
+     ============================================================ */
+  .embed {
+    background: #0a0a0a;
+    border: 1px solid var(--line);
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .embed__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--dim);
+  }
+  .embed__head strong { color: var(--fg); font-weight: 500; }
+  .embed__body { padding: 0; line-height: 0; }
+  .embed__body iframe {
+    display: block;
+    width: 100%;
+    border: 0;
+  }
+
+  .embed--spotify-artist iframe { height: 352px; }
+
+  /* ============================================================
+     RELEASE BLOCK
+     ============================================================ */
+  .release {
+    margin-bottom: 40px;
+    border: 1px solid var(--line);
+    background: #0a0a0a;
+  }
+  .release__meta {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 16px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--line);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+    align-items: center;
+  }
+  .release__date { color: var(--accent); }
+  .release__title { color: var(--fg); font-weight: 500; font-size: 12px; }
+  .release__title-en {
+    color: var(--dim);
+    font-size: 10px;
+    font-weight: 400;
+    margin-left: 6px;
+  }
+  .release__type {
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border: 1px solid var(--line);
+  }
+
+  /* Bandcamp embed */
+  .release__embed {
+    padding: 20px;
+    background: #000;
+    display: flex;
+    justify-content: center;
+  }
+  .release__embed iframe {
+    display: block;
+    width: 100%;
+    max-width: 480px;
+    aspect-ratio: 4 / 5;
+    min-height: 420px;
+    border: 0;
+  }
+
+  /* YouTube embed (for video release) */
+  .release__video {
+    background: #000;
+    line-height: 0;
+  }
+  .release__video iframe {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+  }
+
+  .release__smartlink {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px;
+    border-top: 1px solid var(--line);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--dim);
+    transition: background 0.15s, color 0.15s;
+  }
+  a.release__smartlink:hover { background: #111; color: var(--accent); }
+  .release__smartlink strong { color: var(--fg); font-weight: 500; }
+  .release__smartlink::after { content: "↗"; font-size: 14px; }
+
+  /* ============================================================
+     STREAMING LINKS
+     ============================================================ */
+  .links {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .links a {
+    background: #0a0a0a;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.15s;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+  }
+  .links a:hover { background: #111; color: var(--accent); }
+  .links a::after {
+    content: "↗";
+    color: var(--dim);
+    font-size: 14px;
+  }
+  .links a:hover::after { color: var(--accent); }
+
+  /* ============================================================
+     MOBILE
+     ============================================================ */
+  @media (max-width: 640px) {
+    main { padding: 24px 12px 60px; }
+    .page-header__title { font-size: 18px; }
+    .release__meta {
+      grid-template-columns: 1fr auto;
+      row-gap: 6px;
+    }
+    .release__date { grid-column: 1; }
+    .release__type { grid-column: 2; grid-row: 1; }
+    .release__title { grid-column: 1 / -1; }
+    .release__embed { padding: 12px; }
+    .release__embed iframe { min-height: 360px; }
+  }
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  footer {
+    border-top: 1px solid var(--line);
+    margin-top: 60px;
+    padding: 24px 0;
+    font-size: 10px;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  footer a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="primary">
+  <a href="/" class="nav__logo">
+    <span class="full">MEI TAKEDA <span class="dim">[1+1.=V.]</span></span>
+    <span class="short">MEI.T <span class="dim">[1+1.=V.]</span></span>
+  </a>
+  <ul class="nav__links">
+    <li><a href="/listen.html" aria-current="page">LISTEN</a></li>
+    <li><a href="/ticket-form.html" target="_blank">SCHEDULE</a></li>
+    <li><a href="/contact.html"  target="_blank" >CONTACT</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <header class="page-header">
+    <div class="page-header__id">01_LISTEN</div>
+    <h1 class="page-header__title">AUDIO / RELEASES</h1>
+    <div class="page-header__meta">
+      <span>SPOTIFY</span>
+      <span>BANDCAMP</span>
+      <span>APPLE_MUSIC</span>
+      <span>YOUTUBE</span>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       PRIMARY STREAM — Spotify artist embed
+       ============================================================ -->
+  <section>
+    <div class="section-label">PRIMARY_STREAM</div>
+    <div class="embed embed--spotify-artist">
+      <div class="embed__head">
+        <span><strong>SPOTIFY</strong> / ARTIST</span>
+        <span>STREAM</span>
+      </div>
+      <div class="embed__body">
+        <iframe
+          src="https://open.spotify.com/embed/artist/5BAOXRf0O9X0RrD5t35IdI?utm_source=generator&theme=0"
+          loading="lazy"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          title="MEI TAKEDA on Spotify"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       RELEASES
+       ============================================================ -->
+  <section>
+    <div class="section-label">RELEASES</div>
+
+    <!-- -------- Release 01: あだると / ADULT -------- -->
+    <article class="release">
+      <div class="release__meta">
+        <span class="release__date">2026.02.27</span>
+        <span class="release__title">
+          あだると
+          <span class="release__title-en">ADULT</span>
+        </span>
+        <span class="release__type">SINGLE</span>
+      </div>
+      <div class="release__embed">
+        <!-- 元コードの bgcol=ffffff&linkcol=0687f5 を
+             サイト統一のため bgcol=000000&linkcol=ffffff に変更 -->
+        <iframe
+          style="border: 0;"
+          src="https://bandcamp.com/EmbeddedPlayer/album=3948178383/size=large/bgcol=000000/linkcol=ffffff/tracklist=false/transparent=true/"
+          seamless
+          loading="lazy"
+          title="ADULT by MEI TAKEDA / 武田 鳴">
+          <a href="https://mei-takeda.bandcamp.com/album/adult">ADULT by MEI TAKEDA / 武田 鳴</a>
+        </iframe>
+      </div>
+      <a class="release__smartlink" href="https://linkco.re/UfT5umnH?lang=ja" target="_blank" rel="noopener">
+        <span><strong>ALL_STREAMING_SERVICES</strong> / via TuneCore</span>
+      </a>
+    </article>
+
+    <!-- -------- Release 02: 騒がしい孤独 / Loud a Solitude -------- -->
+    <article class="release">
+      <div class="release__meta">
+        <span class="release__date">2025.09</span>
+        <span class="release__title">
+          騒がしい孤独
+          <span class="release__title-en">Loud a Solitude / 1st EP</span>
+        </span>
+        <span class="release__type">EP</span>
+      </div>
+      <div class="release__embed">
+        <iframe
+          style="border: 0;"
+          src="https://bandcamp.com/EmbeddedPlayer/album=553052583/size=large/bgcol=000000/linkcol=ffffff/tracklist=false/transparent=true/"
+          seamless
+          loading="lazy"
+          title="Loud a Solitude by MEI TAKEDA / 武田 鳴">
+          <a href="https://mei-takeda.bandcamp.com/album/loud-a-solitude">Loud a Solitude by MEI TAKEDA / 武田 鳴</a>
+        </iframe>
+      </div>
+      <a class="release__smartlink" href="https://linkco.re/35EyqUh2?lang=ja" target="_blank" rel="noopener">
+        <span><strong>ALL_STREAMING_SERVICES</strong> / via TuneCore</span>
+      </a>
+    </article>
+
+    <!-- -------- Release 03: 夕の光 / Late Afternoon Light (YouTube) -------- -->
+    <article class="release">
+      <div class="release__meta">
+        <span class="release__date">2025</span>
+        <span class="release__title">
+          夕の光
+          <span class="release__title-en">Late Afternoon Light</span>
+        </span>
+        <span class="release__type">VIDEO</span>
+      </div>
+      <div class="release__video">
+        <!--
+          YouTube公式の埋め込みコード (プライバシー強化モード / youtube-nocookie)。
+          Error 153 対策として:
+          - si パラメータ (セッション識別子) を保持
+          - referrerpolicy="strict-origin-when-cross-origin" を保持
+          - <head> の <meta name="referrer"> で Referrer ヘッダ送信を保証
+          width/height はインラインで指定されているが、
+          .release__video iframe の CSS (width:100%; aspect-ratio:16/9)
+          で上書きされてレスポンシブになる。
+        -->
+        <iframe
+          width="560"
+          height="315"
+          src="https://www.youtube-nocookie.com/embed/aqxj36bYB5o?si=sn_3xPYKjZFtBZYj"
+          title="夕の光 / Late Afternoon Light"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          loading="lazy"
+          allowfullscreen></iframe>
+      </div>
+      <a class="release__smartlink" href="https://linkco.re/ZP2v8a7B?lang=ja" target="_blank" rel="noopener">
+        <span><strong>ALL_STREAMING_SERVICES</strong> / via TuneCore</span>
+      </a>
+    </article>
+
+  </section>
+
+  <!-- ============================================================
+       STREAMING LINKS
+       ============================================================ -->
+  <section>
+    <div class="section-label">STREAMING_LINKS</div>
+    <div class="links">
+      <a href="https://open.spotify.com/artist/5BAOXRf0O9X0RrD5t35IdI" target="_blank" rel="noopener">SPOTIFY</a>
+      <a href="https://music.apple.com/jp/artist/1679913863" target="_blank" rel="noopener">APPLE_MUSIC</a>
+      <a href="https://mei-takeda.bandcamp.com/" target="_blank" rel="noopener">BANDCAMP</a>
+      <a href="https://www.youtube.com/channel/UCjLJPmPR29lRtpgch_LhKhA" target="_blank" rel="noopener">YOUTUBE</a>
+      <a href="https://www.tunecore.co.jp/artists/_takeda_mei_" target="_blank" rel="noopener">TUNECORE</a>
+      <a href="https://www.instagram.com/_takeda_mei_/" target="_blank" rel="noopener">INSTAGRAM</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span>© MEI TAKEDA / 1+1.=V.</span>
+  <span><a href="/">BACK_TO_INDEX</a></span>
+</footer>
+
+</body>
+</html>
