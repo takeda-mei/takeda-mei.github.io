@@ -348,7 +348,7 @@
             border-color: #ffffff;
         }
 
-        #fileInput, #fileInputMobile {
+        #fileInput, #fileInputMobile, #touchSrcFile, #touchSrcFileMobile {
             display: none;
         }
 
@@ -638,6 +638,40 @@
             margin-bottom: 4px;
         }
 
+        .visualizer-container {
+            touch-action: none;
+        }
+
+        .touch-hint {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            font-weight: 300;
+            letter-spacing: 6px;
+            color: #ffffff;
+            z-index: 5;
+            pointer-events: none;
+            opacity: 0.9;
+            transition: opacity 0.6s ease;
+        }
+
+        .touch-hint.dismissed {
+            opacity: 0;
+        }
+
+        .touch-hint .hint-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 14px;
+            background: #ffffff;
+            animation: blink 1s infinite;
+        }
+
         .hidden {
             display: none !important;
         }
@@ -685,6 +719,11 @@
         }
 
         @media (max-width: 480px) {
+            .controls {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
             .header {
                 height: 45px;
             }
@@ -709,9 +748,11 @@
         <div class="visualizer-container">
             <canvas id="mainCanvas"></canvas>
 
+            <div class="touch-hint" id="touchHint">TOUCH<span class="hint-cursor"></span></div>
+
             <div class="status-indicator">
                 <div class="status-dot" id="statusDot"></div>
-                <span id="statusText">STANDBY</span>
+                <span id="statusText">IDLE_SIGNAL</span>
             </div>
 
             <div class="auto-mode-indicator" id="autoModeIndicator">
@@ -723,16 +764,57 @@
         <div class="header">
             <div class="title">MEI TAKEDA [1+1.=V.]</div>
             <div class="controls">
-                <button class="mono-button" id="micButton">MIC</button>
-                <button class="mono-button" id="playButton">▶︎</button>
-                <button class="mono-button" id="stopButton">▫️</button>
+                <button class="mono-button" id="uiButton">CTRL</button>
                 <button class="mono-button" id="bandcampButton">LISTEN</button>
                   <button class="mono-button" id="scheduleButton">SCHEDULE</button>
                 <button class="mono-button" id="contactButton">CONTACT</button>
             </div>
         </div>
 
-        <div class="sidebar" id="sidebar">
+        <div class="sidebar hidden" id="sidebar">
+            <div class="debug-panel">
+                <div class="debug-title">INPUT</div>
+                <div style="display: flex; gap: 5px;">
+                    <button class="mono-button" id="micButton" style="flex: 1;">MIC</button>
+                    <button class="mono-button" id="playButton" style="flex: 1;">▶︎</button>
+                    <button class="mono-button" id="stopButton" style="flex: 1;">▫️</button>
+                </div>
+            </div>
+
+            <div class="debug-panel">
+                <div class="debug-title">TOUCH.FX</div>
+                <div class="volume-control">
+                    <label class="control-label-main">DRIVE</label>
+                    <input type="range" class="volume-slider" id="touchFxDrive" min="0" max="100" value="25">
+                </div>
+                <div class="volume-control">
+                    <label class="control-label-main">CRUSH</label>
+                    <input type="range" class="volume-slider" id="touchFxCrush" min="0" max="100" value="0">
+                </div>
+                <div class="volume-control">
+                    <label class="control-label-main">DELAY</label>
+                    <input type="range" class="volume-slider" id="touchFxDelay" min="0" max="100" value="22">
+                </div>
+                <div class="volume-control">
+                    <label class="control-label-main">REVERB</label>
+                    <input type="range" class="volume-slider" id="touchFxReverb" min="0" max="100" value="12">
+                </div>
+            </div>
+
+            <div class="debug-panel">
+                <div class="debug-title">TOUCH.SRC</div>
+                <div class="visualizer-modes" id="touchSrcButtons">
+                    <button class="mode-button active" data-touchsrc="synth">SYNTH</button>
+                </div>
+                <div class="file-input-area" id="touchSrcFileArea" style="margin-top: 8px; margin-bottom: 0;">
+                    <div style="font-size: 10px; font-weight: 300;">LOAD_LOCAL_SOURCE</div>
+                    <div style="font-size: 8px; margin-top: 5px; font-weight: 200;">
+                        GRANULAR_TEST_INPUT
+                    </div>
+                    <input type="file" id="touchSrcFile" accept="audio/*">
+                </div>
+            </div>
+
             <div class="debug-panel">
                 <div class="debug-title">AUDIO_ANALYSIS</div>
                 <div class="debug-info" id="debugInfo">
@@ -900,9 +982,9 @@
                 <div class="visualizer-modes">
                     <button class="mode-button" data-mode="takeda_superposition">SUPERPOSITION</button>
                     <button class="mode-button" data-mode="takeda_test_pattern">TEST_PATTERN</button>
-                    <button class="mode-button" data-mode="takeda_data_scan">DATA_SCAN</button>
+                    <button class="mode-button" data-mode="takeda_data_scan">AUTOMATA</button>
                     <button class="mode-button" data-mode="takeda_micro_macro">MICRO/MACRO</button>
-                    <button class="mode-button" data-mode="takeda_time_code">TIME/CODE</button>
+                    <button class="mode-button" data-mode="takeda_time_code">SONOGRAM</button>
                     <button class="mode-button" data-mode="takeda_point_line">POINT/LINE/PLANE</button>
                     <button class="mode-button" data-mode="takeda_dataplex">DATAPLEX</button>
                     <button class="mode-button" data-mode="takeda_cyclo">CYCLO</button>
@@ -913,8 +995,8 @@
                 <div class="debug-title">MATHEMATICAL_MODES</div>
                 <div class="visualizer-modes">
                     <button class="mode-button" data-mode="takeda_formula">FORMULA</button>
-                    <button class="mode-button" data-mode="takeda_pi">PI_SEQUENCE</button>
-                    <button class="mode-button" data-mode="takeda_db">DECIBEL</button>
+                    <button class="mode-button" data-mode="takeda_pi">HEX.DUMP</button>
+                    <button class="mode-button" data-mode="takeda_db">LISSAJOUS</button>
                     <button class="mode-button" data-mode="takeda_matrix_nxn">MATRIX_NxN</button>
                     <button class="mode-button" data-mode="takeda_supercodex">SUPERCODEX</button>
                     <button class="mode-button" data-mode="takeda_data_flux">DATA_FLUX</button>
@@ -932,7 +1014,7 @@
                     <button class="mode-button" data-mode="takeda_interference">INTERFERENCE</button>
                     <button class="mode-button" data-mode="takeda_binary">BINARY_RAIN</button>
                     <button class="mode-button" data-mode="takeda_noise">WHITE_NOISE</button>
-                    <button class="mode-button" data-mode="takeda_scan">SCAN_LINE</button>
+                    <button class="mode-button" data-mode="takeda_scan">ONSET.TRACE</button>
                 </div>
             </div>
 
@@ -960,6 +1042,49 @@
                 <span class="panel-handle-text" id="panelHandleText">SWIPE UP</span>
             </div>
             <div class="panel-content" id="panelContent">
+                <div class="debug-panel">
+                    <div class="debug-title">INPUT</div>
+                    <div style="display: flex; gap: 5px;">
+                        <button class="mono-button" id="micButtonMobile" style="flex: 1;">MIC</button>
+                        <button class="mono-button" id="playButtonMobile" style="flex: 1;">▶︎</button>
+                        <button class="mono-button" id="stopButtonMobile" style="flex: 1;">▫️</button>
+                    </div>
+                </div>
+
+                <div class="debug-panel">
+                    <div class="debug-title">TOUCH.FX</div>
+                    <div class="volume-control">
+                        <label class="control-label-main">DRIVE</label>
+                        <input type="range" class="volume-slider" id="touchFxDriveMobile" min="0" max="100" value="25">
+                    </div>
+                    <div class="volume-control">
+                        <label class="control-label-main">CRUSH</label>
+                        <input type="range" class="volume-slider" id="touchFxCrushMobile" min="0" max="100" value="0">
+                    </div>
+                    <div class="volume-control">
+                        <label class="control-label-main">DELAY</label>
+                        <input type="range" class="volume-slider" id="touchFxDelayMobile" min="0" max="100" value="22">
+                    </div>
+                    <div class="volume-control">
+                        <label class="control-label-main">REVERB</label>
+                        <input type="range" class="volume-slider" id="touchFxReverbMobile" min="0" max="100" value="12">
+                    </div>
+                </div>
+
+                <div class="debug-panel">
+                    <div class="debug-title">TOUCH.SRC</div>
+                    <div class="visualizer-modes" id="touchSrcButtonsMobile">
+                        <button class="mode-button active" data-touchsrc="synth">SYNTH</button>
+                    </div>
+                    <div class="file-input-area" id="touchSrcFileAreaMobile" style="margin-top: 8px; margin-bottom: 0;">
+                        <div style="font-size: 10px; font-weight: 300;">LOAD_LOCAL_SOURCE</div>
+                        <div style="font-size: 8px; margin-top: 5px; font-weight: 200;">
+                            GRANULAR_TEST_INPUT
+                        </div>
+                        <input type="file" id="touchSrcFileMobile" accept="audio/*">
+                    </div>
+                </div>
+
                 <div class="debug-panel">
                     <div class="debug-title">AUDIO_ANALYSIS</div>
                     <div class="debug-info" id="debugInfoMobile">
@@ -1018,9 +1143,9 @@
                     <div class="visualizer-modes">
                         <button class="mode-button" data-mode="takeda_superposition" data-mobile="true">SUPERPOSITION</button>
                         <button class="mode-button" data-mode="takeda_test_pattern" data-mobile="true">TEST_PATTERN</button>
-                        <button class="mode-button" data-mode="takeda_data_scan" data-mobile="true">DATA_SCAN</button>
+                        <button class="mode-button" data-mode="takeda_data_scan" data-mobile="true">AUTOMATA</button>
                         <button class="mode-button" data-mode="takeda_micro_macro" data-mobile="true">MICRO/MACRO</button>
-                        <button class="mode-button" data-mode="takeda_time_code" data-mobile="true">TIME/CODE</button>
+                        <button class="mode-button" data-mode="takeda_time_code" data-mobile="true">SONOGRAM</button>
                         <button class="mode-button" data-mode="takeda_point_line" data-mobile="true">POINT/LINE/PLANE</button>
                         <button class="mode-button" data-mode="takeda_dataplex" data-mobile="true">DATAPLEX</button>
                         <button class="mode-button" data-mode="takeda_cyclo" data-mobile="true">CYCLO</button>
@@ -1031,8 +1156,8 @@
                     <div class="debug-title">MATHEMATICAL_MODES</div>
                     <div class="visualizer-modes">
                         <button class="mode-button" data-mode="takeda_formula" data-mobile="true">FORMULA</button>
-                        <button class="mode-button" data-mode="takeda_pi" data-mobile="true">PI_SEQUENCE</button>
-                        <button class="mode-button" data-mode="takeda_db" data-mobile="true">DECIBEL</button>
+                        <button class="mode-button" data-mode="takeda_pi" data-mobile="true">HEX.DUMP</button>
+                        <button class="mode-button" data-mode="takeda_db" data-mobile="true">LISSAJOUS</button>
                         <button class="mode-button" data-mode="takeda_matrix_nxn" data-mobile="true">MATRIX_NxN</button>
                         <button class="mode-button" data-mode="takeda_supercodex" data-mobile="true">SUPERCODEX</button>
                         <button class="mode-button" data-mode="takeda_data_flux" data-mobile="true">DATA_FLUX</button>
@@ -1050,7 +1175,7 @@
                         <button class="mode-button" data-mode="takeda_interference" data-mobile="true">INTERFERENCE</button>
                         <button class="mode-button" data-mode="takeda_binary" data-mobile="true">BINARY_RAIN</button>
                         <button class="mode-button" data-mode="takeda_noise" data-mobile="true">WHITE_NOISE</button>
-                        <button class="mode-button" data-mode="takeda_scan" data-mobile="true">SCAN_LINE</button>
+                        <button class="mode-button" data-mode="takeda_scan" data-mobile="true">ONSET.TRACE</button>
                     </div>
                 </div>
 
@@ -1090,6 +1215,69 @@
                 this.sensitivity = 5;
                 this.volume = 0.8;
                 this.strobeIntensity = 0.3;
+
+                // TOUCH.PAD instrument state
+                this.touchVoices = new Map();
+                this.touchRipples = [];
+                this.touchGain = null;
+                this.touchCompressor = null;
+                this.noiseBuffer = null;
+                this.touchEverUsed = false;
+                this.touchScale = [0, 3, 5, 7, 10]; // minor pentatonic
+                this.touchMaxVoices = 6;
+
+                // ====== TOUCH.PAD v2: GRANULAR (engine D) ======
+                // Sources load lazily on the first touch: audio/touchpad/kit.json
+                // (multi-source kit) or, if absent, the single fallback file.
+                // While nothing is deployed/decodable the pad stays on 'synth'
+                // and the site is unaffected — deploying the files is the only
+                // step needed to go live. Local files can be loaded from the
+                // TOUCH.SRC panel for testing. Both engines share TOUCH.FX.
+                this.touchEngine = 'synth';
+                this.touchSample = {
+                    kitUrl: 'audio/touchpad/kit.json',
+                    fallbackUrl: 'audio/touchpad/source-01.m4a',
+                    sources: [],        // [{ label, url, buffer }]
+                    activeIndex: -1,
+                    buffer: null,       // buffer of the active source
+                    state: 'idle',      // idle | loading | ready | failed
+                    autoLoad: true
+                };
+                this.granular = {
+                    grainMin: 0.06, grainMax: 0.28,   // grain length s (Y: top=short)
+                    densityMin: 8, densityMax: 26,    // grains/s (Y: top=dense)
+                    spray: 0.03,                      // position jitter (fraction of duration)
+                    attackFrac: 0.3, releaseFrac: 0.5,
+                    horizon: 0.12, tick: 50,          // scheduler lookahead s / tick ms
+                    gain: 0.5,
+                    panSpread: 0.4                    // per-grain random stereo spread
+                };
+
+                // IDLE.SIGNAL state (synthetic signal while no audio source)
+                this.idle = {
+                    pulseTime: 0,
+                    pulseStrength: 0,
+                    nextPulseAt: Date.now() + 2500,
+                    beatFired: true,
+                    drift: Math.random() * 1000
+                };
+
+                // ATTRACT MODE state (slow mode rotation while untouched)
+                this.attract = {
+                    interval: 18000,
+                    sectionInterval: 7000,
+                    lastSwitch: Date.now(),
+                    lastInteraction: 0,
+                    resumeDelay: 45000,
+                    excluded: ['takeda_strobe', 'takeda_waveform', 'takeda_oscilloscope']
+                };
+
+                // v3 mode state (SONOGRAM / AUTOMATA / HEX.DUMP / LISSAJOUS / ONSET.TRACE)
+                this.sonogram = { canvas: null, ctx: null, col: null, frame: -1, w: 256, h: 128 };
+                this.automata = { canvas: null, ctx: null, row: null, frame: -1, w: 192, h: 128, rule: 90, stepAcc: 0 };
+                this.hexdump = { offset: 0, frame: -1 };
+                this.lissajous = { ratios: [[1, 1], [1, 2], [2, 3], [3, 4], [3, 5], [4, 5], [5, 7], [1, 3]], idx: 2, phase: 0, frame: -1 };
+                this.traceLog = { history: [], frame: -1, max: 600 };
 
                 this.sections = [];
                 this.selectedSection = 0;
@@ -1198,7 +1386,6 @@
                 this.dataplexNodes = [];
                 this.cycloAngle = 0;
                 this.formulaBuffer = [];
-                this.piDigits = Math.PI.toString().replace('.', '').substring(0, 1000);
                 this.matrixSize = 8;
                 this.dataFluxStreams = [];
                 this.oscilloscopeBuffer = [];
@@ -1223,7 +1410,7 @@
             }
 
             init() {
-                this.sections = [{ x: 0, y: 0, width: 1, height: 1, mode: this.currentMode }];
+                this.setDisplayMode('grid', 'init');
                 this.resize();
                 this.setupAudioContext();
                 this.initializetakedaElements();
@@ -1411,6 +1598,21 @@
                     this.gainNode.gain.value = this.volume;
                     this.gainNode.connect(this.audioContext.destination);
                     this.analyser.connect(this.gainNode);
+
+                    // TOUCH.PAD bus: voices -> compressor -> analyser (existing visuals react as-is)
+                    this.touchCompressor = this.audioContext.createDynamicsCompressor();
+                    this.touchCompressor.threshold.value = -18;
+                    this.touchCompressor.knee.value = 12;
+                    this.touchCompressor.ratio.value = 6;
+                    this.touchCompressor.attack.value = 0.003;
+                    this.touchCompressor.release.value = 0.25;
+                    this.touchCompressor.connect(this.analyser);
+
+                    this.touchGain = this.audioContext.createGain();
+                    this.touchGain.gain.value = 0.9;
+                    this.setupTouchFX();
+
+                    this.noiseBuffer = this.createNoiseBuffer();
                 } catch (error) {
                     console.error('Audio context setup failed:', error);
                 }
@@ -1439,14 +1641,20 @@
                 setupButton('micButton', () => this.startMicrophone());
                 setupButton('playButton', () => this.togglePlayback());
                 setupButton('stopButton', () => this.stop());
+                setupButton('micButtonMobile', () => this.startMicrophone());
+                setupButton('playButtonMobile', () => this.togglePlayback());
+                setupButton('stopButtonMobile', () => this.stop());
                 setupButton('bandcampButton', () => window.open('/listen.html', '_blank'));
                 setupButton('scheduleButton', () => window.open('/ticket-form.html', '_blank'));
                 setupButton('contactButton', () =>  window.open('https://forms.gle/1pbT5vwbirb6d1KQ6', '_blank'));
+                setupButton('uiButton', () => this.toggleUI());
                 this.setupFileInput('fileArea', 'fileInput');
                 this.setupFileInput('fileAreaMobile', 'fileInputMobile');
+                this.setupTouchInstrument();
 
                 document.querySelectorAll('.mode-button[data-mode]').forEach(button => {
                     button.addEventListener('click', () => {
+                        this.noteInteraction();
                         this.setMode(button.dataset.mode, 'manual');
                         if (this.isMobile && button.dataset.mobile) {
                             this.minimizePanel();
@@ -1456,6 +1664,7 @@
 
                 document.querySelectorAll('.mode-button[data-display]').forEach(button => {
                     button.addEventListener('click', () => {
+                        this.noteInteraction();
                         this.setDisplayMode(button.dataset.display, 'manual');
                         if (this.isMobile && button.dataset.mobile) {
                             this.minimizePanel();
@@ -1469,8 +1678,6 @@
                         const x = e.clientX - rect.left;
                         const y = e.clientY - rect.top;
                         this.selectSection(x, y);
-                    } else if (this.isMobile) {
-                        this.cyclePanelState();
                     }
                 });
 
@@ -1486,6 +1693,23 @@
                 this.syncSliders('strobeSlider', 'strobeSliderMobile', (value) => {
                     this.strobeIntensity = value / 100;
                 });
+
+                this.syncSliders('touchFxDrive', 'touchFxDriveMobile', (value) => {
+                    this.setTouchFXParams({ drive: value / 100 });
+                });
+                this.syncSliders('touchFxCrush', 'touchFxCrushMobile', (value) => {
+                    this.setTouchFXParams({ crush: value / 100 });
+                });
+                this.syncSliders('touchFxDelay', 'touchFxDelayMobile', (value) => {
+                    this.setTouchFXParams({ delay: value / 100 });
+                });
+                this.syncSliders('touchFxReverb', 'touchFxReverbMobile', (value) => {
+                    this.setTouchFXParams({ reverb: value / 100 });
+                });
+
+                this.rebuildTouchSourceButtons();
+                this.setupTouchSourceInput('touchSrcFileArea', 'touchSrcFile');
+                this.setupTouchSourceInput('touchSrcFileAreaMobile', 'touchSrcFileMobile');
 
                 this.syncCheckboxes('autoModeToggle', 'autoModeToggleMobile', (checked) => {
                     this.autoMode.enabled = checked;
@@ -1947,8 +2171,777 @@
                 }
             }
 
+            // ====== TOUCH.PAD INSTRUMENT ======
+            // Full-screen XY pad: X = pitch (minor pentatonic, 5 octaves from A1),
+            // Y = tone/noise balance + filter (top = bright/noisy, bottom = dark/tonal).
+            // Voices feed the existing analyser, so every visual mode reacts unchanged.
+
+            createNoiseBuffer() {
+                const length = this.audioContext.sampleRate * 2;
+                const buffer = this.audioContext.createBuffer(1, length, this.audioContext.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < length; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+                return buffer;
+            }
+
+            // ====== TOUCH.FX ======
+            // KAOSS-style master effects on the touch bus:
+            // input -> DRIVE (tanh crossfade) -> CRUSH (staircase crossfade)
+            //       -> [dry + feedback DELAY + synthesized-IR REVERB] -> compressor.
+            // Every touch engine (synth now, granular later) runs through this.
+
+            setupTouchFX() {
+                const ctx = this.audioContext;
+                const fx = {};
+
+                fx.driveShaper = ctx.createWaveShaper();
+                fx.driveShaper.curve = this.makeShaperCurve('drive');
+                fx.driveDry = ctx.createGain();
+                fx.driveWet = ctx.createGain();
+                fx.driveSum = ctx.createGain();
+                this.touchGain.connect(fx.driveDry);
+                this.touchGain.connect(fx.driveShaper);
+                fx.driveShaper.connect(fx.driveWet);
+                fx.driveDry.connect(fx.driveSum);
+                fx.driveWet.connect(fx.driveSum);
+
+                fx.crushShaper = ctx.createWaveShaper();
+                fx.crushShaper.curve = this.makeShaperCurve('crush');
+                fx.crushDry = ctx.createGain();
+                fx.crushWet = ctx.createGain();
+                fx.crushSum = ctx.createGain();
+                fx.driveSum.connect(fx.crushDry);
+                fx.driveSum.connect(fx.crushShaper);
+                fx.crushShaper.connect(fx.crushWet);
+                fx.crushDry.connect(fx.crushSum);
+                fx.crushWet.connect(fx.crushSum);
+
+                fx.out = ctx.createGain();
+                fx.crushSum.connect(fx.out);
+
+                fx.delay = ctx.createDelay(1.0);
+                fx.delay.delayTime.value = 0.34;
+                fx.delayFilter = ctx.createBiquadFilter();
+                fx.delayFilter.type = 'lowpass';
+                fx.delayFilter.frequency.value = 3000;
+                fx.delayFb = ctx.createGain();
+                fx.delayFb.gain.value = 0.32;
+                fx.delayWet = ctx.createGain();
+                fx.crushSum.connect(fx.delay);
+                fx.delay.connect(fx.delayFilter);
+                fx.delayFilter.connect(fx.delayFb);
+                fx.delayFb.connect(fx.delay);
+                fx.delay.connect(fx.delayWet);
+                fx.delayWet.connect(fx.out);
+
+                fx.reverb = ctx.createConvolver();
+                fx.reverb.buffer = this.makeImpulseResponse(1.8);
+                fx.reverbWet = ctx.createGain();
+                fx.crushSum.connect(fx.reverb);
+                fx.reverb.connect(fx.reverbWet);
+                fx.reverbWet.connect(fx.out);
+
+                fx.out.connect(this.touchCompressor);
+
+                this.touchFX = fx;
+                this.setTouchFXParams({ drive: 0.25, crush: 0, delay: 0.22, reverb: 0.12 });
+            }
+
+            setTouchFXParams(p) {
+                const fx = this.touchFX;
+                if (!fx) return;
+                const now = this.audioContext.currentTime;
+                const set = (param, v) => param.setTargetAtTime(v, now, 0.02);
+
+                if (p.drive !== undefined) {
+                    set(fx.driveWet.gain, p.drive);
+                    set(fx.driveDry.gain, 1 - p.drive);
+                }
+                if (p.crush !== undefined) {
+                    set(fx.crushWet.gain, p.crush);
+                    set(fx.crushDry.gain, 1 - p.crush);
+                }
+                if (p.delay !== undefined) set(fx.delayWet.gain, p.delay);
+                if (p.reverb !== undefined) set(fx.reverbWet.gain, p.reverb);
+            }
+
+            makeShaperCurve(kind) {
+                const n = 1024;
+                const curve = new Float32Array(n);
+                for (let i = 0; i < n; i++) {
+                    const x = (i / (n - 1)) * 2 - 1;
+                    curve[i] = kind === 'drive'
+                        ? Math.tanh(x * 3)
+                        : Math.round(x * 6) / 6;
+                }
+                return curve;
+            }
+
+            makeImpulseResponse(seconds) {
+                const rate = this.audioContext.sampleRate;
+                const len = Math.floor(rate * seconds);
+                const buffer = this.audioContext.createBuffer(2, len, rate);
+                for (let ch = 0; ch < 2; ch++) {
+                    const d = buffer.getChannelData(ch);
+                    for (let i = 0; i < len; i++) {
+                        d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.6);
+                    }
+                }
+                return buffer;
+            }
+
+            // ====== TOUCH.PAD v2: sample loader + granular engine ======
+            // X = playhead position in the sample, Y = grain length/density
+            // (top = short dense grains, bottom = long smooth grains) --
+            // consistent with the synth engine's Y semantics.
+
+            async loadTouchSample() {
+                if (this.touchSample.state !== 'idle') return;
+                this.touchSample.state = 'loading';
+                try {
+                    let entries = null;
+                    try {
+                        const kitRes = await fetch(this.touchSample.kitUrl);
+                        if (kitRes.ok) {
+                            const kit = await kitRes.json();
+                            if (kit && Array.isArray(kit.sources) && kit.sources.length > 0) {
+                                entries = kit.sources.map((s, i) => ({
+                                    label: s.label || ('SRC.' + String(i + 1).padStart(2, '0')),
+                                    url: 'audio/touchpad/' + s.file
+                                }));
+                            }
+                        }
+                    } catch (err) {
+                        // kit.json is optional
+                    }
+                    if (!entries) {
+                        entries = [{ label: 'SRC.01', url: this.touchSample.fallbackUrl }];
+                    }
+
+                    const decoded = [];
+                    for (const entry of entries) {
+                        try {
+                            const res = await fetch(entry.url);
+                            if (!res.ok) continue;
+                            const raw = await res.arrayBuffer();
+                            const buffer = await this.audioContext.decodeAudioData(raw);
+                            decoded.push({ label: entry.label, url: entry.url, buffer: buffer });
+                        } catch (err) {
+                            // skip undecodable source, keep the rest
+                        }
+                    }
+                    if (decoded.length === 0) {
+                        throw new Error('no decodable sources');
+                    }
+
+                    this.touchSample.sources = decoded;
+                    this.touchSample.state = 'ready';
+                    this.rebuildTouchSourceButtons();
+                    this.setActiveTouchSource(0);
+                } catch (err) {
+                    console.error('Touch sample load failed:', err);
+                    this.touchSample.state = 'failed';
+                }
+            }
+
+            async loadTouchSampleFile(file) {
+                try {
+                    if (this.audioContext.state === 'suspended') {
+                        this.audioContext.resume();
+                    }
+                    const raw = await file.arrayBuffer();
+                    const buffer = await this.audioContext.decodeAudioData(raw);
+                    const base = (file.name || 'FILE').replace(/\.[^.]+$/, '');
+                    const label = (base.substring(0, 10) || 'FILE').toUpperCase();
+                    this.touchSample.sources.push({ label: label, url: null, buffer: buffer });
+                    this.touchSample.state = 'ready';
+                    this.rebuildTouchSourceButtons();
+                    this.setActiveTouchSource(this.touchSample.sources.length - 1);
+                } catch (err) {
+                    console.error('Local touch source load failed:', err);
+                }
+            }
+
+            setActiveTouchSource(index) {
+                const source = this.touchSample.sources[index];
+                if (!source) return;
+                this.touchSample.activeIndex = index;
+                this.touchSample.buffer = source.buffer;
+                this.touchEngine = 'granular';
+                this.updateTouchSourceButtons();
+                if (!this.isPlaying) {
+                    this.updateStatus('GRAIN:' + source.label, true);
+                }
+            }
+
+            setTouchEngineSynth() {
+                this.touchEngine = 'synth';
+                this.updateTouchSourceButtons();
+                if (!this.isPlaying && this.touchEverUsed) {
+                    this.updateStatus('TOUCH_ACTIVE', true);
+                }
+            }
+
+            rebuildTouchSourceButtons() {
+                const containers = ['touchSrcButtons', 'touchSrcButtonsMobile'];
+                containers.forEach(cid => {
+                    const container = document.getElementById(cid);
+                    if (!container) return;
+                    container.innerHTML = '';
+
+                    const makeButton = (label, value) => {
+                        const button = document.createElement('button');
+                        button.className = 'mode-button';
+                        button.dataset.touchsrc = value;
+                        button.textContent = label;
+                        button.addEventListener('click', () => {
+                            this.noteInteraction();
+                            if (this.audioContext && this.audioContext.state === 'suspended') {
+                                this.audioContext.resume();
+                            }
+                            if (value === 'synth') {
+                                this.setTouchEngineSynth();
+                            } else {
+                                this.setActiveTouchSource(parseInt(value, 10));
+                            }
+                        });
+                        container.appendChild(button);
+                    };
+
+                    makeButton('SYNTH', 'synth');
+                    this.touchSample.sources.forEach((source, i) => {
+                        makeButton(source.label, String(i));
+                    });
+                });
+                this.updateTouchSourceButtons();
+            }
+
+            updateTouchSourceButtons() {
+                document.querySelectorAll('[data-touchsrc]').forEach(button => {
+                    const value = button.dataset.touchsrc;
+                    const active = this.touchEngine === 'synth'
+                        ? value === 'synth'
+                        : value === String(this.touchSample.activeIndex);
+                    button.classList.toggle('active', active);
+                });
+            }
+
+            setupTouchSourceInput(areaId, inputId) {
+                const area = document.getElementById(areaId);
+                const input = document.getElementById(inputId);
+                if (!area || !input) return;
+
+                area.addEventListener('click', () => input.click());
+                area.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    area.classList.add('dragover');
+                });
+                area.addEventListener('dragleave', () => {
+                    area.classList.remove('dragover');
+                });
+                area.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    area.classList.remove('dragover');
+                    if (e.dataTransfer.files.length > 0) {
+                        this.loadTouchSampleFile(e.dataTransfer.files[0]);
+                    }
+                });
+                input.addEventListener('change', (e) => {
+                    if (e.target.files.length > 0) {
+                        this.loadTouchSampleFile(e.target.files[0]);
+                    }
+                    e.target.value = '';
+                });
+            }
+
+            granularParams(clientX, clientY) {
+                const nx = Math.min(1, Math.max(0, clientX / window.innerWidth));
+                const ny = Math.min(1, Math.max(0, clientY / window.innerHeight));
+                const g = this.granular;
+                const dur = this.touchSample.buffer.duration;
+                const grain = g.grainMin + (g.grainMax - g.grainMin) * ny;
+                const density = g.densityMax + (g.densityMin - g.densityMax) * ny;
+                return {
+                    nx: nx,
+                    ny: ny,
+                    grain: grain,
+                    density: density,
+                    position: nx * Math.max(0, dur - grain - 0.05)
+                };
+            }
+
+            startGranularVoice(id, clientX, clientY) {
+                const ctx = this.audioContext;
+                const master = ctx.createGain();
+                master.gain.setValueAtTime(0, ctx.currentTime);
+                master.gain.linearRampToValueAtTime(1, ctx.currentTime + 0.005);
+                master.connect(this.touchGain);
+
+                const voice = {
+                    granular: true,
+                    master: master,
+                    x: clientX, y: clientY,
+                    posSec: 0, freq: 0,
+                    released: false,
+                    nextGrainTime: ctx.currentTime,
+                    timer: null,
+                    params: null
+                };
+                voice.params = this.granularParams(clientX, clientY);
+                voice.posSec = voice.params.position;
+
+                const schedule = () => {
+                    if (voice.released) return;
+                    const horizon = ctx.currentTime + this.granular.horizon;
+                    if (voice.nextGrainTime < ctx.currentTime - 0.05) {
+                        voice.nextGrainTime = ctx.currentTime;
+                    }
+                    while (voice.nextGrainTime < horizon) {
+                        this.spawnGrain(voice, voice.nextGrainTime);
+                        voice.nextGrainTime += 1 / voice.params.density;
+                    }
+                    voice.timer = setTimeout(schedule, this.granular.tick);
+                };
+                schedule();
+
+                this.touchVoices.set(id, voice);
+                this.touchRipples.push({ x: clientX, y: clientY, born: Date.now() });
+                if (this.touchRipples.length > 24) this.touchRipples.shift();
+            }
+
+            spawnGrain(voice, when) {
+                const ctx = this.audioContext;
+                const p = voice.params;
+                const buf = this.touchSample.buffer;
+
+                const jitter = (Math.random() * 2 - 1) * this.granular.spray * buf.duration;
+                const start = Math.min(Math.max(0, p.position + jitter),
+                    Math.max(0, buf.duration - p.grain - 0.01));
+
+                const src = ctx.createBufferSource();
+                src.buffer = buf;
+
+                const g = ctx.createGain();
+                const atk = p.grain * this.granular.attackFrac;
+                const rel = p.grain * this.granular.releaseFrac;
+                const peak = this.granular.gain;
+                g.gain.setValueAtTime(0, when);
+                g.gain.linearRampToValueAtTime(peak, when + atk);
+                g.gain.setValueAtTime(peak, when + p.grain - rel);
+                g.gain.linearRampToValueAtTime(0, when + p.grain);
+
+                src.connect(g);
+                let tail = g;
+                if (ctx.createStereoPanner) {
+                    const pan = ctx.createStereoPanner();
+                    pan.pan.value = (Math.random() * 2 - 1) * this.granular.panSpread;
+                    g.connect(pan);
+                    tail = pan;
+                }
+                tail.connect(voice.master);
+                src.onended = () => {
+                    try {
+                        g.disconnect();
+                    } catch (err) {
+                        // already disconnected
+                    }
+                };
+                src.start(when, start, p.grain + 0.01);
+            }
+
+            setupTouchInstrument() {
+                const surface = document.querySelector('.visualizer-container');
+                if (!surface) return;
+
+                surface.addEventListener('pointerdown', (e) => this.handleTouchDown(e, surface));
+                surface.addEventListener('pointermove', (e) => this.handleTouchMove(e));
+                surface.addEventListener('pointerup', (e) => this.handleTouchUp(e));
+                surface.addEventListener('pointercancel', (e) => this.handleTouchUp(e));
+            }
+
+            handleTouchDown(e, surface) {
+                if (e.pointerType === 'mouse' && e.button !== 0) return;
+                if (!this.audioContext || !this.touchGain) return;
+
+                this.noteInteraction();
+
+                if (this.audioContext.state === 'suspended') {
+                    this.audioContext.resume();
+                }
+
+                if (this.touchSample.autoLoad && this.touchSample.state === 'idle') {
+                    this.loadTouchSample();
+                }
+
+                try {
+                    surface.setPointerCapture(e.pointerId);
+                } catch (err) {
+                    // pointer capture is best-effort
+                }
+
+                if (!this.touchEverUsed) {
+                    this.touchEverUsed = true;
+                    const hint = document.getElementById('touchHint');
+                    if (hint) hint.classList.add('dismissed');
+                    if (!this.isPlaying) {
+                        this.updateStatus('TOUCH_ACTIVE', true);
+                    }
+                }
+
+                this.startTouchVoice(e.pointerId, e.clientX, e.clientY);
+            }
+
+            handleTouchMove(e) {
+                if (this.touchVoices.has(e.pointerId)) {
+                    this.updateTouchVoice(e.pointerId, e.clientX, e.clientY);
+                }
+            }
+
+            handleTouchUp(e) {
+                this.releaseTouchVoice(e.pointerId);
+            }
+
+            touchVoiceParams(clientX, clientY) {
+                const nx = Math.min(1, Math.max(0, clientX / window.innerWidth));
+                const ny = Math.min(1, Math.max(0, clientY / window.innerHeight));
+
+                const steps = this.touchScale.length * 5; // 5 octaves
+                const step = Math.min(steps - 1, Math.floor(nx * steps));
+                const octave = Math.floor(step / this.touchScale.length);
+                const degree = this.touchScale[step % this.touchScale.length];
+                const freq = 55 * Math.pow(2, octave + degree / 12);
+
+                const bright = 1 - ny;
+                return {
+                    nx: nx,
+                    ny: ny,
+                    freq: freq,
+                    oscCutoff: Math.min(12000, freq * (1.5 + bright * 14)),
+                    oscLevel: 0.22 + ny * 0.14,
+                    noiseCenter: 400 * Math.pow(2, bright * 4.5),
+                    noiseQ: 1 + bright * 6,
+                    noiseLevel: Math.pow(bright, 2) * 0.5
+                };
+            }
+
+            countActiveTouchVoices() {
+                let active = 0;
+                this.touchVoices.forEach(voice => {
+                    if (!voice.released) active++;
+                });
+                return active;
+            }
+
+            startTouchVoice(id, clientX, clientY) {
+                if (this.touchVoices.has(id)) {
+                    this.releaseTouchVoice(id);
+                }
+                if (this.countActiveTouchVoices() >= this.touchMaxVoices) return;
+
+                if (this.touchEngine === 'granular' && this.touchSample.buffer) {
+                    this.startGranularVoice(id, clientX, clientY);
+                    return;
+                }
+
+                const p = this.touchVoiceParams(clientX, clientY);
+                const ctx = this.audioContext;
+                const now = ctx.currentTime;
+
+                const osc = ctx.createOscillator();
+                osc.type = 'square';
+                osc.frequency.value = p.freq;
+
+                const oscFilter = ctx.createBiquadFilter();
+                oscFilter.type = 'lowpass';
+                oscFilter.frequency.value = p.oscCutoff;
+                oscFilter.Q.value = 0.7;
+
+                const oscGain = ctx.createGain();
+                oscGain.gain.value = p.oscLevel;
+
+                const noiseSrc = ctx.createBufferSource();
+                noiseSrc.buffer = this.noiseBuffer;
+                noiseSrc.loop = true;
+                noiseSrc.playbackRate.value = 0.8 + Math.random() * 0.4;
+
+                const noiseFilter = ctx.createBiquadFilter();
+                noiseFilter.type = 'bandpass';
+                noiseFilter.frequency.value = p.noiseCenter;
+                noiseFilter.Q.value = p.noiseQ;
+
+                const noiseGain = ctx.createGain();
+                noiseGain.gain.value = p.noiseLevel;
+
+                const master = ctx.createGain();
+                master.gain.setValueAtTime(0, now);
+                master.gain.linearRampToValueAtTime(1, now + 0.005);
+
+                osc.connect(oscFilter);
+                oscFilter.connect(oscGain);
+                oscGain.connect(master);
+                noiseSrc.connect(noiseFilter);
+                noiseFilter.connect(noiseGain);
+                noiseGain.connect(master);
+                master.connect(this.touchGain);
+
+                osc.start(now);
+                noiseSrc.start(now);
+
+                const voice = {
+                    osc: osc, oscFilter: oscFilter, oscGain: oscGain,
+                    noiseSrc: noiseSrc, noiseFilter: noiseFilter, noiseGain: noiseGain,
+                    master: master,
+                    x: clientX, y: clientY, freq: p.freq, released: false
+                };
+
+                osc.onended = () => {
+                    try {
+                        master.disconnect();
+                    } catch (err) {
+                        // already disconnected
+                    }
+                    if (this.touchVoices.get(id) === voice) {
+                        this.touchVoices.delete(id);
+                    }
+                };
+
+                this.touchVoices.set(id, voice);
+                this.touchRipples.push({ x: clientX, y: clientY, born: Date.now() });
+                if (this.touchRipples.length > 24) this.touchRipples.shift();
+            }
+
+            updateTouchVoice(id, clientX, clientY) {
+                const voice = this.touchVoices.get(id);
+                if (!voice || voice.released) return;
+
+                if (voice.granular) {
+                    voice.params = this.granularParams(clientX, clientY);
+                    voice.posSec = voice.params.position;
+                    voice.x = clientX;
+                    voice.y = clientY;
+                    return;
+                }
+
+                const p = this.touchVoiceParams(clientX, clientY);
+                const now = this.audioContext.currentTime;
+
+                voice.osc.frequency.setTargetAtTime(p.freq, now, 0.03);
+                voice.oscFilter.frequency.setTargetAtTime(p.oscCutoff, now, 0.03);
+                voice.oscGain.gain.setTargetAtTime(p.oscLevel, now, 0.03);
+                voice.noiseFilter.frequency.setTargetAtTime(p.noiseCenter, now, 0.03);
+                voice.noiseFilter.Q.setTargetAtTime(p.noiseQ, now, 0.03);
+                voice.noiseGain.gain.setTargetAtTime(p.noiseLevel, now, 0.03);
+
+                voice.x = clientX;
+                voice.y = clientY;
+                voice.freq = p.freq;
+            }
+
+            releaseTouchVoice(id) {
+                const voice = this.touchVoices.get(id);
+                if (!voice || voice.released) return;
+                voice.released = true;
+
+                const now = this.audioContext.currentTime;
+                voice.master.gain.cancelScheduledValues(now);
+                voice.master.gain.setValueAtTime(voice.master.gain.value, now);
+                voice.master.gain.setTargetAtTime(0, now, 0.08);
+
+                if (voice.granular) {
+                    if (voice.timer) clearTimeout(voice.timer);
+                    setTimeout(() => {
+                        try {
+                            voice.master.disconnect();
+                        } catch (err) {
+                            // already disconnected
+                        }
+                        if (this.touchVoices.get(id) === voice) {
+                            this.touchVoices.delete(id);
+                        }
+                    }, 600);
+                } else {
+                    voice.osc.stop(now + 0.6);
+                    voice.noiseSrc.stop(now + 0.6);
+                }
+
+                this.touchRipples.push({ x: voice.x, y: voice.y, born: Date.now() });
+                if (this.touchRipples.length > 24) this.touchRipples.shift();
+            }
+
+            drawTouchLayer() {
+                if (this.touchVoices.size === 0 && this.touchRipples.length === 0) return;
+
+                const now = Date.now();
+                const w = window.innerWidth;
+                const h = window.innerHeight;
+
+                this.touchRipples = this.touchRipples.filter(r => now - r.born < 700);
+
+                this.ctx.save();
+                this.ctx.strokeStyle = '#ffffff';
+                this.ctx.fillStyle = '#ffffff';
+                this.ctx.lineWidth = 1;
+
+                this.touchRipples.forEach(r => {
+                    const t = (now - r.born) / 700;
+                    this.ctx.globalAlpha = 0.5 * (1 - t);
+                    this.ctx.beginPath();
+                    this.ctx.arc(r.x, r.y, 8 + t * 120, 0, Math.PI * 2);
+                    this.ctx.stroke();
+                });
+
+                this.touchVoices.forEach(voice => {
+                    if (voice.released) return;
+
+                    this.ctx.globalAlpha = 0.25;
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(0, voice.y);
+                    this.ctx.lineTo(w, voice.y);
+                    this.ctx.moveTo(voice.x, 0);
+                    this.ctx.lineTo(voice.x, h);
+                    this.ctx.stroke();
+
+                    const radius = 6 + this.audioData.amplitude * 24;
+                    this.ctx.globalAlpha = 0.9;
+                    this.ctx.beginPath();
+                    this.ctx.arc(voice.x, voice.y, radius, 0, Math.PI * 2);
+                    this.ctx.stroke();
+
+                    this.ctx.font = '9px JetBrains Mono';
+                    const coords = 'X:' + (voice.x / w).toFixed(2) +
+                        ' Y:' + (voice.y / h).toFixed(2) + ' ';
+                    const label = voice.granular
+                        ? coords + 'POS:' + (voice.posSec || 0).toFixed(1) + 's'
+                        : coords + String(Math.round(voice.freq)).padStart(4, '0') + 'Hz';
+                    const tx = Math.min(voice.x + 14, w - 130);
+                    const ty = voice.y < 24 ? voice.y + 20 : voice.y - 12;
+                    this.ctx.fillText(label, tx, ty);
+                });
+
+                this.ctx.restore();
+            }
+
+            // ====== IDLE.SIGNAL ======
+            // While no audio source is active, a synthetic low-level signal
+            // (slow breathing + occasional pulses) drives audioData AND dataArray,
+            // so every visual mode is alive from the first frame. No sound is
+            // produced. Real analysis takes over seamlessly on touch/playback.
+
+            generateIdleSignal() {
+                const now = Date.now();
+                const t = now / 1000 + this.idle.drift;
+
+                if (now >= this.idle.nextPulseAt) {
+                    this.idle.pulseTime = now;
+                    this.idle.pulseStrength = 0.35 + Math.random() * 0.4;
+                    this.idle.nextPulseAt = now + 3000 + Math.random() * 5000;
+                    this.idle.beatFired = false;
+                }
+
+                const age = (now - this.idle.pulseTime) / 1000;
+                const pulse = this.idle.pulseStrength * Math.exp(-age * 3.5);
+
+                const clamp01 = (v) => Math.min(1, Math.max(0, v));
+                const breathe = 0.10 + 0.06 * Math.sin(t * 0.35) + 0.02 * Math.sin(t * 1.7);
+
+                this.audioData.amplitude = clamp01(breathe + pulse * 0.5);
+                this.audioData.bass = clamp01(breathe * 1.1 + pulse * 0.8);
+                this.audioData.mid = clamp01(0.08 + 0.05 * Math.sin(t * 0.23 + 1.7) + pulse * 0.3);
+                this.audioData.high = clamp01(0.05 + 0.04 * Math.sin(t * 0.51 + 3.1) + pulse * 0.15);
+                this.audioData.rms = this.audioData.amplitude * 0.7;
+                this.audioData.zcr = clamp01(0.05 + 0.03 * Math.sin(t * 0.4));
+                this.audioData.spectralCentroid = 300 + 400 * (0.5 + 0.5 * Math.sin(t * 0.18));
+                this.audioData.peakFreq = this.audioData.spectralCentroid;
+                this.audioData.frequency = Math.round(this.audioData.spectralCentroid);
+
+                this.audioData.beatDetected = false;
+                if (!this.idle.beatFired && age < 0.06) {
+                    this.audioData.beatDetected = true;
+                    this.idle.beatFired = true;
+                }
+
+                if (this.dataArray) {
+                    const len = this.dataArray.length;
+                    const bump1 = 0.15 + 0.6 * (0.5 + 0.5 * Math.sin(t * 0.11));
+                    const bump2 = 0.15 + 0.6 * (0.5 + 0.5 * Math.sin(t * 0.07 + 2.4));
+                    for (let i = 0; i < len; i++) {
+                        const x = i / len;
+                        let v = this.audioData.amplitude * Math.exp(-x * 9);
+                        v += pulse * 0.5 * Math.exp(-Math.pow((x - bump1) * 14, 2));
+                        v += 0.12 * Math.exp(-Math.pow((x - bump2) * 20, 2)) * (0.5 + 0.5 * Math.sin(t * 0.9));
+                        v += Math.random() * 0.02;
+                        this.dataArray[i] = Math.min(255, Math.max(0, Math.round(v * 255)));
+                    }
+                }
+
+                this.updateDebugInfo();
+            }
+
+            // ====== ATTRACT MODE ======
+            // While idle and untouched, slowly rotates visual modes so the site
+            // performs on its own. Any interaction suspends it for resumeDelay ms.
+            // Time-domain modes (flat at idle) and STROBE are excluded.
+
+            noteInteraction() {
+                this.attract.lastInteraction = Date.now();
+            }
+
+            updateAttractMode() {
+                const now = Date.now();
+
+                if (this.isPlaying || this.touchVoices.size > 0 || this.autoMode.enabled) {
+                    this.attract.lastSwitch = now;
+                    return;
+                }
+
+                if (this.attract.lastInteraction > 0 &&
+                    now - this.attract.lastInteraction < this.attract.resumeDelay) {
+                    this.attract.lastSwitch = now;
+                    return;
+                }
+
+                const interval = this.displayMode === 'single'
+                    ? this.attract.interval
+                    : this.attract.sectionInterval;
+                if (now - this.attract.lastSwitch < interval) return;
+
+                if (this.displayMode === 'single') {
+                    const pool = this.availableModes
+                        .map(m => m.id)
+                        .filter(id => id !== this.currentMode &&
+                            this.attract.excluded.indexOf(id) === -1);
+                    if (pool.length === 0) return;
+
+                    const next = pool[Math.floor(Math.random() * pool.length)];
+                    this.setMode(next, 'attract');
+                } else {
+                    // multi-view: rotate ONE random panel so the wall stays heterogeneous
+                    const si = Math.floor(Math.random() * this.sections.length);
+                    const panelMode = this.sections[si].mode;
+                    const pool = this.availableModes
+                        .map(m => m.id)
+                        .filter(id => id !== panelMode &&
+                            this.attract.excluded.indexOf(id) === -1);
+                    if (pool.length === 0) return;
+
+                    const next = pool[Math.floor(Math.random() * pool.length)];
+                    this.sections[si].mode = next;
+                    this.updateSectionLabels();
+                    this.logModeSwitch(next, 'attract');
+                }
+
+                this.attract.lastSwitch = now;
+            }
+
             analyzeAudioAdvanced() {
-                if (!this.analyser || !this.isPlaying) return;
+                if (!this.analyser) return;
+
+                if (!this.isPlaying && this.touchVoices.size === 0) {
+                    this.generateIdleSignal();
+                    return;
+                }
 
                 this.analyser.getByteFrequencyData(this.dataArray);
 
@@ -2241,6 +3234,17 @@
                 return availableModes[Math.floor(Math.random() * availableModes.length)].id;
             }
 
+            modeDisplayName(mode) {
+                const names = {
+                    takeda_time_code: 'SONOGRAM',
+                    takeda_data_scan: 'AUTOMATA',
+                    takeda_pi: 'HEX.DUMP',
+                    takeda_db: 'LISSAJOUS',
+                    takeda_scan: 'ONSET.TRACE'
+                };
+                return names[mode] || mode.replace('takeda_', '').toUpperCase();
+            }
+
             getRandomIndices(max, count) {
                 const indices = [];
                 while (indices.length < count) {
@@ -2256,14 +3260,14 @@
                 document.querySelectorAll('.section-selector').forEach((selector, index) => {
                     const label = selector.querySelector('.section-label');
                     if (label && this.sections[index]) {
-                        label.textContent = this.sections[index].mode.toUpperCase().replace('takeda_', '');
+                        label.textContent = this.modeDisplayName(this.sections[index].mode);
                     }
                 });
             }
 
             logModeSwitch(mode, source) {
                 const timestamp = new Date().toLocaleTimeString().split(':').slice(1).join(':');
-                const displayName = mode.toUpperCase().replace('takeda_', '');
+                const displayName = this.modeDisplayName(mode);
                 const logEntry = `${timestamp} [${source.toUpperCase()}] -> ${displayName}`;
 
                 this.autoMode.switchLog.unshift(logEntry);
@@ -2319,9 +3323,9 @@
                 } else if (this.displayMode === 'grid') {
                     this.sections = [];
                     const modes = [
-                        'takeda_data', 'takeda_spectrum_grid', 'takeda_superposition',
-                        'takeda_barcode', 'takeda_test_pattern', 'takeda_oscilloscope',
-                        'takeda_grid', 'takeda_formula', 'takeda_vectorscope'
+                        'takeda_time_code', 'takeda_data', 'takeda_data_scan',
+                        'takeda_spectrum_grid', 'takeda_db', 'takeda_pi',
+                        'takeda_scan', 'takeda_spectrum_matrix', 'takeda_cyclo'
                     ];
 
                     for (let i = 0; i < 3; i++) {
@@ -2348,7 +3352,7 @@
 
                     const label = document.createElement('div');
                     label.className = 'section-label';
-                    label.textContent = section.mode.toUpperCase().replace('takeda_', '');
+                    label.textContent = this.modeDisplayName(section.mode);
                     selector.appendChild(label);
 
                     selector.addEventListener('click', () => {
@@ -2772,43 +3776,89 @@
             }
 
             drawtakedaDataScan(section) {
+                // AUTOMATA: 1D cellular automaton, rule selected by dominant band
                 const width = section.width * this.canvas.width / window.devicePixelRatio;
                 const height = section.height * this.canvas.height / window.devicePixelRatio;
                 const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
                 const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
 
+                this.updateAutomata();
+                if (!this.automata.canvas) return;
+
+                this.ctx.save();
+                this.ctx.imageSmoothingEnabled = false;
+                this.ctx.drawImage(this.automata.canvas, offsetX, offsetY, width, height);
+                this.ctx.restore();
+
                 this.ctx.fillStyle = '#ffffff';
-                this.ctx.font = '12px JetBrains Mono';
-
-                if (this.dataScanBuffer.length < 50) {
-                    this.dataScanBuffer.push({
-                        data: this.generateScanData(),
-                        x: offsetX,
-                        y: offsetY + Math.random() * height,
-                        speed: 2 + this.audioData.amplitude * 5
-                    });
-                }
-
-                this.dataScanBuffer = this.dataScanBuffer.filter(scan => {
-                    scan.x += scan.speed;
-
-                    if (scan.x < offsetX + width) {
-                        this.ctx.globalAlpha = Math.max(0.3, this.audioData.amplitude);
-                        this.ctx.fillText(scan.data, scan.x, scan.y);
-                        return true;
-                    }
-                    return false;
-                });
-
+                this.ctx.font = '9px JetBrains Mono';
+                this.ctx.globalAlpha = 0.7;
+                this.ctx.fillText('AUTOMATA R:' + String(this.automata.rule).padStart(3, '0'),
+                    offsetX + 8, offsetY + 14);
                 this.ctx.globalAlpha = 1;
             }
 
-            generateScanData() {
-                const types = ['SCAN:', 'DATA:', 'FREQ:', 'AMP:', 'TIME:'];
-                const type = types[Math.floor(Math.random() * types.length)];
-                const value = Math.floor(Math.random() * 9999).toString().padStart(4, '0');
-                return `${type}${value}`;
+            updateAutomata() {
+                if (this.automata.frame === this.frameCount) return;
+                this.automata.frame = this.frameCount;
+
+                const a = this.automata;
+                if (!a.canvas) {
+                    a.canvas = document.createElement('canvas');
+                    a.canvas.width = a.w;
+                    a.canvas.height = a.h;
+                    a.ctx = a.canvas.getContext('2d');
+                    a.ctx.fillStyle = '#000000';
+                    a.ctx.fillRect(0, 0, a.w, a.h);
+                    a.row = new Uint8Array(a.w);
+                    a.row[Math.floor(a.w / 2)] = 1;
+                    for (let i = 0; i < a.w; i++) {
+                        if (Math.random() < 0.02) a.row[i] = 1;
+                    }
+                }
+
+                a.stepAcc += 0.35 + this.audioData.amplitude * 1.4;
+                const steps = Math.min(3, Math.floor(a.stepAcc));
+                a.stepAcc -= steps;
+                if (steps === 0) return;
+
+                const bass = this.audioData.bass;
+                const mid = this.audioData.mid;
+                const high = this.audioData.high;
+                a.rule = (bass >= mid && bass >= high) ? 90 : (mid >= high ? 110 : 30);
+
+                for (let s = 0; s < steps; s++) {
+                    if (this.audioData.beatDetected && s === 0) {
+                        for (let i = 0; i < a.w; i++) {
+                            if (Math.random() < 0.04) a.row[i] ^= 1;
+                        }
+                    }
+
+                    const next = new Uint8Array(a.w);
+                    for (let i = 0; i < a.w; i++) {
+                        const l = a.row[(i - 1 + a.w) % a.w];
+                        const c = a.row[i];
+                        const r = a.row[(i + 1) % a.w];
+                        next[i] = (a.rule >> ((l << 2) | (c << 1) | r)) & 1;
+                    }
+                    a.row = next;
+
+                    a.ctx.drawImage(a.canvas, 0, -1);
+                    a.ctx.fillStyle = '#000000';
+                    a.ctx.fillRect(0, a.h - 1, a.w, 1);
+                    a.ctx.fillStyle = '#ffffff';
+                    for (let i = 0; i < a.w; i++) {
+                        if (a.row[i]) a.ctx.fillRect(i, a.h - 1, 1, 1);
+                    }
+                }
+
+                let alive = 0;
+                for (let i = 0; i < a.w; i++) alive += a.row[i];
+                if (alive === 0) {
+                    a.row[Math.floor(Math.random() * a.w)] = 1;
+                }
             }
+
 
             drawtakedaMicroMacro(section) {
                 const width = section.width * this.canvas.width / window.devicePixelRatio;
@@ -2834,33 +3884,66 @@
             }
 
             drawtakedaTimeCode(section) {
+                // SONOGRAM: scrolling spectral waterfall (shared offscreen buffer)
                 const width = section.width * this.canvas.width / window.devicePixelRatio;
                 const height = section.height * this.canvas.height / window.devicePixelRatio;
                 const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
                 const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
 
+                this.updateSonogram();
+                if (!this.sonogram.canvas) return;
+
+                this.ctx.save();
+                this.ctx.imageSmoothingEnabled = false;
+                this.ctx.drawImage(this.sonogram.canvas, offsetX, offsetY, width, height);
+                this.ctx.restore();
+
                 this.ctx.fillStyle = '#ffffff';
-                this.ctx.font = '16px JetBrains Mono';
+                this.ctx.font = '9px JetBrains Mono';
+                this.ctx.globalAlpha = 0.7;
+                this.ctx.fillText('SONOGRAM ' + String(Math.floor(this.audioData.spectralCentroid)).padStart(4, '0') + 'Hz',
+                    offsetX + 8, offsetY + 14);
 
-                const now = Date.now();
-                const timeCode = now.toString();
-                const audioTime = Math.floor(this.audioData.amplitude * 999999);
+                this.ctx.globalAlpha = 0.4;
+                this.ctx.fillRect(offsetX + width - 2, offsetY, 1, height);
 
-                const codes = [
-                    `TIME: ${timeCode.substring(7)}`,
-                    `AUDIO: ${audioTime.toString().padStart(6, '0')}`,
-                    `FRAME: ${this.frameCount.toString().padStart(8, '0')}`,
-                    `FREQ: ${Math.floor(this.audioData.spectralCentroid)}`,
-                    `BEAT: ${this.audioData.beatDetected ? '1' : '0'}`
-                ];
-
-                codes.forEach((code, index) => {
-                    const y = offsetY + 30 + index * 22;
-                    this.ctx.globalAlpha = 0.8;
-                    this.ctx.fillText(code, offsetX + 10, y);
-                });
-
+                this.ctx.globalAlpha = 0.12;
+                for (let i = 1; i < 4; i++) {
+                    this.ctx.fillRect(offsetX, offsetY + height * i / 4, width, 1);
+                }
                 this.ctx.globalAlpha = 1;
+            }
+
+            updateSonogram() {
+                if (this.sonogram.frame === this.frameCount) return;
+                this.sonogram.frame = this.frameCount;
+                if (!this.dataArray) return;
+
+                const s = this.sonogram;
+                if (!s.canvas) {
+                    s.canvas = document.createElement('canvas');
+                    s.canvas.width = s.w;
+                    s.canvas.height = s.h;
+                    s.ctx = s.canvas.getContext('2d');
+                    s.ctx.fillStyle = '#000000';
+                    s.ctx.fillRect(0, 0, s.w, s.h);
+                    s.col = s.ctx.createImageData(1, s.h);
+                }
+
+                s.ctx.drawImage(s.canvas, -1, 0);
+
+                const d = s.col.data;
+                const bins = this.dataArray.length;
+                for (let y = 0; y < s.h; y++) {
+                    const bin = Math.floor(((s.h - 1 - y) / s.h) * bins * 0.7);
+                    const v = this.dataArray[bin];
+                    const p = y * 4;
+                    d[p] = v;
+                    d[p + 1] = v;
+                    d[p + 2] = v;
+                    d[p + 3] = 255;
+                }
+                s.ctx.putImageData(s.col, s.w - 1, 0);
             }
 
             drawtakedaPointLinePlane(section) {
@@ -3001,38 +4084,7 @@
             }
 
             drawtakedaPi(section) {
-                const width = section.width * this.canvas.width / window.devicePixelRatio;
-                const height = section.height * this.canvas.height / window.devicePixelRatio;
-                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
-                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
-
-                this.ctx.fillStyle = '#ffffff';
-                this.ctx.font = '20px JetBrains Mono';
-
-                const piStr = this.piDigits;
-                const cols = Math.floor(width / 14);
-                const rows = Math.floor(height / 24);
-
-                for (let row = 0; row < rows; row++) {
-                    for (let col = 0; col < cols; col++) {
-                        const index = row * cols + col;
-                        if (index < piStr.length) {
-                            const digit = piStr[index];
-                            const x = offsetX + col * 14;
-                            const y = offsetY + row * 24 + 18;
-
-                            const intensity = this.audioData.amplitude + Math.random() * 0.3;
-                            this.ctx.globalAlpha = Math.min(1, intensity);
-
-                            this.ctx.fillText(digit, x, y);
-                        }
-                    }
-                }
-
-                this.ctx.globalAlpha = 1;
-            }
-
-            drawtakedaDB(section) {
+                // HEX.DUMP: the live spectrum bytes rendered as a memory dump
                 const width = section.width * this.canvas.width / window.devicePixelRatio;
                 const height = section.height * this.canvas.height / window.devicePixelRatio;
                 const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
@@ -3040,20 +4092,128 @@
 
                 if (!this.dataArray) return;
 
-                this.ctx.fillStyle = '#ffffff';
-                this.ctx.font = '14px JetBrains Mono';
-
-                for (let i = 0; i < this.dataArray.length && i < 15; i++) {
-                    const amplitude = this.dataArray[i] / 255;
-                    const db = amplitude > 0 ? 20 * Math.log10(amplitude) : -Infinity;
-
-                    const y = offsetY + 30 + i * 22;
-                    const dbText = isFinite(db) ? db.toFixed(1) + 'dB' : '-∞dB';
-
-                    this.ctx.globalAlpha = Math.max(0.3, amplitude);
-                    this.ctx.fillText(`${i.toString().padStart(2, '0')}: ${dbText}`, offsetX + 10, y);
+                if (this.hexdump.frame !== this.frameCount) {
+                    this.hexdump.frame = this.frameCount;
+                    this.hexdump.offset += 0.15 + this.audioData.amplitude * 1.2;
                 }
 
+                const rowH = 14;
+                const showAddr = width >= 160;
+                const showAscii = width >= 230;
+                const hexX = offsetX + (showAddr ? 50 : 8);
+                const reserved = (showAddr ? 50 : 8) + 10;
+                const bytesPerRow = Math.max(4, Math.min(16,
+                    Math.floor((width - reserved) / (showAscii ? 26 : 19))));
+                const rows = Math.max(2, Math.floor((height - 26) / rowH));
+                const len = this.dataArray.length;
+                const baseRow = Math.floor(this.hexdump.offset);
+
+                this.ctx.fillStyle = '#ffffff';
+                this.ctx.font = '10px JetBrains Mono';
+                this.ctx.globalAlpha = 0.7;
+                this.ctx.fillText('MEM.DUMP RMS:' + String(Math.floor(this.audioData.rms * 100)).padStart(3, '0') + '%',
+                    offsetX + 8, offsetY + 14);
+
+                for (let r = 0; r < rows; r++) {
+                    const rowIndex = baseRow + r;
+                    const y = offsetY + 26 + r * rowH + 10;
+                    if (y > offsetY + height) break;
+
+                    if (showAddr) {
+                        this.ctx.globalAlpha = 0.5;
+                        this.ctx.fillText(((rowIndex * bytesPerRow) % 0x10000).toString(16).toUpperCase().padStart(4, '0'),
+                            offsetX + 8, y);
+                    }
+
+                    let ascii = '';
+                    for (let b = 0; b < bytesPerRow; b++) {
+                        const v = this.dataArray[(rowIndex * bytesPerRow + b) % len];
+                        const x = hexX + b * 19;
+                        const hex = v.toString(16).toUpperCase().padStart(2, '0');
+
+                        if (v > 160) {
+                            this.ctx.globalAlpha = 1;
+                            this.ctx.fillRect(x - 2, y - 9, 16, 12);
+                            this.ctx.fillStyle = '#000000';
+                            this.ctx.fillText(hex, x, y);
+                            this.ctx.fillStyle = '#ffffff';
+                        } else {
+                            this.ctx.globalAlpha = 0.22 + (v / 255) * 0.78;
+                            this.ctx.fillText(hex, x, y);
+                        }
+                        ascii += v > 96 ? String.fromCharCode(33 + (v % 90)) : '.';
+                    }
+
+                    if (showAscii) {
+                        this.ctx.globalAlpha = 0.4;
+                        this.ctx.fillText(ascii, hexX + bytesPerRow * 19 + 8, y);
+                    }
+                }
+                this.ctx.globalAlpha = 1;
+            }
+
+            drawtakedaDB(section) {
+                // LISSAJOUS: p:q phase figures, ratio advances on beat
+                const width = section.width * this.canvas.width / window.devicePixelRatio;
+                const height = section.height * this.canvas.height / window.devicePixelRatio;
+                const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
+                const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
+
+                const L = this.lissajous;
+                if (L.frame !== this.frameCount) {
+                    L.frame = this.frameCount;
+                    L.phase += 0.01 + this.audioData.mid * 0.06;
+                    if (this.audioData.beatDetected) {
+                        L.idx = (L.idx + 1) % L.ratios.length;
+                    }
+                }
+
+                const p = L.ratios[L.idx][0];
+                const q = L.ratios[L.idx][1];
+                const cx = offsetX + width / 2;
+                const cy = offsetY + height / 2;
+                const R = Math.min(width, height) * (0.30 + this.audioData.amplitude * 0.12);
+
+                this.ctx.strokeStyle = '#ffffff';
+                this.ctx.fillStyle = '#ffffff';
+                this.ctx.lineWidth = 1;
+
+                this.ctx.globalAlpha = 0.12;
+                this.ctx.fillRect(cx - R, cy, R * 2, 1);
+                this.ctx.fillRect(cx, cy - R, 1, R * 2);
+
+                const N = 360;
+                this.ctx.globalAlpha = 0.75;
+                this.ctx.beginPath();
+                for (let i = 0; i <= N; i++) {
+                    const t = (i / N) * Math.PI * 2;
+                    const x = cx + R * Math.sin(p * t + L.phase);
+                    const y = cy + R * Math.sin(q * t);
+                    if (i === 0) this.ctx.moveTo(x, y);
+                    else this.ctx.lineTo(x, y);
+                }
+                this.ctx.stroke();
+
+                this.ctx.globalAlpha = 0.9;
+                for (let i = 0; i < 24; i++) {
+                    const t = (i / 24) * Math.PI * 2;
+                    const x = cx + R * Math.sin(p * t + L.phase);
+                    const y = cy + R * Math.sin(q * t);
+                    this.ctx.fillRect(x - 1, y - 1, 2, 2);
+                }
+
+                const tc = (this.frameCount * 0.02) % (Math.PI * 2);
+                const dx = cx + R * Math.sin(p * tc + L.phase);
+                const dy = cy + R * Math.sin(q * tc);
+                this.ctx.beginPath();
+                this.ctx.arc(dx, dy, 3, 0, Math.PI * 2);
+                this.ctx.stroke();
+
+                this.ctx.font = '9px JetBrains Mono';
+                this.ctx.globalAlpha = 0.7;
+                this.ctx.fillText('LISSAJOUS ' + p + ':' + q +
+                    ' PH:' + ((L.phase % (Math.PI * 2)) / Math.PI).toFixed(2) + '\u03c0',
+                    offsetX + 8, offsetY + 14);
                 this.ctx.globalAlpha = 1;
             }
 
@@ -3451,42 +4611,72 @@
             }
 
             drawtakedaScanLine(section) {
+                // ONSET.TRACE: 3-band strip-chart recorder with beat tick marks
                 const width = section.width * this.canvas.width / window.devicePixelRatio;
                 const height = section.height * this.canvas.height / window.devicePixelRatio;
                 const offsetX = section.x * this.canvas.width / window.devicePixelRatio;
                 const offsetY = section.y * this.canvas.height / window.devicePixelRatio;
 
-                this.scanLinePos += 2 + this.audioData.amplitude * 5;
-                if (this.scanLinePos > height) {
-                    this.scanLinePos = 0;
+                const T = this.traceLog;
+                if (T.frame !== this.frameCount) {
+                    T.frame = this.frameCount;
+                    T.history.push({
+                        bass: this.audioData.bass,
+                        mid: this.audioData.mid,
+                        high: this.audioData.high,
+                        beat: this.audioData.beatDetected
+                    });
+                    if (T.history.length > T.max) T.history.shift();
                 }
 
+                const labels = ['BASS', 'MID', 'HIGH'];
+                const keys = ['bass', 'mid', 'high'];
+                const laneH = height / 3;
+                const px = 2;
+                const count = Math.min(T.history.length, Math.max(0, Math.floor((width - 54) / px)));
+                const startI = T.history.length - count;
+                const x0 = offsetX + 50;
+
+                this.ctx.strokeStyle = '#ffffff';
                 this.ctx.fillStyle = '#ffffff';
+                this.ctx.lineWidth = 1;
+                this.ctx.font = '9px JetBrains Mono';
 
-                const scanY = offsetY + this.scanLinePos;
-                this.ctx.globalAlpha = 0.8;
-                this.ctx.fillRect(offsetX, scanY, width, 2);
-
-                for (let i = 1; i <= 10; i++) {
-                    const trailY = scanY - i * 4;
-                    if (trailY >= offsetY) {
-                        this.ctx.globalAlpha = 0.8 / i;
-                        this.ctx.fillRect(offsetX, trailY, width, 1);
+                this.ctx.globalAlpha = 0.35;
+                for (let i = 0; i < count; i++) {
+                    if (T.history[startI + i].beat) {
+                        this.ctx.fillRect(x0 + i * px, offsetY, 1, height);
                     }
                 }
 
-                this.ctx.font = '14px JetBrains Mono';
-                this.ctx.globalAlpha = 0.6;
-                const scanData = `SCAN_LINE: ${Math.floor(this.scanLinePos).toString().padStart(4, '0')}`;
-                this.ctx.fillText(scanData, offsetX + 10, scanY - 8);
+                for (let lane = 0; lane < 3; lane++) {
+                    const top = offsetY + lane * laneH;
+                    const base = top + laneH * 0.82;
+                    const amp = laneH * 0.68;
 
-                this.ctx.globalAlpha = 0.3;
-                for (let x = offsetX; x < offsetX + width; x += 8) {
-                    if (Math.random() < this.audioData.amplitude) {
-                        this.ctx.fillRect(x, scanY, 4, 2);
+                    this.ctx.globalAlpha = 0.12;
+                    this.ctx.fillRect(offsetX, top + laneH - 1, width, 1);
+
+                    this.ctx.globalAlpha = 0.7;
+                    this.ctx.fillText(labels[lane], offsetX + 8, top + 12);
+                    this.ctx.fillText(String(Math.floor(this.audioData[keys[lane]] * 100)).padStart(3, '0') + '%',
+                        offsetX + 8, top + 24);
+
+                    if (count > 1) {
+                        this.ctx.globalAlpha = 0.85;
+                        this.ctx.beginPath();
+                        for (let i = 0; i < count; i++) {
+                            const x = x0 + i * px;
+                            const y = base - T.history[startI + i][keys[lane]] * amp;
+                            if (i === 0) this.ctx.moveTo(x, y);
+                            else this.ctx.lineTo(x, y);
+                        }
+                        this.ctx.stroke();
                     }
                 }
 
+                this.ctx.globalAlpha = 0.4;
+                this.ctx.fillRect(x0 + count * px, offsetY, 1, height);
                 this.ctx.globalAlpha = 1;
             }
 
@@ -3504,7 +4694,9 @@
 
                 this.analyzeAudioAdvanced();
 
-                if (this.autoMode.enabled && this.isPlaying) {
+                this.updateAttractMode();
+
+                if (this.autoMode.enabled && (this.isPlaying || this.touchVoices.size > 0)) {
                     const currentTime = Date.now();
                     let shouldSwitch = false;
                     let shouldSwitchDisplay = false;
@@ -3607,6 +4799,8 @@
 
                     this.ctx.restore();
                 });
+
+                this.drawTouchLayer();
 
                 this.frameCount++;
                 this.animationId = requestAnimationFrame(() => this.animate());

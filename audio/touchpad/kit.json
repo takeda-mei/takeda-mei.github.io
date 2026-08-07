@@ -1,0 +1,17 @@
+{
+  "sources": [
+    { "file": "sine_01000hz_hard_60ms.wav",     "label": "SIN.1K.H" },
+    { "file": "sine_04000hz_hard_60ms.wav",     "label": "SIN.4K.H" },
+    { "file": "sine_08000hz_clean_60ms.wav",    "label": "SIN.8K.C" },
+    { "file": "sine_08000hz_hard_60ms.wav",     "label": "SIN.8K.H" },
+    { "file": "sine_12000hz_clean_60ms.wav",    "label": "SIN.12K.C" },
+    { "file": "sine_12000hz_hard_60ms.wav",     "label": "SIN.12K.H" },
+    { "file": "sine_15000hz_hard_60ms.wav",     "label": "SIN.15K.H" },
+    { "file": "sine_drop_12k_to_100_80ms.wav",  "label": "SIN.DROP" },
+    { "file": "noise_white_005ms.wav",          "label": "NZ.W.005" },
+    { "file": "noise_white_010ms.wav",          "label": "NZ.W.010" },
+    { "file": "noise_white_050ms.wav",          "label": "NZ.W.050" },
+    { "file": "noise_white_125ms.wav",          "label": "NZ.W.125" },
+    { "file": "noise_hiband_125ms.wav",         "label": "NZ.HI.125" }
+  ]
+}
