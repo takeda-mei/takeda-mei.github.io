@@ -93,6 +93,11 @@
     .nav { padding: 0 10px; gap: 8px; }
     .nav__links { gap: 10px; }
   }
+  /* 4項目（WORKS 追加）が 320px 幅でも収まるように */
+  @media (max-width: 340px) {
+    .nav { letter-spacing: 0.04em; }
+    .nav__links { gap: 6px; }
+  }
 
   /* ============================================================
      MAIN
@@ -326,7 +331,8 @@
   <ul class="nav__links">
     <li><a href="/listen.html" aria-current="page">LISTEN</a></li>
     <li><a href="/ticket-form.html" target="_blank">SCHEDULE</a></li>
-    <li><a href="/contact.html"  target="_blank" >CONTACT</a></li>
+    <li><a href="/works.html">WORKS</a></li>
+    <li><a href="https://forms.gle/1pbT5vwbirb6d1KQ6"  target="_blank" >CONTACT</a></li>
   </ul>
 </nav>
 

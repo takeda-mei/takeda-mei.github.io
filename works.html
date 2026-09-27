@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>WORKS — MEI TAKEDA [1+1.=V.]</title>
+<meta name="description" content="武田 鳴 — 京都を拠点とする音楽家、AudioVisual 作家。楽曲制作、映像・ゲームのための音楽、ライブ映像システムのご依頼。">
+<meta property="og:title" content="WORKS — MEI TAKEDA [1+1.=V.]">
+<meta property="og:description" content="武田 鳴 — 京都を拠点とする音楽家、AudioVisual 作家。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://takeda-mei.com/works.html">
+<meta property="og:image" content="https://takeda-mei.com/img/Twitter_takeda_mei_card.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@_takeda_mei_">
+<meta name="twitter:title" content="WORKS — 武田 鳴">
+<meta name="twitter:image" content="https://takeda-mei.com/img/Twitter_takeda_mei_card_2.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #000;
+    --fg: #fff;
+    --dim: #666;
+    --line: #222;
+    --accent: #00ff66;
+    --warn: #ff3300;
+    --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    --sans: 'Noto Sans JP', 'IBM Plex Mono', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  html { scroll-padding-top: 64px; }
+  body { min-height: 100vh; padding-top: 48px; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: var(--accent); }
+
+  /* ============================================================
+     TOP NAV（listen.html と共通）
+     ============================================================ */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 0 20px;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+    z-index: 1000;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+  }
+  .nav__logo { font-weight: 500; white-space: nowrap; flex-shrink: 0; }
+  .nav__logo .dim { color: var(--dim); }
+
+  .nav__links { display: flex; gap: 24px; list-style: none; }
+  .nav__links a { color: var(--dim); transition: color 0.15s; padding: 4px 0; }
+  .nav__links a:hover,
+  .nav__links a[aria-current="page"] { color: var(--fg); }
+  .nav__links a[aria-current="page"]::before {
+    content: ""; display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--accent);
+    margin-right: 6px;
+    vertical-align: middle;
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 640px) {
+    .nav { padding: 0 12px; font-size: 10px; gap: 10px; }
+    .nav__logo .full { display: none; }
+    .nav__logo .short { display: inline; }
+    .nav__links { gap: 14px; }
+  }
+  @media (min-width: 641px) { .nav__logo .short { display: none; } }
+  @media (max-width: 380px) {
+    .nav { padding: 0 10px; gap: 8px; }
+    .nav__links { gap: 10px; }
+  }
+  /* 4項目（WORKS 追加）が 320px 幅でも収まるように */
+  @media (max-width: 340px) {
+    .nav { letter-spacing: 0.04em; }
+    .nav__links { gap: 6px; }
+  }
+
+  /* ============================================================
+     MAIN（listen.html と共通）
+     ============================================================ */
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  .page-header {
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+  }
+  .page-header__id { color: var(--dim); font-size: 10px; letter-spacing: 0.15em; }
+  .page-header__title {
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    margin-top: 4px;
+  }
+  .page-header__meta {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+    font-size: 11px;
+    color: var(--dim);
+    flex-wrap: wrap;
+  }
+  .page-header__meta a::before { content: "▸ "; color: var(--accent); }
+
+  section { margin-bottom: 56px; }
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--dim);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::before {
+    content: "";
+    display: inline-block;
+    width: 8px; height: 8px;
+    background: var(--accent);
+  }
+  .section-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  /* ============================================================
+     CARD（listen.html の .release と同じ枠）
+     ============================================================ */
+  .card {
+    border: 1px solid var(--line);
+    background: #0a0a0a;
+  }
+  .card + .card { margin-top: 24px; }
+  .card__meta {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 16px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--line);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+    align-items: center;
+  }
+  .card__tag { color: var(--accent); }
+  .card__title { color: var(--fg); font-weight: 500; font-size: 12px; }
+  .card__type {
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border: 1px solid var(--line);
+  }
+  .card__body { padding: 20px; }
+
+  .text-jp {
+    font-family: var(--sans);
+    font-size: 13px;
+    line-height: 2;
+    color: #ccc;
+    font-weight: 300;
+  }
+  .text-en {
+    font-size: 11px;
+    line-height: 1.8;
+    color: var(--dim);
+  }
+
+  .spec { border-top: 1px solid var(--line); font-size: 11px; }
+  .spec__row {
+    display: grid;
+    grid-template-columns: 120px 1fr auto;
+    gap: 16px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    align-items: baseline;
+  }
+  .spec__row:last-child { border-bottom: 0; }
+  .spec__k { color: var(--dim); letter-spacing: 0.12em; font-size: 10px; }
+  .spec__v { min-width: 0; }
+  .spec__row a { color: var(--dim); }
+  .spec__row a:hover { color: var(--accent); }
+  .spec__row a::after { content: " ↗"; }
+
+  .placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 16px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+    background: #000;
+  }
+
+  /* ============================================================
+     PROFILE
+     ============================================================ */
+  .profile {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+  }
+  .profile__photo {
+    position: relative;
+    border-right: 1px solid var(--line);
+    background: #000;
+    min-height: 350px; /* 280px 幅で 4:5 */
+  }
+  /* PC: 右の文章欄と同じ高さまで写真を伸ばし、下に余白を作らない */
+  .profile__photo img,
+  .profile__photo .placeholder {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top; /* 縦型写真は頭側を優先して残す */
+  }
+  .profile__photo .placeholder { display: flex; }
+
+  /* 写真: 読み込めたら img、無ければプレースホルダー */
+  .photo-slot:not(.has-photo) img { display: none; }
+  .photo-slot.has-photo .placeholder { display: none; }
+  .profile__text { display: flex; flex-direction: column; min-width: 0; }
+  .profile__name { padding: 20px 20px 0; }
+  .profile__name-ja {
+    font-family: var(--sans);
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+  }
+  .profile__name-en { font-size: 10px; letter-spacing: 0.15em; color: var(--dim); margin-top: 2px; }
+  .profile__bio { padding: 16px 20px 20px; display: flex; flex-direction: column; gap: 12px; }
+  .profile__text .spec { margin-top: auto; }
+
+  /* ============================================================
+     SYSTEMS
+     ============================================================ */
+  .media {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .media video,
+  .media__thumb {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  /* 仮表示の文字は下寄せ（中央の PLAY ボタンと重ならないように） */
+  .media .placeholder { position: absolute; inset: 0; align-items: flex-end; }
+
+  /* 表示の切り替え
+     初期: サムネイル（無ければプレースホルダー）＋再生ボタン
+     再生開始後: 動画 */
+  .media video { visibility: hidden; }
+  .media.is-started video { visibility: visible; }
+  .media__thumb { display: none; }
+  .media.has-thumb .media__thumb { display: block; }
+  .media.has-thumb .placeholder,
+  .media.is-started .placeholder,
+  .media.is-started .media__thumb { display: none; }
+
+  /* 再生ボタン（動画全体がクリック範囲） */
+  .media__toggle {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    color: var(--fg);
+    font-family: var(--mono);
+    cursor: pointer;
+  }
+  .media__toggle[hidden] { display: none; }
+  .media.no-video .media__toggle { display: none; }
+  .media__icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: rgba(0, 0, 0, 0.72);
+    border: 1px solid var(--fg);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    transition: color 0.15s, border-color 0.15s, opacity 0.15s;
+  }
+  .media__icon::before {
+    content: "";
+    width: 0; height: 0;
+    border-style: solid;
+    border-width: 5px 0 5px 8px;
+    border-color: transparent transparent transparent currentColor;
+  }
+  .media__toggle:hover .media__icon,
+  .media__toggle:focus-visible .media__icon { color: var(--accent); border-color: var(--accent); }
+  .media__toggle:focus-visible { outline: 1px solid var(--accent); outline-offset: -4px; }
+  /* 再生中はボタンを隠す（クリックで一時停止） */
+  .media.is-playing .media__icon { opacity: 0; }
+
+  /* 音声 ON/OFF（右上）。全動画で共通の設定。最初は ON */
+  .media__sound {
+    position: absolute;
+    top: 10px; right: 10px;
+    z-index: 2;
+    min-height: 32px;
+    padding: 6px 10px;
+    background: rgba(0, 0, 0, 0.72);
+    border: 1px solid var(--line);
+    color: var(--fg);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .media__sound::before {
+    content: "";
+    display: inline-block;
+    width: 6px; height: 6px;
+    margin-right: 6px;
+    background: var(--accent);
+    vertical-align: middle;
+    transform: translateY(-1px);
+  }
+  .media__sound[aria-pressed="false"] { color: var(--dim); }
+  .media__sound[aria-pressed="false"]::before { background: var(--dim); }
+  .media__sound:hover,
+  .media__sound:focus-visible { color: var(--accent); border-color: var(--accent); outline: none; }
+  .media.no-video .media__sound { display: none; }
+
+  .systems-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+  .systems-grid .card + .card { margin-top: 0; }
+  /* 2枚の高さを揃え、STACK 欄を下端に合わせる */
+  .systems-grid .card { display: flex; flex-direction: column; }
+  .systems-grid .card__body { flex-grow: 1; }
+
+  /* ============================================================
+     LIVE
+     ============================================================ */
+  .live {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .live__photo { border-right: 1px solid var(--line); }
+  .live__text { display: flex; flex-direction: column; }
+  .live__text .card__body { flex-grow: 1; }
+  .live__photo img,
+  .live__photo .placeholder {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 240px;
+    object-fit: cover;
+  }
+  .live__photo .placeholder { display: flex; }
+  /* 出演履歴（Bandsintown から取得） */
+  .shows__head {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--dim);
+  }
+  .shows__row {
+    display: grid;
+    grid-template-columns: 90px minmax(0, 1fr) minmax(0, 260px);
+    gap: 16px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    font-size: 11px;
+    align-items: baseline;
+  }
+  .shows__row:last-child { border-bottom: 0; }
+  a.shows__row { transition: background 0.15s; }
+  a.shows__row:hover { background: #111; }
+  .shows__date { color: var(--accent); font-variant-numeric: tabular-nums; }
+  .shows__title { font-family: var(--sans); font-size: 12px; font-weight: 400; min-width: 0; overflow-wrap: anywhere; }
+  .shows__place { color: var(--dim); font-family: var(--sans); font-size: 11px; text-align: right; overflow-wrap: anywhere; }
+  .shows__status { display: block; color: var(--dim); letter-spacing: 0.12em; }
+  .shows__more {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    padding: 12px 14px;
+    background: transparent;
+    border: 0;
+    border-top: 1px solid var(--line);
+    color: var(--dim);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .shows__more:hover,
+  .shows__more:focus-visible { background: #111; color: var(--accent); outline: none; }
+  .shows__more[hidden] { display: none; }
+
+  /* ============================================================
+     COMMISSIONS（listen.html の .links と同じ格子）
+     ============================================================ */
+  .services {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  /* 5項目なので最後の1つを2列分に広げ、空きマスを出さない */
+  .service:last-child { grid-column: span 2; }
+  .service {
+    background: #0a0a0a;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .service__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+  }
+  .service__no { color: var(--accent); }
+  .service__title {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--fg);
+  }
+  .service p { font-family: var(--sans); font-size: 12px; line-height: 1.9; color: #aaa; font-weight: 300; }
+
+  /* ============================================================
+     CONTACT（listen.html の .release__smartlink と同じ）
+     ============================================================ */
+  .smartlink {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px;
+    border-top: 1px solid var(--line);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--dim);
+    transition: background 0.15s, color 0.15s;
+  }
+  a.smartlink:hover { background: #111; color: var(--accent); }
+  .smartlink strong { color: var(--fg); font-weight: 500; }
+  .smartlink::after { content: "↗"; font-size: 14px; }
+
+  /* ============================================================
+     MOBILE
+     ============================================================ */
+  @media (max-width: 640px) {
+    main { padding: 24px 12px 60px; }
+    .page-header__title { font-size: 18px; }
+    .card__meta {
+      grid-template-columns: 1fr auto;
+      row-gap: 6px;
+    }
+    .card__tag { grid-column: 1; }
+    .card__type { grid-column: 2; grid-row: 1; }
+    .card__title { grid-column: 1 / -1; }
+    .card__body { padding: 14px; }
+    .profile, .live { grid-template-columns: 1fr; }
+    .profile__photo, .live__photo { border-right: 0; border-bottom: 1px solid var(--line); }
+    /* スマホ: 1列なので縦型 4:5 の枠で表示 */
+    .profile__photo { min-height: 0; aspect-ratio: 4 / 5; }
+    .profile__name { padding: 14px 14px 0; }
+    .profile__bio { padding: 12px 14px 14px; }
+    .systems-grid { grid-template-columns: 1fr; }
+    .spec__row { grid-template-columns: 1fr auto; row-gap: 4px; }
+    .spec__k { grid-column: 1 / -1; }
+    .shows__row { grid-template-columns: 1fr; gap: 2px; }
+    .shows__place { text-align: left; }
+    .services { grid-template-columns: 1fr; }
+    .service:last-child { grid-column: auto; }
+  }
+
+  /* ============================================================
+     FOOTER（listen.html と共通）
+     ============================================================ */
+  footer {
+    border-top: 1px solid var(--line);
+    margin-top: 60px;
+    padding: 24px 0;
+    font-size: 10px;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  footer a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="primary">
+  <a href="/" class="nav__logo">
+    <span class="full">MEI TAKEDA <span class="dim">[1+1.=V.]</span></span>
+    <span class="short">MEI.T <span class="dim">[1+1.=V.]</span></span>
+  </a>
+  <ul class="nav__links">
+    <li><a href="/listen.html">LISTEN</a></li>
+    <li><a href="/ticket-form.html">SCHEDULE</a></li>
+    <li><a href="/works.html" aria-current="page">WORKS</a></li>
+    <li><a href="https://forms.gle/1pbT5vwbirb6d1KQ6" target="_blank" rel="noopener">CONTACT</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <header class="page-header">
+    <div class="page-header__id">03_WORKS</div>
+    <h1 class="page-header__title">PROFILE / WORKS</h1>
+    <nav class="page-header__meta" aria-label="このページの目次">
+      <a href="#profile">PROFILE</a>
+      <a href="#systems">AUDIOVISUAL_SYSTEMS</a>
+      <a href="#live">LIVE</a>
+      <a href="#commissions">COMMISSIONS</a>
+      <a href="#contact">CONTACT</a>
+    </nav>
+  </header>
+
+  <!-- ============================================================
+       PROFILE
+       ============================================================ -->
+  <section id="profile">
+    <div class="section-label">PROFILE</div>
+    <article class="card profile">
+      <!-- 写真: /img/works-profile.jpg を置けば自動で表示（縦横比 4:5） -->
+      <div class="profile__photo photo-slot">
+        <img src="/img/works-profile.jpg" alt="武田 鳴" width="560" height="700">
+        <div class="placeholder">[PHOTO]</div>
+      </div>
+      <div class="profile__text">
+        <div class="profile__name">
+          <div class="profile__name-ja">武田 鳴</div>
+          <div class="profile__name-en">MEI TAKEDA</div>
+        </div>
+        <div class="profile__bio">
+          <p class="text-jp">京都を拠点とする音楽家、AudioVisual 作家。2023年より制作を開始。J-pop を軸に、オルタナティブR&amp;B、IDM、ノイズ、アンビエント、サッドコアを横断する楽曲とビートを制作し、それを演奏するための映像システムも自ら開発する。2025年9月、1st EP『騒がしい孤独』をリリース。</p>
+          <p class="text-en">Kyoto-based musician and AudioVisual artist. Active since 2023, working across J-pop, alternative R&amp;B, IDM, noise, ambient and sadcore as a songwriter and beatmaker, and building the visual systems used to perform it. Debut EP "Loud a Solitude" released in September 2025.</p>
+        </div>
+        <div class="spec">
+          <div class="spec__row"><span class="spec__k">BASED_IN</span><span class="spec__v">Kyoto, Japan</span><span></span></div>
+          <div class="spec__row"><span class="spec__k">LABEL</span><span class="spec__v">1+1.=V.</span><span></span></div>
+          <!-- TODO: 記事タイトルとURL -->
+          <div class="spec__row"><span class="spec__k">PRESS</span><span class="spec__v">Antenna — 【2026年5月】今、西日本のライブハウス店長・ブッカーが注目しているアーティスト]</span><a href="https://antenna-mag.com/post-81772/" target="_blank" rel="noopener">READ</a></div>
+          <div class="spec__row"><span class="spec__k">DISCOGRAPHY</span><span class="spec__v">EP / SINGLE / VIDEO</span><a href="/listen.html">LISTEN</a></div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============================================================
+       AUDIOVISUAL SYSTEMS
+       /media/ に動画と -poster.jpg（サムネイル）を置けば自動で表示。クリックで再生（音声あり・右上で ON/OFF）。
+       ============================================================ -->
+  <section id="systems">
+    <div class="section-label">AUDIOVISUAL_SYSTEMS</div>
+
+    <div class="systems-grid">
+      <article class="card">
+        <div class="card__meta">
+          <span class="card__tag">LIVE_SYSTEM</span>
+          <span class="card__title">KO2.VIDEO.VJ</span>
+          <span class="card__type">LIVE</span>
+        </div>
+        <div class="media" data-label="KO2.VIDEO.VJ">
+          <div class="placeholder">[LOOP: KO2.VIDEO.VJ 制作中の画面録画]</div>
+          <img class="media__thumb" src="/media/ko2-video-vj-poster.jpg" alt="" width="1280" height="720">
+          <video loop playsinline preload="metadata" aria-label="KO2.VIDEO.VJ 制作中の画面">
+            <source src="/media/ko2-video-vj.webm" type="video/webm">
+            <source src="/media/ko2-video-vj.mp4" type="video/mp4">
+          </video>
+          <button type="button" class="media__toggle" aria-label="KO2.VIDEO.VJ を再生"><span class="media__icon">PLAY</span></button>
+          <button type="button" class="media__sound" aria-pressed="true">SOUND ON</button>
+        </div>
+        <div class="card__body">
+          <p class="text-jp">サンプラーとエフェクターの操作、DAW のテンポと再生位置に同期して映像を演奏する、2画面構成のライブ用システム。パッドを叩く、XY パッドをなぞるといった演奏動作が、そのまま映像の変化になる。</p>
+        </div>
+        <div class="spec">
+          <div class="spec__row"><span class="spec__k">STACK</span><span class="spec__v">Tauri v2 / Rust / WebGL2 / MIDI</span><span></span></div>
+          <div class="spec__row"><span class="spec__k">SYNC</span><span class="spec__v">EP-133 K.O. II / KAOSS PAD V / Logic Pro</span><span></span></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card__meta">
+          <span class="card__tag">DATA_ENGINE</span>
+          <span class="card__title">GLITCH.VJ</span>
+          <span class="card__type">GLITCH</span>
+        </div>
+        <div class="media" data-label="GLITCH.VJ">
+          <div class="placeholder">[LOOP: GLITCH.VJ 制作中の画面録画]</div>
+          <img class="media__thumb" src="/media/glitch-vj-poster.jpg" alt="" width="1280" height="720">
+          <video loop playsinline preload="metadata" aria-label="GLITCH.VJ 制作中の画面">
+            <source src="/media/glitch-vj.webm" type="video/webm">
+            <source src="/media/glitch-vj.mp4" type="video/mp4">
+          </video>
+          <button type="button" class="media__toggle" aria-label="GLITCH.VJ を再生"><span class="media__icon">PLAY</span></button>
+          <button type="button" class="media__sound" aria-pressed="true">SOUND ON</button>
+        </div>
+        <div class="card__body">
+          <p class="text-jp">映像圧縮の破綻を再現するデータ・グリッチ・エンジン。23種のシェーダーで、ブロックノイズから色の崩れまでを扱う。</p>
+        </div>
+        <div class="spec">
+          <div class="spec__row"><span class="spec__k">STACK</span><span class="spec__v">WebGL2 / GLSL</span><span></span></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       LIVE
+       ============================================================ -->
+  <section id="live">
+    <div class="section-label">LIVE</div>
+    <article class="card live">
+      <!-- 写真: /img/works-live.jpg を置けば自動で表示（横長 3:2 推奨） -->
+      <div class="live__photo photo-slot">
+        <img src="/img/works-live.jpg" alt="AudioVisual ライブ" width="1200" height="800">
+        <div class="placeholder">[PHOTO: 白いシャツに映像が投影された演奏写真]</div>
+      </div>
+      <div class="live__text">
+        <div class="card__body">
+          <p class="text-jp">サンプラー、エフェクター、自作の映像システムによる AudioVisual ライブ。白いシャツを投影面とし、演奏する身体と映像を重ねる。</p>
+        </div>
+        <a class="smartlink" href="/ticket-form.html"><span><strong>SCHEDULE</strong> / 今後のライブ</span></a>
+      </div>
+    </article>
+
+    <!-- 出演履歴: ticket-form.html と同じ Bandsintown から自動取得 -->
+    <article class="card" aria-labelledby="shows-title">
+      <div class="card__meta">
+        <span class="card__tag" id="shows-title">PAST_SHOWS</span>
+        <span class="card__title" id="shows-count"></span>
+        <span class="card__type">BANDSINTOWN</span>
+      </div>
+      <div id="shows-upcoming"></div>
+      <div id="shows-list" aria-live="polite">
+        <div class="shows__row shows__status">FETCHING_EVENTS...</div>
+      </div>
+      <button type="button" class="shows__more" id="shows-more" aria-controls="shows-list" aria-expanded="false" hidden>SHOW_ALL</button>
+    </article>
+  </section>
+
+  <!-- ============================================================
+       COMMISSIONS
+       ============================================================ -->
+  <section id="commissions">
+    <div class="section-label">COMMISSIONS</div>
+    <div class="services">
+      <div class="service">
+        <div class="service__head"><span class="service__no">01</span><span>ORIGINAL_MUSIC</span></div>
+        <div class="service__title">楽曲制作</div>
+        <p>歌もの、インストゥルメンタル、ビート、リミックス。J-pop、オルタナティブR&amp;B から IDM、ノイズ、アンビエントまで。</p>
+      </div>
+      <div class="service">
+        <div class="service__head"><span class="service__no">02</span><span>SCORE / GAME_AUDIO</span></div>
+        <div class="service__title">映像・ゲームのための音楽</div>
+        <p>映像作品の劇伴、ゲームの BGM、効果音とサウンドデザイン。</p>
+      </div>
+      <div class="service">
+        <div class="service__head"><span class="service__no">03</span><span>MUSIC / LYRIC_VIDEO</span></div>
+        <div class="service__title">MV・リリックビデオ</div>
+        <p>自作ツールによるキネティック・タイポグラフィ、グリッチ、トラッキングを用いた映像制作。</p>
+      </div>
+      <div class="service">
+        <div class="service__head"><span class="service__no">04</span><span>LIVE_VISUAL_SYSTEM</span></div>
+        <div class="service__title">ライブ映像システム</div>
+        <p>楽器や DAW と同期する映像システムの設計・開発、および VJ としての出演。</p>
+      </div>
+      <div class="service">
+        <div class="service__head"><span class="service__no">05</span><span>AUDIOVISUAL_WORK</span></div>
+        <div class="service__title">AudioVisual 作品・展示</div>
+        <p>音と映像を一体で設計する作品、展示空間のための生成システム。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CONTACT
+       ============================================================ -->
+  <section id="contact">
+    <div class="section-label">CONTACT</div>
+    <article class="card">
+      <div class="card__body">
+        <p class="text-jp">制作のご依頼、ライブ出演、共同制作のご相談はこちらから。用途・時期・ご予算の目安をお知らせいただけると、具体的なご提案ができます。</p>
+        <p class="text-en" style="margin-top:8px">Inquiries in English are welcome.</p>
+      </div>
+      <a class="smartlink" href="https://forms.gle/1pbT5vwbirb6d1KQ6" target="_blank" rel="noopener">
+        <span><strong>CONTACT_FORM</strong> / Google Forms</span>
+      </a>
+    </article>
+  </section>
+
+</main>
+
+<footer>
+  <span>© MEI TAKEDA / 1+1.=V.</span>
+  <span><a href="/">BACK_TO_INDEX</a></span>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  // 写真: 読み込めた時だけ表示。ファイルが無い間はプレースホルダー。
+  document.querySelectorAll('.photo-slot').forEach(function (slot) {
+    var img = slot.querySelector('img');
+    if (!img) return;
+    function ok() { slot.classList.add('has-photo'); }
+    function ng() { slot.classList.remove('has-photo'); }
+    img.addEventListener('load', ok);
+    img.addEventListener('error', ng);
+    // スクリプト実行前に読み込み／失敗が済んでいる場合も拾う
+    if (img.complete) { if (img.naturalWidth > 0) ok(); else ng(); }
+  });
+
+  // 動画: 最初はサムネイル。クリック／タップで再生、もう一度で一時停止。
+  var boxes = [];
+  // 音声: 全動画共通。最初は ON。
+  var soundOn = true;
+  function applySound() {
+    document.querySelectorAll('.media').forEach(function (b) {
+      var v = b.querySelector('video'), sb = b.querySelector('.media__sound');
+      if (v) v.muted = !soundOn;
+      if (sb) {
+        sb.setAttribute('aria-pressed', soundOn ? 'true' : 'false');
+        sb.textContent = soundOn ? 'SOUND ON' : 'SOUND OFF';
+      }
+    });
+  }
+  document.querySelectorAll('.media__sound').forEach(function (sb) {
+    sb.addEventListener('click', function () {
+      soundOn = !soundOn;
+      applySound();
+    });
+  });
+  applySound();
+  document.querySelectorAll('.media').forEach(function (box) {
+    var video = box.querySelector('video');
+    var thumb = box.querySelector('.media__thumb');
+    var btn = box.querySelector('.media__toggle');
+    if (!video || !btn) return;
+    var label = box.getAttribute('data-label') || '動画';
+    var sources = video.querySelectorAll('source');
+    boxes.push(video);
+
+    // サムネイル: 読み込めた時だけ表示
+    if (thumb) {
+      var thumbOk = function () { box.classList.add('has-thumb'); };
+      var thumbNg = function () { box.classList.remove('has-thumb'); };
+      thumb.addEventListener('load', thumbOk);
+      thumb.addEventListener('error', thumbNg);
+      if (thumb.complete) { if (thumb.naturalWidth > 0) thumbOk(); else thumbNg(); }
+    }
+
+    // 動画ファイルが無い場合は再生ボタンを出さない
+    function videoOk() { box.classList.remove('no-video'); }
+    function videoNg() {
+      box.classList.add('no-video');
+      box.classList.remove('is-started', 'is-playing');
+    }
+    video.addEventListener('loadedmetadata', videoOk);
+    if (sources.length) sources[sources.length - 1].addEventListener('error', videoNg);
+    // スクリプト実行前に読み込み／失敗が済んでいる場合も拾う
+    if (video.readyState >= 1) videoOk();
+    else if (video.networkState === 3 /* NETWORK_NO_SOURCE */) videoNg();
+
+    video.addEventListener('play', function () {
+      box.classList.add('is-started', 'is-playing');
+      btn.setAttribute('aria-label', label + ' を一時停止');
+    });
+    video.addEventListener('pause', function () {
+      box.classList.remove('is-playing');
+      btn.setAttribute('aria-label', label + ' を再生');
+    });
+
+    btn.addEventListener('click', function () {
+      if (video.paused) {
+        // 同時に再生するのは1本だけ
+        boxes.forEach(function (v) { if (v !== video && !v.paused) v.pause(); });
+        var p = video.play();
+        if (p && p.catch) p.catch(function (err) {
+          // ブラウザの設定で音付き再生が拒否された場合は、音声 OFF にして再生し直す
+          if (err && err.name === 'NotAllowedError' && !video.muted) {
+            soundOn = false;
+            applySound();
+            var p2 = video.play();
+            if (p2 && p2.catch) p2.catch(function () {});
+          }
+        });
+      } else {
+        video.pause();
+      }
+    });
+
+    // 画面外に出たら一時停止（自動では再開しない）
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting && !video.paused) video.pause();
+        });
+      }, { threshold: 0 }).observe(box);
+    }
+  });
+
+  // ============================================================
+  // 出演履歴: Bandsintown（ticket-form.html と同じアーティスト / app_id）
+  // ============================================================
+  (function () {
+    var ARTIST = '武田 鳴';
+    var APP_ID = '610e81a3e048378adaaea829de59f64b';
+    var LIMIT = 10; // 最初に表示する件数
+    var base = 'https://rest.bandsintown.com/artists/' + encodeURIComponent(ARTIST) + '/events?app_id=' + APP_ID;
+
+    var listEl = document.getElementById('shows-list');
+    var upEl = document.getElementById('shows-upcoming');
+    var countEl = document.getElementById('shows-count');
+    var moreBtn = document.getElementById('shows-more');
+    if (!listEl) return;
+
+    // description の「VENUE:会場名」を取り出す（ticket-form.html と同じ書式）
+    function parseVenue(desc) {
+      if (!desc) return '';
+      var parts = String(desc).split('|');
+      for (var i = 0; i < parts.length; i++) {
+        var m = parts[i].trim().match(/^VENUE\s*[:：]\s*(.+)/i);
+        if (m) return m[1].trim();
+      }
+      return '';
+    }
+
+    function toShow(ev) {
+      var dt = String(ev.datetime || '');
+      var venueObj = ev.venue || {};
+      var venue = parseVenue(ev.description);
+      // このアカウントでは title が空で、イベント名が venue.name に入っている
+      var title = String(ev.title || '').trim() || String(venueObj.name || '').trim();
+      if (venue) title = title.replace(/\s*[@＠][^@＠]+$/, '').trim(); // 「イベント名@会場」の重複を除去
+      var city = String(venueObj.city || '').trim();
+      return {
+        key: dt,
+        // 表示は会場の現地日付のまま（閲覧者のタイムゾーンでずらさない）
+        date: dt.slice(0, 10).replace(/-/g, '.'),
+        title: title,
+        place: venue && city ? venue + ' / ' + city : (venue || city)
+      };
+    }
+
+    function row(show, tag, href) {
+      var el = document.createElement(href ? 'a' : 'div');
+      el.className = 'shows__row';
+      if (href) el.href = href;
+      var d = document.createElement('span');
+      d.className = 'shows__date';
+      d.textContent = tag ? tag + ' ' + show.date : show.date;
+      var t = document.createElement('span');
+      t.className = 'shows__title';
+      t.textContent = show.title;
+      var p = document.createElement('span');
+      p.className = 'shows__place';
+      p.textContent = show.place;
+      el.appendChild(d); el.appendChild(t); el.appendChild(p);
+      return el;
+    }
+
+    function status(text) {
+      listEl.textContent = '';
+      var el = document.createElement('div');
+      el.className = 'shows__row shows__status';
+      el.textContent = text;
+      listEl.appendChild(el);
+    }
+
+    function getJSON(url) {
+      return fetch(url).then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      }).then(function (data) {
+        if (!Array.isArray(data)) throw new Error('Unexpected response');
+        return data;
+      });
+    }
+
+    var past = [];
+    var expanded = false;
+
+    function renderPast() {
+      listEl.textContent = '';
+      var shown = expanded ? past : past.slice(0, LIMIT);
+      shown.forEach(function (s) { listEl.appendChild(row(s)); });
+      if (past.length > LIMIT) {
+        moreBtn.hidden = false;
+        moreBtn.textContent = expanded ? 'SHOW_LESS' : 'SHOW_ALL (' + past.length + ')';
+        moreBtn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      } else {
+        moreBtn.hidden = true;
+      }
+    }
+
+    moreBtn.addEventListener('click', function () {
+      expanded = !expanded;
+      renderPast();
+      if (!expanded) document.getElementById('shows-title').scrollIntoView({ block: 'nearest' });
+    });
+
+    // 過去のライブ（新しい順）
+    getJSON(base + '&date=past').then(function (data) {
+      past = data.map(toShow).filter(function (s) { return s.date; });
+      past.sort(function (a, b) { return a.key < b.key ? 1 : a.key > b.key ? -1 : 0; });
+      countEl.textContent = past.length ? past.length + ' SHOWS' : '';
+      if (!past.length) { status('NO_PAST_SHOWS'); return; }
+      renderPast();
+    }).catch(function () {
+      status('出演履歴を読み込めませんでした / FAILED_TO_LOAD');
+    });
+
+    // 今後のライブ（あれば先頭に NEXT として表示し、予約ページへリンク）
+    getJSON(base).then(function (data) {
+      var up = data.map(toShow).filter(function (s) { return s.date; });
+      up.sort(function (a, b) { return a.key < b.key ? -1 : a.key > b.key ? 1 : 0; });
+      if (!up.length) return;
+      var head = document.createElement('div');
+      head.className = 'shows__head';
+      head.textContent = 'UPCOMING';
+      upEl.appendChild(head);
+      up.forEach(function (s) { upEl.appendChild(row(s, 'NEXT', '/ticket-form.html')); });
+      var head2 = document.createElement('div');
+      head2.className = 'shows__head';
+      head2.textContent = 'PAST';
+      upEl.appendChild(head2);
+    }).catch(function () { /* 今後の予定が取れなくても履歴表示には影響させない */ });
+  })();
+})();
+</script>
+
+</body>
+</html>

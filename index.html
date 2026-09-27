@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta property='og:type' content='website'>
-  <meta property='og:title' content='武田鳴 公式サイト MEI TAKEDA official site'>
-  <meta property='og:url' content='https://www.takeda-mei.com'>
-  <meta property='og:description' content='Mei Takeda Web site'>
+  <meta property='og:title' content='武田 鳴 公式サイト MEI TAKEDA official site'>
+  <meta property='og:url' content='https://takeda-mei.com/'>
+  <meta property='og:description' content='武田 鳴（MEI TAKEDA）公式サイト。京都拠点の音楽家・ビートメーカー・AudioVisual 作家。J-pop を軸に、オルタナティブR&amp;B、IDM、ノイズ、アンビエントを横断する。'>
   <meta property="og:image" content="https://takeda-mei.com/img/Twitter_takeda_mei_card.png">
   <meta property="og:image:width" content="1200">
-  <meta property="og:image:width" content="628">
-  <meta name="description" content="MEI TAKEDA official Web site " />
+  <meta property="og:image:height" content="628">
+  <meta name="description" content="武田 鳴（MEI TAKEDA）公式サイト。京都拠点の音楽家・ビートメーカー・AudioVisual 作家。J-pop を軸に、オルタナティブR&amp;B、IDM、ノイズ、アンビエントを横断する。" />
   <meta name="twitter:site" content="@_takeda_mei_">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="武田鳴">
-  <meta name="twitter:description" content="Mei Takeda official Web site">
+  <meta name="twitter:title" content="武田 鳴 / MEI TAKEDA">
+  <meta name="twitter:description" content="武田 鳴（MEI TAKEDA）公式サイト。京都拠点の音楽家・ビートメーカー・AudioVisual 作家。J-pop を軸に、オルタナティブR&amp;B、IDM、ノイズ、アンビエントを横断する。">
   <meta name="twitter:image" content="https://takeda-mei.com/img/Twitter_takeda_mei_card_2.png" />
   <script type="application/ld+json">
 {
@@ -23,8 +23,8 @@
   "name": "武田 鳴",
   "alternateName": "Mei Takeda",
   "url": "https://takeda-mei.com",
-  "genre": ["IDM", "Noise", "Electronica", "Trip-Hop", "Ambient", "J-Pop"],
-  "description": "京都拠点のソロアーティスト。J-popの構造にIDM、ノイズ、アンビエント、トリップホップを重ねた音楽を、サンプラー・Kaosspad・VJ・歌唱の同時操作で演奏する。",
+  "genre": ["J-Pop", "Alternative R&B", "IDM", "Noise", "Electronica", "Trip-Hop", "Ambient"],
+  "description": "京都拠点のソロアーティスト、ビートメーカー、AudioVisual 作家。J-popの構造にオルタナティブR&B、IDM、ノイズ、アンビエント、トリップホップを重ねた音楽を制作し、サンプラー・Kaosspad・VJ・歌唱の同時操作で演奏する。",
   "foundingLocation": {
     "@type": "Place",
     "name": "Kyoto, Japan"
@@ -738,6 +738,24 @@
                 font-size: 7px;
             }
         }
+
+        /* 狭い画面ではロゴを短縮表記に（listen.html などのナビと同じ MEI.T 表記） */
+        .title-short { display: none; }
+        @media (max-width: 385px) {
+            .title-full { display: none; }
+            .title-short { display: inline; }
+        }
+
+        /* WORKS ボタン追加で5個になったため、390px 幅で全ボタンが収まるよう左右余白を詰める */
+        @media (max-width: 420px) {
+            .controls {
+                gap: 4px;
+            }
+
+            .mono-button {
+                padding: 6px 5px;
+            }
+        }
     </style>
 </head>
 
@@ -762,11 +780,12 @@
         </div>
 
         <div class="header">
-            <div class="title">MEI TAKEDA [1+1.=V.]</div>
+            <div class="title"><span class="title-full">MEI TAKEDA [1+1.=V.]</span><span class="title-short">MEI.T [1+1.=V.]</span></div>
             <div class="controls">
                 <button class="mono-button" id="uiButton">CTRL</button>
                 <button class="mono-button" id="bandcampButton">LISTEN</button>
                   <button class="mono-button" id="scheduleButton">SCHEDULE</button>
+                <button class="mono-button" id="worksButton">WORKS</button>
                 <button class="mono-button" id="contactButton">CONTACT</button>
             </div>
         </div>
@@ -1646,6 +1665,7 @@
                 setupButton('stopButtonMobile', () => this.stop());
                 setupButton('bandcampButton', () => window.open('/listen.html', '_blank'));
                 setupButton('scheduleButton', () => window.open('/ticket-form.html', '_blank'));
+                setupButton('worksButton', () => window.open('/works.html', '_blank'));
                 setupButton('contactButton', () =>  window.open('https://forms.gle/1pbT5vwbirb6d1KQ6', '_blank'));
                 setupButton('uiButton', () => this.toggleUI());
                 this.setupFileInput('fileArea', 'fileInput');

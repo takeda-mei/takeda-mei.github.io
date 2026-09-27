@@ -162,7 +162,14 @@
     .form-row { grid-template-columns:1fr; }
   }
 
+/* ナビ用の変数（このページの :root には無いため、listen.html と同じ値を .nav に定義） */
 .nav {
+    --fg: #fff;
+    --dim: #666;
+    --line: #222;
+    --accent: #00ff66;
+    font-family: var(--mono);
+    line-height: 1.5;
     position: fixed;
     top: 0; left: 0; right: 0;
     height: 48px;
@@ -182,6 +189,7 @@
   .nav__logo { font-weight: 500; white-space: nowrap; flex-shrink: 0; }
   .nav__logo .dim { color: var(--dim); }
 
+  .nav a { color: var(--fg); text-decoration: none; }
   .nav__links { display: flex; gap: 24px; list-style: none; }
   .nav__links a { color: var(--dim); transition: color 0.15s; padding: 4px 0; }
   .nav__links a:hover,
@@ -206,6 +214,11 @@
     .nav { padding: 0 10px; gap: 8px; }
     .nav__links { gap: 10px; }
   }
+  /* 4項目（WORKS 追加）が 320px 幅でも収まるように */
+  @media (max-width: 340px) {
+    .nav { letter-spacing: 0.04em; }
+    .nav__links { gap: 6px; }
+  }
 
   
 </style>
@@ -218,8 +231,9 @@
     <span class="short">MEI.T <span class="dim">[1+1.=V.]</span></span>
   </a>
   <ul class="nav__links">
-    <li><a href="/listen.html" aria-current="page">LISTEN</a></li>
-    <li><a href="/ticket-form.html">SCHEDULE</a></li>
+    <li><a href="/listen.html">LISTEN</a></li>
+    <li><a href="/ticket-form.html" aria-current="page">SCHEDULE</a></li>
+    <li><a href="/works.html">WORKS</a></li>
     <li><a href="https://forms.gle/1pbT5vwbirb6d1KQ6" target="_blank" >CONTACT</a></li>
   </ul>
 </nav>
