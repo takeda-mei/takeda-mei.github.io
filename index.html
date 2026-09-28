@@ -6,6 +6,7 @@
   <meta property='og:type' content='website'>
   <meta property='og:title' content='武田 鳴 公式サイト MEI TAKEDA official site'>
   <meta property='og:url' content='https://takeda-mei.com/'>
+  <link rel="canonical" href="https://takeda-mei.com/">
   <meta property='og:description' content='武田 鳴（MEI TAKEDA）公式サイト。京都拠点の音楽家・ビートメーカー・AudioVisual 作家。J-pop を軸に、オルタナティブR&amp;B、IDM、ノイズ、アンビエントを横断する。'>
   <meta property="og:image" content="https://takeda-mei.com/img/Twitter_takeda_mei_card.png">
   <meta property="og:image:width" content="1200">
@@ -177,6 +178,17 @@
             cursor: pointer;
             transition: all 0.1s ease;
             letter-spacing: 1px;
+        }
+
+        /* <a> で作ったナビも <button> と同じ見た目にする */
+        a.mono-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            line-height: normal;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         .mono-button:hover {
@@ -783,10 +795,10 @@
             <div class="title"><span class="title-full">MEI TAKEDA [1+1.=V.]</span><span class="title-short">MEI.T [1+1.=V.]</span></div>
             <div class="controls">
                 <button class="mono-button" id="uiButton">CTRL</button>
-                <button class="mono-button" id="bandcampButton">LISTEN</button>
-                  <button class="mono-button" id="scheduleButton">SCHEDULE</button>
-                <button class="mono-button" id="worksButton">WORKS</button>
-                <button class="mono-button" id="contactButton">CONTACT</button>
+                <a class="mono-button" id="bandcampButton" href="/listen.html" target="_blank" rel="noopener">LISTEN</a>
+                <a class="mono-button" id="scheduleButton" href="/ticket-form.html" target="_blank" rel="noopener">SCHEDULE</a>
+                <a class="mono-button" id="worksButton" href="/works.html" target="_blank" rel="noopener">WORKS</a>
+                <a class="mono-button" id="contactButton" href="https://forms.gle/1pbT5vwbirb6d1KQ6" target="_blank" rel="noopener">CONTACT</a>
             </div>
         </div>
 
@@ -1663,10 +1675,8 @@
                 setupButton('micButtonMobile', () => this.startMicrophone());
                 setupButton('playButtonMobile', () => this.togglePlayback());
                 setupButton('stopButtonMobile', () => this.stop());
-                setupButton('bandcampButton', () => window.open('/listen.html', '_blank'));
-                setupButton('scheduleButton', () => window.open('/ticket-form.html', '_blank'));
-                setupButton('worksButton', () => window.open('/works.html', '_blank'));
-                setupButton('contactButton', () =>  window.open('https://forms.gle/1pbT5vwbirb6d1KQ6', '_blank'));
+                // LISTEN / SCHEDULE / WORKS / CONTACT は <a href target="_blank"> のリンクで開く
+                // （検索エンジンがリンクをたどれるようにするため。JS の window.open は使わない）
                 setupButton('uiButton', () => this.toggleUI());
                 this.setupFileInput('fileArea', 'fileInput');
                 this.setupFileInput('fileAreaMobile', 'fileInputMobile');
