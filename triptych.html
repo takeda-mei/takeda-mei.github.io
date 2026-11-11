@@ -1,0 +1,2626 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>武田 鳴 / MEI TAKEDA [1+1.=V.]</title>
+<meta name="description" content="武田 鳴（MEI TAKEDA）公式サイト。京都拠点の音楽家・ビートメーカー・AudioVisual 作家。">
+<link rel="canonical" href="https://takeda-mei.com/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --wall: #c9c3ba;      /* 展示室の壁（照明が当たるところだけ明るい） */
+    --ink: #1b1a19;
+    --dim: #7c7873;
+    --mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body { background: radial-gradient(ellipse 120% 70% at 50% 45%, #cfc9c0 0%, #bdb6ac 60%, #a9a299 100%); color: var(--ink); font-family: var(--mono); overflow: hidden; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  /* PC のマウスポインタ：小さな目。入口に乗せると瞳が開き、赤く縁取られる */
+  html:not(.is-mobile) body { cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><circle cx='16' cy='16' r='9' fill='%23fbfaf7' stroke='%231b1a19' stroke-width='1.6'/><circle cx='16' cy='16' r='4.6' fill='%237a4a26'/><circle cx='16' cy='16' r='2.2' fill='%23050505'/><circle cx='14.4' cy='14.2' r='1' fill='%23ffffff'/></svg>") 16 16, crosshair; }
+  html:not(.is-mobile) a, html:not(.is-mobile) button, html:not(.is-mobile) .hot { cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='%23fbfaf7' stroke='%231b1a19' stroke-width='2'/><circle cx='16' cy='16' r='8.5' fill='%237a4a26' stroke='%23d9232a' stroke-width='1.6'/><circle cx='16' cy='16' r='4.2' fill='%23050505'/><circle cx='13.2' cy='12.8' r='1.8' fill='%23ffffff'/></svg>") 16 16, pointer; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  .skip-nav { position: fixed; top: 12px; left: 50%; transform: translate(-50%, -200%); z-index: 50; display: flex; gap: 8px; background: var(--wall); padding: 8px; border: 1px solid var(--ink); }
+  .skip-nav:focus-within { transform: translate(-50%, 0); }
+  .skip-nav a { font-size: 11px; letter-spacing: 0.14em; text-decoration: none; padding: 6px 10px; }
+  .skip-nav a:focus { outline: 1px solid var(--ink); }
+
+  .mark { position: fixed; top: 18px; left: 22px; font-size: 11px; letter-spacing: 0.14em; z-index: 5; }
+  .mark .dim { color: var(--dim); }
+
+  .triptych { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; gap: var(--gap, 72px); padding-bottom: 150px; }
+  /* 絵（WebGL はこの枠の中に描く）と、金の額縁（段のある縁取り） */
+  .panel {
+    position: relative; flex: 0 0 auto; width: var(--pw); height: var(--ph); background: #2a2622;
+    box-shadow:
+      0 0 0 3px #1e140a,          /* 絵との境の暗い溝 */
+      0 0 0 5px #f2dd9c,          /* 細い光の筋 */
+      0 0 0 10px #b48c3c,
+      0 0 0 12px #e9cd7e,
+      0 0 0 19px #96702c,
+      0 0 0 21px #c9a656,
+      0 0 0 24px #5e4419,         /* 外側の縁 */
+      0 0 0 25px #e4c77c,
+      0 40px 36px 4px rgba(20, 14, 6, 0.42),   /* 壁に落ちる影 */
+      0 12px 14px 2px rgba(20, 14, 6, 0.25);
+  }
+  /* 壁に落ちる、スポットライトの光だまり */
+  .panel::before {
+    content: ""; position: absolute; left: -75%; right: -75%; top: -62%; bottom: -48%; z-index: -1; pointer-events: none;
+    background: radial-gradient(ellipse 44% 50% at 50% 36%, rgba(255, 246, 228, 0.85) 0%, rgba(255, 240, 214, 0.38) 45%, rgba(255, 240, 214, 0) 72%);
+  }
+  /* 天井の照明器具 */
+  .lamp { position: absolute; left: 50%; top: -78px; width: 18px; height: 12px; margin-left: -9px; background: #2b2926; border-radius: 3px 3px 7px 7px; box-shadow: 0 -30px 0 -7px #2b2926; }
+  .lamp::after { content: ""; position: absolute; left: 3px; right: 3px; bottom: -2px; height: 3px; border-radius: 2px; background: #fff3d6; box-shadow: 0 0 10px 3px rgba(255, 238, 200, 0.8); }
+  /* 作品ラベル（美術館のキャプション） */
+  .label {
+    position: absolute; right: -25px; top: calc(100% + 40px); width: min(270px, calc(var(--pw) + 50px));
+    background: #f4f1ec; color: #2a2723; padding: 11px 13px 10px; font-family: var(--mono);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.08), 0 6px 10px -6px rgba(0,0,0,0.35);
+  }
+  .label p { margin: 0; font-size: 9.5px; line-height: 1.55; letter-spacing: 0.04em; }
+  .label .l-artist { font-size: 10px; letter-spacing: 0.08em; }
+  .label .l-artist span, .label .l-title span { color: #7a746c; }
+  .label .l-title { font-size: 11px; margin: 4px 0 3px; letter-spacing: 0.06em; }
+  .label .l-title i { font-style: normal; color: #7a746c; margin-right: 4px; }
+  .label .l-medium, .label .l-size { color: #514c46; }
+  /* 音声ガイドの行：II を実際の音で動かす */
+  .label .l-av { display: flex; align-items: center; gap: 6px; margin-top: 7px; padding-top: 7px; border-top: 1px solid #ddd7ce; }
+  .label .l-av button { font: inherit; font-size: 9px; letter-spacing: 0.14em; padding: 3px 7px; border: 1px solid #2a2723; background: transparent; color: #2a2723; cursor: pointer; }
+  .label .l-av button[aria-pressed="true"] { background: #2a2723; color: #f4f1ec; }
+  .label .l-av button:focus-visible { outline: 1px solid #2a2723; outline-offset: 2px; }
+  .label .l-av .st { color: #7a746c; font-size: 9px; letter-spacing: 0.08em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  /* ガラス：照り返しと、額縁が絵に落とす影（絵の上に重なる） */
+  #glass { position: fixed; inset: 0; z-index: 2; pointer-events: none; transition: opacity 0.5s; }
+  /* ---- 絵の中に入る（すべての絵）：DON'T TOUCH と書いてあるのに、触れると中に入る ---- */
+  html:not(.is-mobile):not(.entered) .panel { cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='%23fbfaf7' stroke='%231b1a19' stroke-width='2'/><circle cx='16' cy='16' r='8.5' fill='%237a4a26' stroke='%23d9232a' stroke-width='1.6'/><circle cx='16' cy='16' r='4.2' fill='%23050505'/><circle cx='13.2' cy='12.8' r='1.8' fill='%23ffffff'/></svg>") 16 16, pointer; }
+  .panel, .label, .lamp { transition: opacity 0.6s; }
+  .panel.diving { position: fixed !important; z-index: 0; margin: 0;
+    transition: left 0.9s cubic-bezier(0.7, 0, 0.2, 1), top 0.9s cubic-bezier(0.7, 0, 0.2, 1), width 0.9s cubic-bezier(0.7, 0, 0.2, 1), height 0.9s cubic-bezier(0.7, 0, 0.2, 1); }
+  html.entered .panel:not(.diving), html.entered .label, html.entered .lamp, html.entered #glass,
+  html.entered #hot-figure,
+  html.entered:not(.in-0) #hot-flower, html.entered:not(.in-1) #hot-screen,
+  html.entered:not(.in-2) #hot-synth, html.entered:not(.in-2) #hot-door, html.entered:not(.in-2) #hot-laptop { opacity: 0; pointer-events: none; }
+  html.entered:not(.in-2) #hot-laptop .tag, html.entered:not(.in-0) #hot-flower .tag { pointer-events: none; }
+  .panel.diving::before { opacity: 0; }
+  html.entered .panel.diving { cursor: grab; }
+  .enter-hint { position: absolute; transform: translateX(-50%); font-size: 10px; font-weight: 700; letter-spacing: 0.24em; padding: 5px 10px; background: #f4f1ec; color: #b3201f; border: 1.5px solid #b3201f; white-space: nowrap; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+  /* 作品ラベルの注意書き */
+  .label .l-touch { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin-top: 7px; padding-top: 7px; border-top: 1px solid #ddd7ce; color: #b3201f; font-size: 9px; letter-spacing: 0.04em; }
+  .label .l-touch .dt { font-weight: 700; letter-spacing: 0.2em; border: 1px solid #b3201f; padding: 1px 5px; }
+  .label .l-touch button { font: inherit; font-size: 9px; letter-spacing: 0.14em; padding: 2px 7px; border: 1px solid #2a2723; background: transparent; color: #2a2723; cursor: pointer; margin-left: auto; }
+  .label .l-touch button:focus-visible { outline: 1px solid #2a2723; outline-offset: 2px; }
+  /* 絵の中の操作の案内 */
+  #fpsHelp { position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%); z-index: 7; font-size: 11px; letter-spacing: 0.14em; padding: 9px 14px; color: #f4f1ec; background: rgba(20, 18, 16, 0.6); opacity: 0; transition: opacity 0.6s; pointer-events: none; white-space: nowrap; }
+  #fpsHelp.on { opacity: 1; }
+  #walkMark { position: fixed; z-index: 6; width: 22px; height: 22px; margin: -11px 0 0 -11px; border: 1.5px solid rgba(255, 250, 240, 0.95); border-radius: 50%; pointer-events: none; opacity: 0; }
+  #walkMark.on { animation: walkmark 0.7s ease-out; }
+  #keyPad { position: fixed; left: 22px; bottom: 22px; z-index: 7; display: grid; grid-template-columns: repeat(3, 38px); grid-template-rows: repeat(2, 38px); gap: 5px; opacity: 0; pointer-events: none; transition: opacity 0.4s; }
+  html.entered #keyPad { opacity: 1; pointer-events: auto; }
+  #keyPad span { display: flex; align-items: center; justify-content: center; font: 12px var(--mono); color: #f4f1ec; background: rgba(20, 18, 16, 0.5); border: 1px solid rgba(244, 241, 236, 0.6); cursor: pointer; user-select: none; -webkit-user-select: none; touch-action: none; }
+  #keyPad span.on { background: rgba(244, 241, 236, 0.92); color: #1b1a19; }
+  #keyPad .kf { grid-column: 2; grid-row: 1; } #keyPad .kl { grid-column: 1; grid-row: 2; } #keyPad .kb { grid-column: 2; grid-row: 2; } #keyPad .kr { grid-column: 3; grid-row: 2; }
+  @keyframes walkmark { 0% { opacity: 1; transform: scale(0.4); } 100% { opacity: 0; transform: scale(1.6); } }
+  .enter-hint.on { opacity: 1; }
+  #exitWorld { position: fixed; top: 14px; right: 18px; z-index: 7; font: 11px var(--mono); letter-spacing: 0.16em; padding: 8px 12px; color: var(--ink); background: rgba(236, 232, 226, 0.88); border: 1px solid var(--ink); opacity: 0; pointer-events: none; transition: opacity 0.4s; }
+  html.entered #exitWorld { opacity: 1; pointer-events: auto; }
+  #exitWorld:focus-visible { outline: 1px solid var(--ink); outline-offset: 2px; }
+  #glass div {
+    position: absolute;
+    background: linear-gradient(118deg, rgba(255,255,255,0) 28%, rgba(255,255,255,0.075) 36%, rgba(255,255,255,0) 45%, rgba(255,255,255,0) 66%, rgba(255,255,255,0.045) 72%, rgba(255,255,255,0) 78%);
+    box-shadow: inset 0 18px 20px -14px rgba(0,0,0,0.6), inset 12px 0 14px -14px rgba(0,0,0,0.45), inset -12px 0 14px -14px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(0,0,0,0.45);
+  }
+
+  #gl { position: fixed; inset: 0; width: 100vw; height: 100vh; display: block; z-index: 1; pointer-events: none; }
+
+  #hotspots { position: fixed; inset: 0; z-index: 3; pointer-events: none; }
+  .hot { position: absolute; width: var(--s, 56px); height: var(--s, 56px); margin: calc(var(--s, 56px) / -2) 0 0 calc(var(--s, 56px) / -2); border-radius: 50%; pointer-events: auto; cursor: pointer; outline: none; display: block; }
+  .hot[hidden] { display: none; }
+  .hot.off { pointer-events: none; }
+  .hot .tag {
+    position: absolute; left: 50%; bottom: calc(100% + 6px); transform: translateX(-50%);
+    font-size: 10px; letter-spacing: 0.2em; white-space: nowrap; padding: 5px 8px;
+    background: var(--wall); color: var(--ink); border: 1px solid var(--ink);
+    opacity: 0; transition: opacity 0.25s; pointer-events: none;
+  }
+  .hot:hover .tag, .hot:focus-visible .tag, .hot.show .tag { opacity: 1; }
+  .hot:hover .tag, .hot.show .tag { pointer-events: auto; cursor: inherit; }   /* 見えている「SCHEDULE」などの文字そのものも押せる */
+  .hot.off .tag { pointer-events: none; }
+  .hot.tag-below .tag { bottom: auto; top: calc(100% + 6px); }
+  .hot:focus-visible { box-shadow: 0 0 0 1px var(--ink); }
+
+  .fallback { display: none; position: fixed; inset: 0; align-items: center; justify-content: center; flex-direction: column; gap: 18px; z-index: 4; }
+  .no-gl .fallback { display: flex; }
+  .no-gl #gl, .no-gl #hotspots, .no-gl .triptych, .no-gl #glass { display: none; }
+  /* ---- スマホ版：ウィアードコアの廊下 ---- */
+  #mhot, #m-caption { display: none; }
+  /* スマホ版はページを縦に長くして、スクロール量で廊下を進む（表示は固定） */
+  html.is-mobile, .is-mobile body { height: auto; }
+  .is-mobile body { background: #9cc8f0; overflow-x: hidden; overflow-y: auto; touch-action: pan-y; overscroll-behavior-y: none; }
+  #m-scroll { display: none; }
+  .is-mobile #m-scroll { display: block; height: 650vh; }
+  .is-mobile .triptych, .is-mobile #glass, .is-mobile #hotspots { display: none; }
+  .is-mobile .mark { color: #fff; text-shadow: 0 0 6px rgba(40, 90, 170, 0.6); }
+  .is-mobile .mark .dim { color: #dbeaff; }
+  .is-mobile #mhot { display: block; position: fixed; inset: 0; z-index: 3; pointer-events: none; }
+  .is-mobile .mdoor { position: absolute; display: block; pointer-events: auto; -webkit-tap-highlight-color: transparent; outline: none; }
+  .is-mobile .mdoor[hidden] { display: none; }
+  .is-mobile .mdoor:focus-visible { outline: 2px dashed #e0262b; outline-offset: 2px; }
+  .is-mobile #m-caption {
+    display: block; position: fixed; left: 0; right: 0; bottom: 12%; z-index: 4; pointer-events: none; text-align: center;
+    font: italic 23px/1.2 "Times New Roman", Times, serif; color: #fff; letter-spacing: 0.02em; padding: 10px 0;
+    text-shadow: 0 0 5px #79b3ee, 1px 1px 0 #3b78c6;
+    background: linear-gradient(90deg, rgba(170, 210, 248, 0), rgba(170, 210, 248, 0.7) 20%, rgba(170, 210, 248, 0.7) 80%, rgba(170, 210, 248, 0));
+    opacity: 0; transition: opacity 0.6s;
+  }
+  .is-mobile #m-caption.on { opacity: 1; }
+  .fallback nav { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+  .fallback a { font-size: 12px; letter-spacing: 0.16em; text-decoration: none; border: 1px solid var(--ink); padding: 10px 14px; }
+</style>
+</head>
+<body>
+
+<h1 class="sr">武田 鳴 / MEI TAKEDA</h1>
+<p class="sr">京都を拠点とする音楽家、ビートメーカー、AudioVisual 作家。</p>
+
+<nav class="skip-nav" aria-label="サイト内リンク">
+  <a href="/listen.html">LISTEN</a>
+  <a href="/ticket-form.html">SCHEDULE</a>
+  <a href="/works.html">WORKS</a>
+  <a href="https://forms.gle/1pbT5vwbirb6d1KQ6" target="_blank" rel="noopener">CONTACT</a>
+</nav>
+
+<div class="mark">MEI TAKEDA <span class="dim">[1+1.=V.]</span></div>
+
+<!-- 作品ラベルのタイトルは仮。差し替えはこの3か所 -->
+<div class="triptych" id="triptych">
+  <div class="panel" data-world="0">
+    <span class="lamp" aria-hidden="true"></span>
+    <div class="label">
+      <p class="l-artist">武田 鳴 <span>MEI TAKEDA</span></p>
+      <p class="l-title"><i>I</i>《箱庭》<span>Hakoniwa</span>, 2026</p>
+      <p class="l-medium">砂、風、夕方の光<br>リアルタイム・シミュレーション（WebGL）</p>
+      <p class="l-size">三連画のうち I　サイズ可変　作家蔵</p>
+      <p class="l-touch"><span class="dt">DON'T TOUCH</span>作品に触れないでください<button type="button" class="touchBtn" data-world="0">触れる</button></p>
+    </div>
+  </div>
+  <div class="panel" data-world="1">
+    <span class="lamp" aria-hidden="true"></span>
+    <div class="label">
+      <p class="l-artist">武田 鳴 <span>MEI TAKEDA</span></p>
+      <p class="l-title"><i>II</i>《データの街》<span>City of Data</span>, 2026</p>
+      <p class="l-medium">光、データ、仮想の拍（96 BPM）<br>リアルタイム描画（WebGL）</p>
+      <p class="l-size">三連画のうち II　サイズ可変　作家蔵</p>
+      <p class="l-touch"><span class="dt">DON'T TOUCH</span>作品に触れないでください<button type="button" class="touchBtn" data-world="1">触れる</button></p>
+      <p class="l-av"><button type="button" id="avMic" aria-pressed="false">MIC</button><button type="button" id="avFile" aria-pressed="false">FILE</button><button type="button" id="avTest" aria-pressed="false">TEST</button><input type="file" id="avFileInput" accept="audio/*" hidden><span class="st" id="avStatus">IDLE.SIGNAL</span></p>
+    </div>
+  </div>
+  <div class="panel" data-world="2">
+    <span class="lamp" aria-hidden="true"></span>
+    <div class="label">
+      <p class="l-artist">武田 鳴 <span>MEI TAKEDA</span></p>
+      <p class="l-title"><i>III</i>《見ていない窓》<span>The Unseen Window</span>, 2026</p>
+      <p class="l-medium">部屋、シンセサイザー、パソコン、見ているあいだだけ存在する窓の外<br>リアルタイム・シミュレーション（WebGL）</p>
+      <p class="l-size">三連画のうち III　サイズ可変　作家蔵</p>
+      <p class="l-touch"><span class="dt">DON'T TOUCH</span>作品に触れないでください<button type="button" class="touchBtn" data-world="2">触れる</button></p>
+    </div>
+  </div>
+</div>
+
+<canvas id="gl"></canvas>
+<div id="glass" aria-hidden="true"><div></div><div></div><div></div></div>
+<button type="button" id="exitWorld">展示室へ戻る（Esc）</button>
+<div id="fpsHelp" aria-hidden="true">ドラッグで見回す　／　WASD・矢印キー・ホイールで歩く　／　地面をクリックするとそこへ歩く</div>
+<span id="walkMark" aria-hidden="true"></span>
+<!-- 絵の中：押したキーが光る（キー入力が届いているかが分かる）。押しても歩ける -->
+<div id="keyPad" aria-hidden="true"><span data-k="f" class="kf">W</span><span data-k="l" class="kl">A</span><span data-k="b" class="kb">S</span><span data-k="r" class="kr">D</span></div>
+<!-- スマホ版の扉（本物のリンク。位置は3Dの扉に合わせて動かす） -->
+<div id="mhot">
+  <a class="mdoor" id="md-0" href="/listen.html" aria-label="LISTEN"></a>
+  <a class="mdoor" id="md-1" href="/ticket-form.html" aria-label="SCHEDULE"></a>
+  <a class="mdoor" id="md-2" href="/works.html" aria-label="WORKS"></a>
+  <a class="mdoor" id="md-3" href="https://forms.gle/1pbT5vwbirb6d1KQ6" target="_blank" rel="noopener" aria-label="CONTACT"></a>
+</div>
+<div id="m-caption" aria-hidden="true">I'm getting closer &lt;3</div>
+<div id="m-scroll" aria-hidden="true"></div>
+
+<div id="hotspots">
+  <a class="hot" id="hot-flower" href="/ticket-form.html" aria-label="SCHEDULE" style="--s:84px"><span class="tag">SCHEDULE</span></a>
+  <a class="hot" id="hot-laptop" href="/ticket-form.html" aria-label="SCHEDULE" style="--s:64px"><span class="tag">SCHEDULE</span></a>
+  <a class="hot" id="hot-screen" href="/audiovisual.html" aria-label="AUDIOVISUAL"><span class="tag">AUDIOVISUAL</span></a>
+  <a class="hot" id="hot-synth" href="/listen.html" aria-label="LISTEN"><span class="tag">LISTEN</span></a>
+  <a class="hot" id="hot-door" href="/works.html" aria-label="WORKS" style="--s:70px"><span class="tag">WORKS</span></a>
+  <span class="enter-hint" id="enterHint" aria-hidden="true">DON'T TOUCH</span>
+  <a class="hot" id="hot-figure" href="https://forms.gle/1pbT5vwbirb6d1KQ6" target="_blank" rel="noopener" aria-label="CONTACT" hidden style="--s:64px"><span class="tag">CONTACT</span></a>
+</div>
+
+<div class="fallback">
+  <div style="font-size:12px;letter-spacing:0.16em">MEI TAKEDA [1+1.=V.]</div>
+  <nav aria-label="サイト内リンク">
+    <a href="/listen.html">LISTEN</a>
+    <a href="/ticket-form.html">SCHEDULE</a>
+    <a href="/works.html">WORKS</a>
+    <a href="https://forms.gle/1pbT5vwbirb6d1KQ6" target="_blank" rel="noopener">CONTACT</a>
+  </nav>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  // ============================================================
+  // 0. 準備
+  // ============================================================
+  var canvas = document.getElementById('gl');
+  // 端末の「動きを減らす」設定では止めない（この作品は動くこと・歩けることが前提のため）。以下の reduceMotion の分岐は使われない
+  var reduceMotion = false;
+  var renderer;
+  try {
+    if (!window.THREE) throw new Error('three.js not loaded');
+    renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: false, alpha: true, powerPreference: 'high-performance' });
+  } catch (e) {
+    document.documentElement.classList.add('no-gl');
+    console.warn('TRIPTYCH disabled:', e);
+    return;
+  }
+  var isGL2 = renderer.capabilities.isWebGL2;
+  var floatOK = isGL2 && !!renderer.extensions.get('EXT_color_buffer_float');
+  var BUF_TYPE = floatOK ? THREE.HalfFloatType : THREE.UnsignedByteType;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.shadowMap.autoUpdate = false;     // 影の更新は描画ループで指定する
+  // 色の仕上げ（トーンマッピングとガンマ）は自前の後処理で行う。シーンは線形のまま描く。
+  renderer.toneMapping = THREE.NoToneMapping;
+  renderer.outputEncoding = THREE.LinearEncoding;
+
+  var DPR = Math.min(window.devicePixelRatio || 1, 2);
+  var quality = 1;                          // 重い端末では自動で下げる
+  renderer.setPixelRatio(1);                // 画素は自前で計算する
+
+  var panels = Array.prototype.slice.call(document.querySelectorAll('.panel'));
+  var triptych = document.getElementById('triptych');
+  function layout() {
+    var gap = Math.round(clamp(window.innerWidth * 0.045, 56, 84));           // 額縁ぶんの間隔
+    triptych.style.setProperty('--gap', gap + 'px');
+    var maxW = (window.innerWidth - 2 * 70 - 2 * gap) / 3;
+    var maxH = window.innerHeight - 370;                                      // 上は照明、下は作品ラベル（MIC/FILE/TEST と注意書きまで入る高さ）
+    var w = Math.max(80, Math.min(maxW, maxH * 0.75));
+    triptych.style.setProperty('--pw', Math.round(w) + 'px');
+    triptych.style.setProperty('--ph', Math.round(w / 0.75) + 'px');
+    renderer.setSize(Math.round(window.innerWidth * DPR), Math.round(window.innerHeight * DPR), false);
+  }
+  layout();
+  window.addEventListener('resize', layout);
+
+  function C(hex) { return new THREE.Color(hex).convertSRGBToLinear(); }   // 色は sRGB で書き、線形にして使う
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+  function smoothstep(a, b, v) { var t = clamp((v - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); }
+  function angleDiff(a, b) { var d = b - a; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI; return d; }
+
+  // 乱数とノイズ
+  function hash(x, y, z) { var h = Math.sin(x * 127.1 + y * 311.7 + z * 74.7) * 43758.5453; return h - Math.floor(h); }
+  function sm(t) { return t * t * (3 - 2 * t); }
+  function noise3(x, y, z) {
+    var xi = Math.floor(x), yi = Math.floor(y), zi = Math.floor(z);
+    var xf = sm(x - xi), yf = sm(y - yi), zf = sm(z - zi);
+    function L(a, b, t) { return a + (b - a) * t; }
+    return L(L(L(hash(xi, yi, zi), hash(xi + 1, yi, zi), xf), L(hash(xi, yi + 1, zi), hash(xi + 1, yi + 1, zi), xf), yf),
+             L(L(hash(xi, yi, zi + 1), hash(xi + 1, yi, zi + 1), xf), L(hash(xi, yi + 1, zi + 1), hash(xi + 1, yi + 1, zi + 1), xf), yf), zf);
+  }
+  // 繰り返しても継ぎ目の出ない2Dノイズ（period 格子で巻く）
+  function tnoise(x, y, p) {
+    var xi = Math.floor(x), yi = Math.floor(y), xf = sm(x - xi), yf = sm(y - yi);
+    function H(a, b) { return hash(((a % p) + p) % p, ((b % p) + p) % p, 0.5); }
+    var a = H(xi, yi), b = H(xi + 1, yi), c = H(xi, yi + 1), d = H(xi + 1, yi + 1);
+    return a + (b - a) * xf + (c - a) * yf + (a - b - c + d) * xf * yf;
+  }
+  function tfbm(x, y, p, oct) { var v = 0, amp = 0.5, f = 1; for (var i = 0; i < oct; i++) { v += amp * tnoise(x * f, y * f, p * f); amp *= 0.5; f *= 2; } return v; }
+
+  // コードで描く質感（画像ファイルは使わない）
+  function dataTex(size, fn, srgb) {
+    var d = new Uint8Array(size * size * 4);
+    for (var y = 0; y < size; y++) for (var x = 0; x < size; x++) {
+      var c = fn(x / size, y / size), i = (y * size + x) * 4;
+      d[i] = c[0]; d[i + 1] = c[1]; d[i + 2] = c[2]; d[i + 3] = 255;
+    }
+    var t = new THREE.DataTexture(d, size, size, THREE.RGBAFormat);
+    t.wrapS = t.wrapT = THREE.RepeatWrapping;
+    t.magFilter = THREE.LinearFilter; t.minFilter = THREE.LinearMipmapLinearFilter; t.generateMipmaps = true;
+    if (srgb) t.encoding = THREE.sRGBEncoding;
+    t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+    t.needsUpdate = true;
+    return t;
+  }
+  function canvasTex(w, h, draw, srgb) {
+    var c = document.createElement('canvas'); c.width = w; c.height = h;
+    draw(c.getContext('2d'), w, h);
+    var t = new THREE.CanvasTexture(c);
+    if (srgb !== false) t.encoding = THREE.sRGBEncoding;
+    t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+    return t;
+  }
+
+  // 砂の風紋（凹凸）
+  var sandBump = dataTex(256, function (u, v) {
+    var n = tfbm(u * 8, v * 8, 8, 4);
+    var ripple = Math.sin((v * 46 + tfbm(u * 4, v * 4, 4, 3) * 9) * Math.PI) * 0.5 + 0.5;
+    var g = Math.floor((ripple * 0.55 + n * 0.3 + hash(u * 999, v * 999, 1) * 0.15) * 255);
+    return [g, g, g];
+  });
+  // 錆
+  var rustMap = dataTex(256, function (u, v) {
+    var n = tfbm(u * 6, v * 6, 6, 5), m = tfbm(u * 18 + 3, v * 18, 18, 3);
+    var r = 104 + n * 80 - m * 40, g = 50 + n * 36 - m * 22, b = 26 + n * 14;
+    if (m > 0.62) { r *= 0.55; g *= 0.5; b *= 0.5; }               // 黒い斑点
+    return [clamp(r, 0, 255), clamp(g, 0, 255), clamp(b, 0, 255)];
+  }, true);
+  var rustRough = dataTex(128, function (u, v) { var g = 150 + tfbm(u * 10, v * 10, 10, 4) * 100; return [g, g, g]; });
+  // 漆喰の壁
+  var plasterBump = dataTex(256, function (u, v) { var g = Math.floor(tfbm(u * 16, v * 16, 16, 5) * 255); return [g, g, g]; });
+  // 木の床
+  var floorMap = canvasTex(1024, 1024, function (g, w, h) {
+    var rows = 8, rh = h / rows;
+    for (var r = 0; r < rows; r++) {
+      var off = (r % 2) * w * 0.37 + hash(r, 2, 3) * w * 0.3;
+      for (var k = -1; k < 3; k++) {
+        var x0 = off + k * w * 0.62, pw = w * 0.62;
+        var tone = 0.85 + hash(r, k, 7) * 0.3;
+        g.fillStyle = 'rgb(' + Math.floor(142 * tone) + ',' + Math.floor(112 * tone) + ',' + Math.floor(84 * tone) + ')';
+        g.fillRect(x0, r * rh, pw, rh);
+        for (var l = 0; l < 26; l++) {                                // 木目
+          var yy = r * rh + hash(r, k, l) * rh;
+          g.strokeStyle = 'rgba(60,38,22,' + (0.05 + hash(l, r, k) * 0.12) + ')';
+          g.lineWidth = 1 + hash(k, l, r) * 2;
+          g.beginPath(); g.moveTo(x0, yy);
+          for (var s = 0; s <= 12; s++) g.lineTo(x0 + pw * s / 12, yy + Math.sin(s * 0.9 + l) * 3 * hash(l, k, s));
+          g.stroke();
+        }
+        g.fillStyle = 'rgba(30,20,12,0.55)'; g.fillRect(x0, r * rh, 3, rh);
+      }
+      g.fillStyle = 'rgba(30,20,12,0.6)'; g.fillRect(0, r * rh, w, 3);
+    }
+  });
+  floorMap.wrapS = floorMap.wrapT = THREE.RepeatWrapping;
+  // 柔らかい点（ほこり・砂粒）
+  var softDot = canvasTex(64, 64, function (g, w) {
+    var gr = g.createRadialGradient(w / 2, w / 2, 0, w / 2, w / 2, w / 2);
+    gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(0.4, 'rgba(255,255,255,0.45)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
+    g.fillStyle = gr; g.fillRect(0, 0, w, w);
+  }, false);
+
+  var DRY = 1;                                 // 乾いたレイヤー（仕上げを通さず最後に重ねる）
+
+  // 環境光（周囲の明るさの映り込み）を小さな仮想空間から作る
+  var pmrem = new THREE.PMREMGenerator(renderer);
+  function envFrom(build) {
+    var s = new THREE.Scene(); build(s);
+    return pmrem.fromScene(s, 0.04).texture;
+  }
+
+  // ============================================================
+  // 1. 目の人物
+  // ============================================================
+  // ---- 平たいアーモンド型の目（写真を切り抜いて貼ったような）。すべてシェーダーで描く
+  // 板の上に、紙の白い縁 → まぶたの肌 → アーモンド型の目（白目・虹彩・瞳・描かれたハイライト・まつ毛の線）
+  // 裏から見ると紙の裏地。仕上げ処理を通さず最後に重ねる（乾いたレイヤー）
+  var EYE_FS = [
+    'uniform vec2 iris; uniform float open; uniform float pupil; uniform vec3 irisA; uniform vec3 irisB; uniform float mono;',
+    'varying vec2 vUv;',
+    'float h1(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233))) * 43758.5453); }',
+    'float n1(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.0-2.0*f); return mix(mix(h1(i), h1(i+vec2(1.0,0.0)), f.x), mix(h1(i+vec2(0.0,1.0)), h1(i+vec2(1.0,1.0)), f.x), f.y); }',
+    'float cov(float d){ float w = max(fwidth(d), 1e-4); return clamp(d / w + 0.5, 0.0, 1.0); }',      // d>0 が内側（境目をなめらかに）
+    // 盛り上がった筋（血管・皺）を作るノイズ
+    'float ridge(vec2 p){ return 1.0 - abs(n1(p) * 2.0 - 1.0); }',
+    'void main(){',
+    '  vec2 p = vec2(vUv.x * 2.0 - 1.0, vUv.y - 0.5);',                                            // x:-1..1, y:-0.5..0.5（x<0 が目頭）
+    '  float ax = abs(p.x);',
+    // 切り抜きの外形（少しガタつく）
+    '  float jag = (n1(vec2(p.x * 9.0 + 3.0, p.y * 9.0)) - 0.5) * 0.03;',
+    '  float kc = max(0.0, 1.0 - pow(ax / 0.985, 2.0));',
+    '  float dCut = min(0.47 * pow(kc, 0.55) - p.y, p.y + 0.42 * pow(kc, 0.62)) + jag;',
+    '  float aCut = cov(dCut);',
+    '  if (aCut <= 0.001) discard;',
+    '  if (!gl_FrontFacing) { gl_FragColor = vec4(vec3(0.92, 0.91, 0.89), aCut); return; }',            // 裏は紙
+    '  vec3 col = vec3(0.985, 0.98, 0.97);',                                                         // 紙の白い縁
+    // アーモンド型の目の開き（目尻はやや下がって尖る）
+    '  float k = max(0.0, 1.0 - ax * ax / 0.74);',
+    '  float o = max(open, 0.0005);',
+    '  float top = 0.30 * o * pow(k, 0.85) * (1.0 - 0.14 * p.x);',
+    '  float bot = -0.24 * o * pow(k, 1.05) * (1.0 + 0.06 * p.x);',
+    '  float dEye = min(top - p.y, p.y - bot);',
+    // まぶたの肌：目に近いほど赤黒く、皺が寄る
+    '  vec3 skin = mix(vec3(0.92, 0.78, 0.7), vec3(0.66, 0.42, 0.38), smoothstep(0.13, 0.0, dEye));',
+    '  float out_ = max(-dEye, 0.0);',
+    '  float wr = ridge(vec2(out_ * 34.0 + n1(p * 6.0) * 2.5, p.x * 3.0));',                         // 目を囲む皺
+    '  skin *= 1.0 - 0.22 * pow(wr, 6.0) * smoothstep(0.0, 0.03, out_) * smoothstep(0.2, 0.05, out_);',
+    '  float crease = abs(p.y - (0.3 * pow(k, 0.85) + 0.075 * k));',
+    '  skin *= 1.0 - 0.3 * smoothstep(0.02, 0.0, crease) * step(0.0, p.y);',
+    // 下まぶたの内側の赤い粘膜（めくれて見える）
+    '  float under = bot - p.y;',
+    '  skin = mix(skin, vec3(0.74, 0.26, 0.26), smoothstep(0.045, 0.0, under) * step(0.0, under) * k * o);',
+    // まつ毛の束（上は長く、下は短くまばら）
+    '  float lu = p.y - top;',
+    '  float lashU = smoothstep(0.32, 0.0, abs(fract(p.x * 30.0 + lu * 18.0 + n1(vec2(p.x * 40.0, 1.0)) * 0.8) - 0.5)) * smoothstep(0.075, 0.0, lu) * step(0.0, lu) * smoothstep(0.0, 0.2, k);',
+    '  float lashD = smoothstep(0.22, 0.0, abs(fract(p.x * 19.0 - under * 14.0) - 0.5)) * smoothstep(0.04, 0.0, under - 0.04) * step(0.04, under) * smoothstep(0.0, 0.3, k) * step(0.5, n1(vec2(p.x * 19.0, 3.0)));',
+    '  skin = mix(skin, vec3(0.06, 0.04, 0.035), max(lashU, lashD * 0.85) * o);',
+    '  col = mix(col, skin, cov(dCut - 0.04));',
+    // 白目：黄ばみ、充血、這う血管、赤い縁
+    '  vec2 q = p - iris;',
+    '  float r = length(q), R = 0.25;',                                                              // 大きな虹彩（目の開きとほぼ同じ高さ）
+    '  vec3 scl = vec3(0.95, 0.92, 0.82);',
+    '  scl = mix(scl, vec3(0.9, 0.62, 0.58), 0.25 + 0.45 * smoothstep(0.35, 0.9, ax));',
+    '  vec2 w = p * 6.5 + vec2(n1(p * 3.0), n1(p * 3.0 + 7.1)) * 1.6;',
+    '  float vein = pow(ridge(w), 16.0) + 0.75 * pow(ridge(w * 2.3 + 4.0), 22.0) + 0.5 * pow(ridge(w * 4.7 + 9.0), 30.0);',
+    '  float veinMask = smoothstep(R * 1.02, R * 1.6, r) * (0.45 + 0.55 * smoothstep(0.15, 0.75, ax));',
+    '  scl = mix(scl, vec3(0.58, 0.05, 0.06), clamp(vein * veinMask, 0.0, 1.0) * 0.95);',
+    '  scl = mix(scl, vec3(0.78, 0.32, 0.3), smoothstep(0.05, 0.0, dEye) * 0.65);',                  // 縁の赤み
+    '  scl *= 1.0 - 0.32 * smoothstep(0.1, 0.0, top - p.y);',                                         // 上まぶたの影
+    '  float car = length((p - vec2(-0.79, -0.015)) * vec2(1.0, 1.5));',                              // 目頭の赤い肉
+    '  scl = mix(vec3(0.82, 0.36, 0.36) * (0.85 + 0.3 * n1(p * 40.0)), scl, smoothstep(0.06, 0.09, car));',
+    // 虹彩：斑のある濁った色、明るい輪、歪んだ瞳孔
+    '  float ang = atan(q.y, q.x);',
+    '  float streak = n1(vec2(ang * 14.0, r * 22.0));',
+    '  vec3 ir = mix(irisA, irisB, smoothstep(0.03, R, r)) * (0.72 + 0.5 * streak);',
+    '  ir *= 0.75 + 0.45 * n1(q * 42.0);',                                                           // 斑点
+    '  ir = mix(ir, ir * 1.45 + 0.04, smoothstep(0.03, 0.0, abs(r - R * 0.55)) * 0.6);',               // 明るい輪
+    '  ir = mix(ir, vec3(0.05, 0.035, 0.03), smoothstep(R - 0.04, R, r));',                          // 輪部の暗い縁
+    '  vec3 eye = mix(ir, scl, cov(r - R));',
+    '  float pr = R * pupil * (1.0 + 0.12 * (n1(vec2(ang * 2.2 + 3.0, 1.7)) - 0.5));',                // 縁が少し歪んだ瞳孔
+    '  eye = mix(vec3(0.01), eye, cov(r - pr));',
+    // 濡れた光
+    '  eye = mix(vec3(1.0), eye, cov(length(q - vec2(-0.095, 0.1)) - 0.045));',
+    '  eye = mix(vec3(1.0), eye, cov(length(q - vec2(0.085, -0.075)) - 0.016));',
+    '  eye += vec3(0.35) * smoothstep(0.012, 0.0, abs(top - 0.035 - p.y)) * smoothstep(0.75, 0.2, ax);',   // 上まぶたの下の濡れた筋
+    '  eye += vec3(0.3) * smoothstep(0.008, 0.0, abs(p.y - bot - 0.018)) * smoothstep(0.7, 0.3, ax);',      // 下の縁の涙
+    '  eye = mix(vec3(0.06, 0.035, 0.035), eye, smoothstep(0.0, 0.03, top - p.y));',                // まつ毛の生え際
+    '  col = mix(col, eye, cov(dEye));',
+    '  if (mono > 0.5) { float l = dot(col, vec3(0.299, 0.587, 0.114)); col = vec3(smoothstep(0.3, 0.7, l)); }',   // II は白黒
+    '  gl_FragColor = vec4(col, aCut);',
+    '}'
+  ].join('\n');
+  var EYE_COLORS = { real: [[0.62, 0.42, 0.24], [0.27, 0.16, 0.09]], toy: [[0.52, 0.6, 0.66], [0.2, 0.25, 0.3]], float: [[0.58, 0.44, 0.3], [0.22, 0.14, 0.08]], digital: [[0.2, 0.2, 0.2], [0.02, 0.02, 0.02]] };
+  function makeEyeHead(style, R) {
+    var head = new THREE.Group();
+    var c = EYE_COLORS[style] || EYE_COLORS.real;
+    var mat = new THREE.ShaderMaterial({
+      uniforms: { iris: { value: new THREE.Vector2() }, open: { value: 1 }, pupil: { value: 0.5 },
+        irisA: { value: new THREE.Vector3().fromArray(c[0]) }, irisB: { value: new THREE.Vector3().fromArray(c[1]) }, mono: { value: style === 'digital' ? 1 : 0 } },
+      vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
+      fragmentShader: EYE_FS, side: THREE.DoubleSide, transparent: true, extensions: { derivatives: true }
+    });
+    var plate = new THREE.Mesh(new THREE.PlaneGeometry(R * 2.8, R * 1.4), mat);
+    head.add(plate);
+    head.traverse(function (o) { o.layers.set(DRY); });
+    var dummy = new THREE.Object3D();                   // 以前のまぶたの代わり（使わない）
+    return { head: head, iris: plate, mat: mat, lidU: dummy, lidD: new THREE.Object3D() };
+  }
+  // 瞳を、見ている人（カメラや触れた場所）の方へずらす（maxA ラジアンで目の端まで）
+  var _lp = new THREE.Vector3();
+  function irisLookAt(plate, cam, maxA) {
+    plate.parent.updateMatrixWorld(true);
+    var lp = plate.parent.worldToLocal(_lp.copy(cam.position));
+    var yaw = Math.atan2(lp.x, lp.z), pitch = Math.atan2(lp.y, Math.hypot(lp.x, lp.z));
+    plate.material.uniforms.iris.value.set(clamp(yaw / maxA, -1, 1) * 0.32, clamp(pitch / maxA, -1, 1) * 0.05);
+  }
+  // 凝視：板を常にこちらへ正面に向け、瞳は真ん中。固視微動だけ小刻みに震える
+  function stare(e, cam, t) {
+    e.head.quaternion.copy(cam.quaternion);
+    var sac = Math.floor(t * 1.6 + e.phase * 3);                          // 0.6秒ごとに小さく跳ぶ
+    e.mat.uniforms.iris.value.set((hash(sac, e.phase, 1) - 0.5) * 0.014 + Math.sin(t * 31 + e.phase) * 0.002, (hash(sac, e.phase, 2) - 0.5) * 0.01);
+    e.mat.uniforms.pupil.value = 0.5 + 0.05 * Math.sin(t * 0.7 + e.phase);   // 開いた瞳孔がゆっくり脈打つ
+    var cyc = (t + e.phase * 5) % 17;                                       // まばたきは、ほとんどしない（17秒に1回）
+    e.mat.uniforms.open.value = cyc < 0.16 ? Math.abs(1 - 2 * cyc / 0.16) : 1;
+  }
+  function makeFigure(style) {
+    var g = new THREE.Group();
+    var low = style === 'digital';
+    var bodyM, limbM, skinM, jointM;
+    if (low) {
+      bodyM = limbM = skinM = jointM = new THREE.MeshBasicMaterial({ color: 0x000000 });
+    } else if (style === 'real') {
+      bodyM = new THREE.MeshStandardMaterial({ color: C(0xecebe7), roughness: 0.92 });            // 白い襟なしシャツ
+      limbM = new THREE.MeshStandardMaterial({ color: C(0x25242b), roughness: 0.85 });
+      skinM = new THREE.MeshStandardMaterial({ color: C(0xd9b8a2), roughness: 0.6 });
+      jointM = skinM;
+    } else { // toy：デッサン人形のような木の人形
+      bodyM = limbM = new THREE.MeshStandardMaterial({ color: C(0xd8c3a1), roughness: 0.62 });
+      jointM = new THREE.MeshStandardMaterial({ color: C(0xc2aa86), roughness: 0.55 });
+      skinM = bodyM;
+    }
+    var seg = low ? 5 : 20;
+    var armLen = style === 'real' ? 0.66 : 0.56;            // 部屋の人物は腕が少しだけ長い（破綻）
+    function part(geo, m, x, y, z) { var o = new THREE.Mesh(geo, m); o.position.set(x, y, z); g.add(o); return o; }
+    part(new THREE.CylinderGeometry(0.16, 0.19, 0.6, seg), bodyM, 0, 0.98, 0);
+    var hips = part(low ? new THREE.IcosahedronGeometry(0.15, 0) : new THREE.SphereGeometry(0.16, seg, 12), limbM, 0, 0.68, 0);
+    hips.scale.set(1.15, 0.7, 0.9);
+    var legL = new THREE.Group(), legR = new THREE.Group();
+    legL.position.set(-0.085, 0.64, 0); legR.position.set(0.085, 0.64, 0);
+    [legL, legR].forEach(function (L) {
+      var m = new THREE.Mesh(new THREE.CylinderGeometry(0.065, 0.05, 0.62, low ? 4 : 12), limbM);
+      m.position.y = -0.31; L.add(m);
+      if (!low && style !== 'real') { var kn = new THREE.Mesh(new THREE.SphereGeometry(0.055, 12, 8), jointM); kn.position.y = -0.31; L.add(kn); }
+      g.add(L);
+    });
+    var armL = new THREE.Group(), armR = new THREE.Group();
+    armL.position.set(-0.23, 1.24, 0); armR.position.set(0.23, 1.24, 0);
+    [armL, armR].forEach(function (A, k) {
+      var m = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.038, armLen, low ? 4 : 12), style === 'real' ? bodyM : limbM);
+      m.position.y = -armLen / 2; A.add(m);
+      if (style === 'real') { var hand = new THREE.Mesh(new THREE.SphereGeometry(0.042, 12, 8), skinM); hand.position.y = -armLen - 0.02; A.add(hand); }
+      if (!low) { var sh = new THREE.Mesh(new THREE.SphereGeometry(0.055, 12, 8), jointM); A.add(sh); }
+      A.rotation.z = k ? -0.07 : 0.07;
+      g.add(A);
+    });
+    part(new THREE.CylinderGeometry(0.045, 0.055, 0.12, low ? 4 : 10), skinM, 0, 1.33, 0);
+    if (low) {
+      var em = new THREE.LineBasicMaterial({ color: 0xffffff });
+      var meshes = [];
+      g.traverse(function (o) { if (o.isMesh) meshes.push(o); });
+      meshes.forEach(function (o) { o.add(new THREE.LineSegments(new THREE.EdgesGeometry(o.geometry, 20), em)); });
+    }
+    // 頭＝大きな目（乾いたレイヤー）
+    var eye = makeEyeHead(style, 0.3);
+    eye.head.position.y = 1.62;
+    g.add(eye.head);
+    g.traverse(function (o) { if (o.isMesh) { o.castShadow = true; o.receiveShadow = !low; } });
+    g.userData = { head: eye.head, iris: eye.iris, lidU: eye.lidU, lidD: eye.lidD, legL: legL, legR: legR, armL: armL, armR: armR };
+    setLids(g, 1);
+    return g;
+  }
+  function setLids(f, open) {        // open: 1 開く / 0 閉じる（まばたき）
+    f.userData.iris.material.uniforms.open.value = Math.max(0, Math.min(1, open));
+  }
+
+  // ============================================================
+  // スマホ版：ひとつの別世界（ウィアードコアの廊下）。PC の三連画は作らない
+  // ============================================================
+  var IS_MOBILE = window.matchMedia('(max-width: 820px)').matches ||
+    (window.matchMedia('(pointer: coarse)').matches && Math.min(screen.width, screen.height) < 820);
+  window.addEventListener('resize', function () {
+    var m = window.matchMedia('(max-width: 820px)').matches || (window.matchMedia('(pointer: coarse)').matches && Math.min(screen.width, screen.height) < 820);
+    if (m !== IS_MOBILE) location.reload();                 // PC とスマホの境をまたいだら作り直す
+  });
+  if (IS_MOBILE) { document.documentElement.classList.add('is-mobile'); startMobile(); return; }
+
+  function startMobile() {
+    var CW = 1.1, CH = 2.6, Z0 = 2.2, Z1 = -11;              // 廊下：幅 2.2、高さ 2.6、奥行き 13
+    var scene = new THREE.Scene();
+    scene.background = C(0xbfdcf6);
+    scene.fog = new THREE.Fog(C(0xd6e8f8), 7, 24);
+    var cam = new THREE.PerspectiveCamera(66, window.innerWidth / window.innerHeight, 0.05, 60);
+
+    // 雲の壁紙（左右につながる）
+    var skyPaper = canvasTex(1024, 512, function (g, w, h) {
+      var gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, '#3d84d6'); gr.addColorStop(1, '#a8d0f4');
+      g.fillStyle = gr; g.fillRect(0, 0, w, h);
+      for (var c = 0; c < 22; c++) {
+        var cx = hash(c, 1, 1) * w, cy = h * 0.1 + hash(c, 2, 2) * h * 0.8, sz = 40 + hash(c, 3, 3) * 80;
+        for (var k = 0; k < 16; k++) {
+          var px = cx + (hash(c, k, 4) - 0.5) * sz * 2.4, py = cy + (hash(c, k, 5) - 0.5) * sz * 0.7, r = sz * (0.3 + hash(c, k, 6) * 0.5);
+          [-w, 0, w].forEach(function (o) {
+            var rg = g.createRadialGradient(px + o, py, 0, px + o, py, r);
+            rg.addColorStop(0, 'rgba(255,255,255,0.95)'); rg.addColorStop(0.55, 'rgba(255,255,255,0.55)'); rg.addColorStop(1, 'rgba(255,255,255,0)');
+            g.fillStyle = rg; g.beginPath(); g.arc(px + o, py, r, 0, Math.PI * 2); g.fill();
+          });
+        }
+      }
+    });
+    skyPaper.wrapS = THREE.RepeatWrapping;
+    var len = Z0 - Z1, midZ = (Z0 + Z1) / 2;
+    function paper(rx) { var t = skyPaper.clone(); t.needsUpdate = true; t.wrapS = THREE.RepeatWrapping; t.repeat.set(rx, 1); return new THREE.MeshLambertMaterial({ map: t }); }
+    var left = new THREE.Mesh(new THREE.PlaneGeometry(len, CH), paper(len / 4.2)); left.rotation.y = Math.PI / 2; left.position.set(-CW, CH / 2, midZ); scene.add(left);
+    var right = new THREE.Mesh(new THREE.PlaneGeometry(len, CH), paper(len / 4.2)); right.rotation.y = -Math.PI / 2; right.position.set(CW, CH / 2, midZ); scene.add(right);
+    var ceil = new THREE.Mesh(new THREE.PlaneGeometry(2 * CW, len), paper(0.6)); ceil.rotation.x = Math.PI / 2; ceil.position.set(0, CH, midZ); scene.add(ceil);
+    var back = new THREE.Mesh(new THREE.PlaneGeometry(2 * CW, CH), paper(0.55)); back.rotation.y = Math.PI; back.position.set(0, CH / 2, Z0); scene.add(back);
+    var fm = floorMap.clone(); fm.needsUpdate = true; fm.wrapS = fm.wrapT = THREE.RepeatWrapping; fm.repeat.set(1.2, len / 2.2);
+    var floor = new THREE.Mesh(new THREE.PlaneGeometry(2 * CW, len), new THREE.MeshStandardMaterial({ map: fm, color: C(0xf0b27a), roughness: 0.32, metalness: 0 }));
+    floor.rotation.x = -Math.PI / 2; floor.position.set(0, 0, midZ); scene.add(floor);
+    var bbM = new THREE.MeshLambertMaterial({ color: C(0xf3efe6) });
+    [-1, 1].forEach(function (sd) { var bb = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.1, len), bbM); bb.position.set(sd * (CW - 0.01), 0.05, midZ); scene.add(bb); });
+
+    // 不揃いに歪んだ文字（ウィアードコア）
+    var FONTS = ['900 {s}px "Arial Black", Impact, sans-serif', 'italic {s}px Georgia, "Times New Roman", serif', 'bold {s}px "Courier New", monospace', '{s}px "Comic Sans MS", "Chalkboard SE", cursive', 'bold {s}px Verdana, sans-serif'];
+    function weirdText(word, w, h, color, seed) {
+      return canvasTex(w, h, function (g) {
+        g.clearRect(0, 0, w, h);
+        // 1回目：文字ごとのフォントと大きさで幅を測る
+        var L = [], total = 0;
+        for (var i = 0; i < word.length; i++) {
+          var sz = h * (0.4 + hash(i, seed, 1) * 0.28);
+          var font = FONTS[Math.floor(hash(i, seed, 2) * FONTS.length)].replace('{s}', Math.round(sz));
+          g.font = font;
+          var sx = 1 + (hash(i, seed, 5) - 0.5) * 0.45;
+          var adv = g.measureText(word[i]).width * sx + sz * 0.04;
+          L.push({ ch: word[i], sz: sz, font: font, sx: sx, adv: adv }); total += adv;
+        }
+        // 2回目：全体が札に収まるように縮めて描く
+        var k = Math.min(1, (w * 0.9) / total), x = (w - total * k) / 2, base = h * 0.66;
+        L.forEach(function (c, i) {
+          g.save();
+          g.translate(x, base + (hash(i, seed, 3) - 0.5) * h * 0.16);
+          g.rotate((hash(i, seed, 4) - 0.5) * 0.42);
+          g.scale(c.sx * k, (1 + (hash(i, seed, 6) - 0.5) * 0.35) * k);
+          g.font = c.font;
+          g.fillStyle = 'rgba(80,0,0,0.25)'; g.fillText(c.ch, 2, 2);
+          g.fillStyle = color; g.fillText(c.ch, 0, 0);
+          g.restore();
+          x += c.adv * k;
+        });
+      });
+    }
+
+    // 扉：左右の壁に2枚ずつ
+    var doorDefs = [{ label: 'LISTEN', side: -1, z: -1.6 }, { label: 'SCHEDULE', side: 1, z: -3.6 }, { label: 'WORKS', side: -1, z: -5.8 }, { label: 'CONTACT', side: 1, z: -7.9 }];
+    var doorM = new THREE.MeshLambertMaterial({ color: C(0xd2914f) });
+    var frameM = new THREE.MeshLambertMaterial({ color: C(0xf4f0e8) });
+    var doors = doorDefs.map(function (d, i) {
+      var x = d.side * CW;
+      var hinge = new THREE.Group();                     // 蝶番（扉はここを軸に開く）
+      hinge.position.set(x - d.side * 0.035, 0, d.z + 0.45);
+      var leaf = new THREE.Mesh(new THREE.BoxGeometry(0.05, 2.02, 0.9), doorM);
+      leaf.position.set(0, 1.01, -0.45);
+      hinge.add(leaf);
+      var lab = new THREE.Mesh(new THREE.PlaneGeometry(0.82, 0.41), new THREE.MeshBasicMaterial({ map: weirdText(d.label, 512, 256, '#d9232a', i * 7 + 3), transparent: true, fog: false }));
+      lab.position.set(-d.side * 0.03, 1.55, -0.45); lab.rotation.y = -d.side * Math.PI / 2;
+      hinge.add(lab);
+      var knob = new THREE.Mesh(new THREE.SphereGeometry(0.03, 12, 8), new THREE.MeshStandardMaterial({ color: C(0xd8b46a), metalness: 1, roughness: 0.3 }));
+      knob.position.set(-d.side * 0.05, 1.0, -0.8); hinge.add(knob);
+      scene.add(hinge);
+      // 壁から突き出した札（ホテルの部屋札のように、廊下の手前から読める）
+      var bracket = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.025, 0.025), frameM);
+      bracket.position.set(x - d.side * 0.25, 2.42, d.z + 0.3); scene.add(bracket);
+      var signTex = weirdText(d.label, 512, 220, '#d9232a', i * 7 + 3);
+      var plate = new THREE.Mesh(new THREE.PlaneGeometry(0.62, 0.27), new THREE.MeshBasicMaterial({ map: signTex, transparent: true, fog: false, side: THREE.DoubleSide }));
+      plate.position.set(x - d.side * 0.36, 2.25, d.z + 0.3); scene.add(plate);
+      var plateBg = new THREE.Mesh(new THREE.PlaneGeometry(0.66, 0.3), new THREE.MeshLambertMaterial({ color: C(0xfbf8f1) }));
+      plateBg.position.set(x - d.side * 0.36, 2.25, d.z + 0.297); scene.add(plateBg);
+      [[0, 2.06, 0.06, 1.02], [-0.48, 1.03, 2.06, 0.06], [0.48, 1.03, 2.06, 0.06]].forEach(function (f, k) {
+        var fr = new THREE.Mesh(new THREE.BoxGeometry(0.03, k ? f[2] : 0.06, k ? f[3] : f[3]), frameM);
+        fr.position.set(x - d.side * 0.015, k ? f[1] : f[1], d.z + (k ? f[0] : 0)); scene.add(fr);
+      });
+      // 扉の向こう：白い光。開くと床に光がこぼれる
+      var glow = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 2.02), new THREE.MeshBasicMaterial({ color: new THREE.Color(2.6, 2.5, 2.3), fog: false }));
+      glow.rotation.y = -d.side * Math.PI / 2; glow.position.set(x - d.side * 0.004, 1.01, d.z); scene.add(glow);
+      var spill = new THREE.Mesh(new THREE.PlaneGeometry(1.0, 0.9), new THREE.MeshBasicMaterial({ color: C(0xfff3dc), transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
+      spill.rotation.x = -Math.PI / 2; spill.position.set(x - d.side * 0.5, 0.004, d.z); scene.add(spill);
+      return { def: d, hinge: hinge, spill: spill, open: 0, target: 0, clicked: false, el: document.getElementById('md-' + i), center: new THREE.Vector3(x, 1.0, d.z) };
+    });
+
+    // 突き当たり：丸いアーチの向こうにパステルのボールプール（ENTER SLOWLY）
+    var wallShape = new THREE.Shape();
+    wallShape.moveTo(-CW, 0); wallShape.lineTo(CW, 0); wallShape.lineTo(CW, CH); wallShape.lineTo(-CW, CH); wallShape.lineTo(-CW, 0);
+    var hole = new THREE.Path(); hole.absarc(0, 0.95, 0.82, 0, Math.PI * 2, true); wallShape.holes.push(hole);
+    var endWall = new THREE.Mesh(new THREE.ShapeGeometry(wallShape, 48), new THREE.MeshLambertMaterial({ color: C(0xbfe9dc), side: THREE.DoubleSide }));
+    endWall.position.set(0, 0, Z1); scene.add(endWall);
+    var ring = new THREE.Mesh(new THREE.TorusGeometry(0.84, 0.05, 12, 64), new THREE.MeshLambertMaterial({ color: C(0xd6f3ea) }));
+    ring.position.set(0, 0.95, Z1 + 0.02); scene.add(ring);
+    var sign = new THREE.Mesh(new THREE.PlaneGeometry(1.1, 0.3), new THREE.MeshBasicMaterial({ fog: false, map: canvasTex(512, 140, function (g, w, h) {
+      g.fillStyle = '#fbfaf6'; g.fillRect(0, 0, w, h); g.strokeStyle = '#d8d4cc'; g.lineWidth = 6; g.strokeRect(3, 3, w - 6, h - 6);
+      g.fillStyle = '#1e1e1e'; g.font = '800 64px "Arial Black", Impact, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('ENTER SLOWLY', w / 2, h / 2 + 4);
+    }) }));
+    sign.position.set(0, 2.18, Z1 + 0.03); scene.add(sign);
+    var pit = new THREE.Mesh(new THREE.BoxGeometry(3.6, 2.6, 6), new THREE.MeshLambertMaterial({ color: C(0xc6efe2), side: THREE.BackSide }));
+    pit.position.set(0, 1.3, Z1 - 3); scene.add(pit);
+    var ballColors = [0xf6b8c8, 0xfde8c2, 0xbfeadb, 0xf9d0b8, 0xfff6e0, 0xe9c6ef].map(C);
+    var balls = new THREE.InstancedMesh(new THREE.SphereGeometry(0.11, 14, 10), new THREE.MeshLambertMaterial(), 520);
+    var m4 = new THREE.Matrix4();
+    for (var b = 0; b < 520; b++) {
+      m4.makeTranslation((hash(b, 1, 2) - 0.5) * 3.3, 0.08 + hash(b, 3, 4) * 0.42, Z1 - 0.5 - hash(b, 5, 6) * 5.3);
+      balls.setMatrixAt(b, m4); balls.setColorAt(b, ballColors[b % ballColors.length]);
+    }
+    scene.add(balls);
+    var walk = new THREE.Mesh(new THREE.PlaneGeometry(0.95, 4.2), new THREE.MeshStandardMaterial({ color: C(0xbfe6d8), roughness: 0.25 }));
+    walk.rotation.x = -Math.PI / 2; walk.position.set(0, 0.006, Z1 + 1.6); scene.add(walk);
+    for (var lt = 0; lt < 3; lt++) {                         // ボールプールの天井灯
+      var lamp = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 0.3), new THREE.MeshBasicMaterial({ color: new THREE.Color(2.2, 2.2, 2.1) }));
+      lamp.rotation.x = Math.PI / 2; lamp.position.set(0, 2.58, Z1 - 1 - lt * 1.8); scene.add(lamp);
+    }
+
+    // 浮かぶ赤い文字
+    var where = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 0.42), new THREE.MeshBasicMaterial({ transparent: true, fog: false, map: canvasTex(512, 144, function (g, w, h) {
+      g.clearRect(0, 0, w, h); g.font = '72px Arial, Helvetica, sans-serif'; g.fillStyle = '#d3202a'; g.textBaseline = 'middle'; g.fillText('where am i?', 18, h / 2);
+    }) }));
+    where.position.set(-0.25, 2.15, -4.4); where.rotation.set(0.05, 0.12, -0.04); scene.add(where);
+    var eyesTxt = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 1.05), new THREE.MeshBasicMaterial({ transparent: true, fog: false, map: canvasTex(360, 420, function (g, w, h) {
+      g.clearRect(0, 0, w, h); g.font = '38px Arial, Helvetica, sans-serif';
+      for (var r = 0; r < 9; r++) { g.fillStyle = r % 2 ? '#c21f6a' : '#d93a1f'; g.fillText('eyes eyes eyes', 8, 42 + r * 44); }
+    }) }));
+    eyesTxt.rotation.y = -Math.PI / 2; eyesTxt.position.set(CW - 0.01, 1.4, -9.7); scene.add(eyesTxt);
+
+    // 光：平らで、少し飛んでいる
+    scene.add(new THREE.HemisphereLight(C(0xffffff), C(0xd9b88f), 1.05));
+    scene.add(new THREE.AmbientLight(C(0xdfeaff), 0.35));
+    var key = new THREE.DirectionalLight(C(0xfff4e2), 0.55); key.position.set(0.4, 3, 2); scene.add(key);
+    var pitLight = new THREE.PointLight(C(0xffffff), 1.3, 9, 2); pitLight.position.set(0, 2.2, Z1 - 2.5); scene.add(pitLight);
+
+    // 浮かぶ目
+    var floaters = [[-0.6, 2.25, -2.6, 0.22], [0.55, 2.05, -6.4, 0.3], [-0.3, 2.3, -9.2, 0.26], [0.6, 2.35, -1.2, 0.16], [-0.62, 1.95, -4.8, 0.2], [0.2, 2.42, -7.6, 0.18]].map(function (d, i) {
+      var e = makeEyeHead('float', d[3]); e.head.position.set(d[0], d[1], d[2]); e.base = new THREE.Vector3(d[0], d[1], d[2]); e.phase = i * 2.1;
+      e.lidU.visible = e.lidD.visible = false; scene.add(e.head); return e;
+    });
+
+    // 目の人物（この世界の住人）。こちらを向いて立ち、触れた場所を見る
+    var fig = makeFigure('real');
+    fig.scale.setScalar(0.86);
+    scene.add(fig);
+
+    // ---- 仕上げ（粗い画質・白飛び・色のブロック・粒子）
+    var lowRT = new THREE.WebGLRenderTarget(4, 4, { type: BUF_TYPE, minFilter: THREE.NearestFilter, magFilter: THREE.NearestFilter, format: THREE.RGBAFormat });
+    var glowA = new THREE.WebGLRenderTarget(4, 4, { type: BUF_TYPE, minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBAFormat, depthBuffer: false });
+    var glowB = glowA.clone();
+    var qCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1), qScene = new THREE.Scene(), q = new THREE.Mesh(new THREE.PlaneGeometry(2, 2));
+    q.frustumCulled = false; qScene.add(q);
+    var VSm = 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }';
+    var copyM = new THREE.ShaderMaterial({ uniforms: { t: { value: null }, dir: { value: new THREE.Vector2() }, th: { value: 0 } }, vertexShader: VSm, depthTest: false, depthWrite: false,
+      fragmentShader: 'uniform sampler2D t; uniform vec2 dir; uniform float th; varying vec2 vUv; void main(){ vec3 c = texture2D(t, vUv).rgb*0.4 + texture2D(t, vUv+dir).rgb*0.3 + texture2D(t, vUv-dir).rgb*0.3; gl_FragColor = vec4(max(c - th, 0.0), 1.0); }' });
+    var postM = new THREE.ShaderMaterial({
+      uniforms: { t: { value: null }, g: { value: null }, res: { value: new THREE.Vector2() }, time: { value: 0 } }, vertexShader: VSm, depthTest: false, depthWrite: false,
+      fragmentShader: [
+        'uniform sampler2D t, g; uniform vec2 res; uniform float time; varying vec2 vUv;',
+        'float h(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233))) * 43758.5453); }',
+        'vec3 aces(vec3 x){ return clamp((x*(2.51*x+0.03))/(x*(2.43*x+0.59)+0.14), 0.0, 1.0); }',
+        'void main(){',
+        '  vec3 col = texture2D(t, vUv).rgb;',
+        '  vec2 blk = (floor(vUv * res / 8.0) + 0.5) * 8.0 / res;',                    // 8x8 の色ブロック（古い圧縮画像のように）
+        '  vec3 cb = texture2D(t, blk).rgb;',
+        '  float l = dot(col, vec3(0.299,0.587,0.114)), lb = dot(cb, vec3(0.299,0.587,0.114));',
+        '  col = vec3(l) + mix(col - vec3(l), cb - vec3(lb), 0.45);',
+        '  col += texture2D(g, vUv).rgb * 0.9;',                                       // にじむ光
+        '  col = aces(col * 1.18);',
+        '  float L = dot(col, vec3(0.299,0.587,0.114));',
+        '  col = mix(vec3(L), col, 1.18);',                                            // 少し派手な色
+        '  col = col * 0.94 + 0.05;',                                                   // 黒が浮く
+        '  vec2 d = vUv - 0.5; col *= 1.0 - dot(d, d) * 0.55;',
+        '  col = pow(max(col, 0.0), vec3(1.0/2.2));',
+        '  col += (h(vUv * res + fract(time) * 50.0) - 0.5) * 0.05;',
+        '  col *= 0.97 + 0.03 * step(0.5, fract(gl_FragCoord.y * 0.5));',              // 走査線
+        '  gl_FragColor = vec4(col, 1.0);',
+        '}'
+      ].join('\n')
+    });
+    function qpass(m, target) { q.material = m; renderer.setRenderTarget(target); renderer.render(qScene, qCam); }
+
+    // ---- 入力：スクロールで廊下を進む／触れた場所を目が見る
+    var Z_NEAR = 1.3, Z_FAR = Z1 + 1.4 + 2.6;                 // 突き当たりの人物とは距離を保つ
+    var camZ = Z_NEAR, lookNdc = null, lookT = 0, lastFwd = -1e9, touching = false, scrolledOnce = false, lastY = window.scrollY;
+    var captionEl = document.getElementById('m-caption');
+    function scrollMax() { return Math.max(1, document.documentElement.scrollHeight - window.innerHeight); }
+    function zFromScroll() { return Z_NEAR + (Z_FAR - Z_NEAR) * clamp(window.scrollY / scrollMax(), 0, 1); }
+    function scrollForZ(z) { return clamp((z - Z_NEAR) / (Z_FAR - Z_NEAR), 0, 1) * scrollMax(); }
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY;
+      if (y > lastY + 0.5) lastFwd = performance.now();                 // 奥へ進んでいる
+      if (y > 4) scrolledOnce = true;
+      lastY = y;
+      if (reduceMotion) requestAnimationFrame(function () { mframe(performance.now()); });
+    }, { passive: true });
+    function setLook(x, y) { lookNdc = new THREE.Vector2(x / window.innerWidth * 2 - 1, -(y / window.innerHeight) * 2 + 1); lookT = performance.now(); }
+    // スクロールを邪魔しないよう、タッチは見るだけ（passive）
+    window.addEventListener('touchstart', function (e) { touching = true; var p = e.touches[0]; if (p) setLook(p.clientX, p.clientY); }, { passive: true });
+    window.addEventListener('touchmove', function (e) { var p = e.touches[0]; if (p) setLook(p.clientX, p.clientY); }, { passive: true });
+    window.addEventListener('touchend', function () { touching = false; }, { passive: true });
+    window.addEventListener('pointermove', function (e) { if (e.pointerType === 'mouse') setLook(e.clientX, e.clientY); });
+    // 扉：同じタブで開く扉は、開く動きを見せてから移動する
+    doors.forEach(function (d) {
+      d.el.addEventListener('click', function (ev) {
+        d.clicked = true;
+        if (d.el.target !== '_blank' && !reduceMotion) { ev.preventDefault(); var href = d.el.href; setTimeout(function () { location.href = href; }, 550); }
+      });
+      // キーボードで扉を選んだら、その扉の前までスクロールする
+      d.el.addEventListener('focus', function () { window.scrollTo({ top: scrollForZ(d.def.z + 2.6), behavior: reduceMotion ? 'auto' : 'smooth' }); });
+    });
+
+    var start = performance.now(), last = start, blinkAt = start + 2500, blinkT = -1, figZ = -2.3, _v = new THREE.Vector3();
+    function mframe(now) {
+      mframe.count = (mframe.count || 0) + 1;
+      try { mbody(now); } catch (e) { if (!mframe.failed) { mframe.failed = true; console.error('MOBILE frame error:', e); } }
+      if (!reduceMotion) requestAnimationFrame(mframe);
+    }
+    function mbody(now) {
+      var dt = Math.min(0.1, (now - last) / 1000); last = now;
+      var t = reduceMotion ? 3 : (now - start) / 1000;
+      // スクロール位置へ、なめらかに追いつく
+      var zt = zFromScroll();
+      camZ = reduceMotion ? zt : camZ + (zt - camZ) * Math.min(1, dt * 7);
+      // 人物は、近づいた分だけ後ずさりする（いつも少し先にいる）
+      var want = clamp(camZ - 3.6, Z1 + 1.4, -2.3);
+      var moving = Math.abs(want - figZ) > 0.01;
+      figZ += (want - figZ) * Math.min(1, dt * 2.5);
+      fig.position.set(Math.sin(t * 0.3) * 0.06, 0, figZ);
+      fig.rotation.y = 0;
+      var ph = now * 0.011, mv = moving ? 1 : 0;
+      fig.userData.legL.rotation.x = Math.sin(ph) * 0.35 * mv; fig.userData.legR.rotation.x = -Math.sin(ph) * 0.35 * mv;
+      var bob = Math.sin(t * 1.3) * 0.012;
+      cam.position.set(Math.sin(t * 0.4) * 0.03, 1.5 + bob, camZ);
+      cam.lookAt(Math.sin(t * 0.27) * 0.05, 1.42, camZ - 4);
+      cam.aspect = window.innerWidth / window.innerHeight; cam.updateProjectionMatrix();
+      cam.updateMatrixWorld();
+      // 目：触れた場所を見る（3秒触れなければ、こちらを見る）
+      var head = fig.userData.head;
+      var lookPoint;
+      if (lookNdc && (touching || now - lookT < 3000)) {               // 触れている間と、離して3秒
+        _v.set(lookNdc.x, lookNdc.y, 0.5).unproject(cam).sub(cam.position).normalize();
+        lookPoint = cam.position.clone().addScaledVector(_v, 0.9);       // 触れた場所（画面のすぐ向こう）を見る
+      } else lookPoint = cam.position.clone();
+      var hp = head.getWorldPosition(new THREE.Vector3());
+      var dx = lookPoint.x - hp.x, dy2 = lookPoint.y - hp.y, dz = lookPoint.z - hp.z;
+      head.rotation.y += (clamp(Math.atan2(dx, dz), -0.8, 0.8) - head.rotation.y) * Math.min(1, dt * 5);
+      head.rotation.x += (clamp(-Math.atan2(dy2, Math.hypot(dx, dz)), -0.6, 0.6) - head.rotation.x) * Math.min(1, dt * 5);
+      irisLookAt(fig.userData.iris, { position: lookPoint }, 0.6);
+      if (!reduceMotion && now > blinkAt) { blinkT = now; blinkAt = now + 3000 + Math.random() * 4000; }
+      var open = 1;
+      if (blinkT >= 0) { var bt = (now - blinkT) / 200; open = bt < 1 ? Math.abs(1 - 2 * bt) : 1; if (bt >= 1) blinkT = -1; }
+      setLids(fig, open);
+      floaters.forEach(function (e) {
+        e.head.position.set(e.base.x + Math.sin(t * 0.2 + e.phase) * 0.12, e.base.y + Math.sin(t * 0.33 + e.phase) * 0.06, e.base.z);
+        stare(e, cam, t);
+      });
+      // 扉の開き具合
+      doors.forEach(function (d) {
+        // 近づくと扉が少し開いて光が漏れる。押すと全開
+        var ahead = camZ - d.def.z;
+        d.target = d.clicked ? 1 : (ahead > 0.6 && ahead < 3.4 ? 0.32 : 0);
+        d.open += (d.target - d.open) * Math.min(1, dt * (d.clicked ? 6 : 2.5));
+        if (reduceMotion) d.open = d.target;
+        d.spill.material.opacity = d.open * 0.55;
+        d.hinge.rotation.y = d.def.side * d.open * 1.2;                  // 廊下側へ開く
+      });
+      // キャプション：前へ進んでいる間だけ
+      // キャプション：最初は「come closer」、奥へ進んでいる間は「I'm getting closer <3」
+      var fwd = now - lastFwd < 1600;
+      if (!scrolledOnce) captionEl.textContent = 'come closer';
+      else if (fwd) captionEl.textContent = "I'm getting closer <3";
+      captionEl.classList.toggle('on', !scrolledOnce || fwd);
+
+      // ---- 描画
+      var cw = renderer.domElement.width, ch = renderer.domElement.height;
+      var lw = Math.max(2, Math.round(window.innerWidth * 0.85)), lh = Math.max(2, Math.round(window.innerHeight * 0.85));   // わざと粗い解像度
+      if (lowRT.width !== lw || lowRT.height !== lh) { lowRT.setSize(lw, lh); glowA.setSize(lw >> 2, lh >> 2); glowB.setSize(lw >> 2, lh >> 2); }
+      renderer.setScissorTest(false);
+      renderer.setRenderTarget(lowRT); renderer.render(scene, cam);
+      copyM.uniforms.t.value = lowRT.texture; copyM.uniforms.dir.value.set(1.5 / (lw >> 2), 0); copyM.uniforms.th.value = 0.75; qpass(copyM, glowA);
+      copyM.uniforms.t.value = glowA.texture; copyM.uniforms.dir.value.set(0, 1.5 / (lh >> 2)); copyM.uniforms.th.value = 0; qpass(copyM, glowB);
+      postM.uniforms.t.value = lowRT.texture; postM.uniforms.g.value = glowB.texture; postM.uniforms.res.value.set(lw, lh); postM.uniforms.time.value = t;
+      q.material = postM; renderer.setRenderTarget(null); renderer.setViewport(0, 0, cw, ch); renderer.render(qScene, qCam);
+      // 乾いた目を、くっきり重ねる
+      var bg = scene.background; scene.background = null; cam.layers.set(DRY);
+      renderer.autoClear = false; renderer.clearDepth(); renderer.render(scene, cam); renderer.autoClear = true;
+      cam.layers.set(0); scene.background = bg;
+
+      // ---- 扉のリンクを、画面上の扉の位置に合わせる
+      doors.forEach(function (d) {
+        var xs = [], ys = [], behind = false;
+        [[0, 0], [0, 2.02], [-0.9, 0], [-0.9, 2.02]].forEach(function (c) {
+          var p = new THREE.Vector3(d.def.side * CW, c[1], d.def.z + 0.45 + c[0]).project(cam);
+          if (p.z > 1) behind = true;
+          xs.push((p.x + 1) / 2 * window.innerWidth); ys.push((1 - p.y) / 2 * window.innerHeight);
+        });
+        var x0 = Math.max(0, Math.min.apply(null, xs)), x1 = Math.min(window.innerWidth, Math.max.apply(null, xs));
+        var y0 = Math.max(0, Math.min.apply(null, ys)), y1 = Math.min(window.innerHeight, Math.max.apply(null, ys));
+        var ok = !behind && x1 - x0 > 14 && y1 - y0 > 24;
+        d.el.hidden = !ok && document.activeElement !== d.el;
+        if (ok) { var st = d.el.style; st.left = x0 + 'px'; st.top = y0 + 'px'; st.width = (x1 - x0) + 'px'; st.height = (y1 - y0) + 'px'; }
+      });
+    }
+    if (reduceMotion) { var rd = function () { mframe(performance.now()); }; window.addEventListener('resize', rd); window.addEventListener('touchstart', function () { requestAnimationFrame(rd); }, { passive: true }); rd(); }
+    else requestAnimationFrame(mframe);
+
+    window.weird = {
+      go: function (z) { window.scrollTo(0, scrollForZ(z)); },          // 確認用：その位置までスクロール
+      look: function (x, y) { lookNdc = new THREE.Vector2(x, y); lookT = performance.now() + 1e9; },   // 確認用
+      get state() { return { frames: mframe.count || 0, camZ: +camZ.toFixed(2), figZ: +figZ.toFixed(2), scrollY: Math.round(window.scrollY), caption: captionEl.classList.contains('on'), captionText: captionEl.textContent,
+        doors: doors.map(function (d) { return { label: d.def.label, visible: !d.el.hidden, open: +d.open.toFixed(2) }; }) }; }
+    };
+  }
+
+  // ============================================================
+  // 2. I：箱庭（砂の箱。空の上に浮かんでいる）
+  // ============================================================
+  // 箱庭のレベルデザイン：花は沈んだ都市の中心（円形広場）。手前の角から列柱の参道が広場へ向かう
+  var PLAZA = { x: 0.75, z: -0.55, r: 0.8 };
+  var AVE = { ax: -2.15, az: 2.15 };                                       // 参道の始まり（手前の角）
+  (function () { var dx = PLAZA.x - AVE.ax, dz = PLAZA.z - AVE.az, l = Math.hypot(dx, dz); AVE.dx = dx / l; AVE.dz = dz / l; AVE.len = l; AVE.nx = -AVE.dz; AVE.nz = AVE.dx; })();
+  function aveDist(x, z) {                                                 // 参道の中心線からの距離
+    var px = x - AVE.ax, pz = z - AVE.az, s = clamp(px * AVE.dx + pz * AVE.dz, 0, AVE.len);
+    return Math.hypot(px - AVE.dx * s, pz - AVE.dz * s);
+  }
+  var W1 = { scene: new THREE.Scene(), bounds: { x: 2.55, zMin: -2.55, zMax: 2.55 }, base: 0.42 };
+  (function buildI() {
+    var s = W1.scene;
+    s.background = C(0xc9d6e6);
+    W1.camera = new THREE.PerspectiveCamera(34, 0.75, 0.02, 160);
+    W1.camera.position.set(0, 9.5, 6.0);
+    W1.camera.lookAt(0, 0, 0.3);
+
+    // 全天の空（夕方のパステル。地平の下は雲の海）。どの角度から見ても地平線が成り立つ
+    var skyMat = new THREE.ShaderMaterial({
+      uniforms: { time: { value: 0 }, sunDir: { value: new THREE.Vector3(1, 0.2, 0) } },
+      vertexShader: 'varying vec3 vD; void main(){ vD = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
+      fragmentShader: [
+        'uniform float time; uniform vec3 sunDir; varying vec3 vD;',
+        'float h(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7))) * 43758.5453); }',
+        'float n(vec2 p){ vec2 i=floor(p), f=fract(p); f=f*f*(3.0-2.0*f); return mix(mix(h(i),h(i+vec2(1,0)),f.x), mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x), f.y); }',
+        'float fbm(vec2 p){ float v=0.0, a=0.5; for(int i=0;i<6;i++){ v+=a*n(p); p*=2.03; a*=0.5; } return v; }',
+        'vec3 toLin(vec3 c){ return pow(c, vec3(2.2)); }',
+        'void main(){',
+        '  vec3 d = normalize(vD);',
+        '  float y = d.y;',
+        '  vec3 zen = toLin(vec3(0.44,0.62,0.92)), hor = toLin(vec3(0.99,0.82,0.80)), low = toLin(vec3(0.93,0.85,0.91));',
+        '  vec3 col = y > 0.0 ? mix(hor, zen, pow(smoothstep(0.0, 0.85, y), 0.65)) : mix(hor, low, smoothstep(0.0, -0.35, y));',
+        '  if (y > 0.0) {',
+        '    vec2 p = d.xz / (y + 0.12) * 0.9 + vec2(time * 0.012, time * 0.005);',
+        '    float c = fbm(p + fbm(p * 0.5) * 0.9);',
+        '    float cl = smoothstep(0.5, 0.82, c) * smoothstep(0.0, 0.12, y);',
+        '    col = mix(col, toLin(vec3(1.0, 0.95, 0.96)) * 1.15, cl);',
+        '  } else {',
+        '    vec2 p = d.xz / (-y + 0.1) * 0.8 + vec2(time * 0.006, 0.0);',
+        '    float c = fbm(p * 1.3 + fbm(p) * 0.6);',
+        '    col = mix(col, toLin(vec3(1.0, 0.96, 0.97)) * 1.1, smoothstep(0.38, 0.75, c) * 0.9);',
+        '  }',
+        '  float sd = max(dot(d, normalize(sunDir)), 0.0);',
+        '  col += toLin(vec3(1.0, 0.72, 0.48)) * (pow(sd, 10.0) * 0.7 + pow(sd, 600.0) * 8.0);',
+        '  gl_FragColor = vec4(col, 1.0);',
+        '}'
+      ].join('\n'),
+      side: THREE.BackSide, depthWrite: false
+    });
+    var sky = new THREE.Mesh(new THREE.SphereGeometry(70, 48, 32), skyMat);
+    sky.renderOrder = -1;
+    s.add(sky);
+    W1.sky = sky;
+    W1.skyMat = skyMat;
+    // 空の目：参道の先、花の向こうの高い空から、箱庭を見下ろす巨大な目（箱庭の中には置かない）
+    // 参道の入口からも広場からも、仰角およそ50〜60度。見上げないと見えない
+    (function () {
+      var e = makeEyeHead('toy', 13);                                   // 横 36 ほどの板。距離およそ 42 で視野の約 47 度
+      var dl = Math.hypot(PLAZA.x - AVE.ax, PLAZA.z - AVE.az), dx = (PLAZA.x - AVE.ax) / dl, dz = (PLAZA.z - AVE.az) / dl;
+      e.head.position.set(dx * 22, 34, dz * 22);
+      e.phase = 0.37;
+      s.add(e.head);
+      W1.skyEye = e;
+    })();
+    s.fog = new THREE.FogExp2(C(0xe6cfb4), 0.02);         // 風が強いほど濃くなる霞
+
+    s.environment = envFrom(function (e) {
+      var dome = new THREE.Mesh(new THREE.SphereGeometry(20, 32, 16), new THREE.MeshBasicMaterial({ color: C(0xbfd2ec), side: THREE.BackSide }));
+      var lowD = new THREE.Mesh(new THREE.SphereGeometry(19.5, 32, 16, 0, Math.PI * 2, Math.PI * 0.55, Math.PI * 0.45), new THREE.MeshBasicMaterial({ color: C(0xf2d4d9), side: THREE.BackSide }));
+      var sunB = new THREE.Mesh(new THREE.SphereGeometry(2, 16, 8), new THREE.MeshBasicMaterial({ color: new THREE.Color(14, 9, 5) }));
+      sunB.position.set(14, 4, -8);
+      e.add(dome, lowD, sunB);
+    });
+
+    s.add(new THREE.HemisphereLight(C(0xcad9ef), C(0x9b8070), 0.25));
+    var sun = new THREE.DirectionalLight(C(0xffa65e), 3.4);           // 低い黄金色の光
+    sun.castShadow = true;
+    sun.shadow.mapSize.set(2048, 2048);
+    var sc = sun.shadow.camera; sc.left = -4.5; sc.right = 4.5; sc.top = 4.5; sc.bottom = -4.5; sc.near = 0.5; sc.far = 30;
+    sun.shadow.bias = -0.0006; sun.shadow.normalBias = 0.02;
+    s.add(sun); s.add(sun.target);
+    W1.sun = sun;
+
+    // 木の箱（内側は青：箱庭療法の砂箱）
+    var wood = new THREE.MeshStandardMaterial({ color: C(0x8a6a4f), roughness: 0.55, bumpMap: plasterBump, bumpScale: 0.004 });
+    var inner = new THREE.MeshStandardMaterial({ color: C(0x6f93b8), roughness: 0.7 });
+    var T = 3.0, H = 0.55, th = 0.18;
+    function box(w, h, d, x, y, z, m) { var o = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m); o.position.set(x, y, z); o.castShadow = o.receiveShadow = true; s.add(o); return o; }
+    box(2 * T + 2 * th, H, th, 0, H / 2 - 0.15, -T - th / 2, wood);
+    box(2 * T + 2 * th, H, th, 0, H / 2 - 0.15, T + th / 2, wood);
+    box(th, H, 2 * T, -T - th / 2, H / 2 - 0.15, 0, wood);
+    box(th, H, 2 * T, T + th / 2, H / 2 - 0.15, 0, wood);
+    box(2 * T, 0.02, 2 * T, 0, -0.16, 0, inner);
+    box(2 * T + 2 * th, 0.12, 2 * T + 2 * th, 0, -0.23, 0, wood);
+
+    // 砂
+    var N = 150;
+    var geo = new THREE.PlaneGeometry(2 * T, 2 * T, N, N);
+    geo.rotateX(-Math.PI / 2);
+    sandBump.repeat.set(3, 3);
+    var sand = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color: C(0xc9ab82), roughness: 0.93, bumpMap: sandBump, bumpScale: 0.006, envMapIntensity: 0.8 }));
+    sand.castShadow = true; sand.receiveShadow = true;
+    s.add(sand);
+    W1.sand = sand; W1.T = T;
+
+    // 錆びた花
+    var flower = new THREE.Group();
+    var rust = new THREE.MeshStandardMaterial({ map: rustMap, roughnessMap: rustRough, roughness: 1, metalness: 0.35, bumpMap: rustRough, bumpScale: 0.01 });
+    var stemCurve = new THREE.CatmullRomCurve3([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0.04, 0.4, 0.02), new THREE.Vector3(-0.02, 0.8, 0), new THREE.Vector3(0.03, 1.12, -0.02)]);
+    var stem = new THREE.Mesh(new THREE.TubeGeometry(stemCurve, 24, 0.022, 8, false), rust);
+    var leaf = new THREE.Mesh(new THREE.SphereGeometry(0.12, 12, 6), rust);
+    leaf.scale.set(0.35, 0.06, 1); leaf.position.set(0.08, 0.45, 0.06); leaf.rotation.set(0.5, 0.6, 0.3);
+    var bloom = new THREE.Group(); bloom.position.set(0.03, 1.12, -0.02);
+    var petals = [];
+    for (var ring = 0; ring < 2; ring++) {
+      var n = ring ? 7 : 6;
+      for (var i = 0; i < n; i++) {
+        var pivot = new THREE.Group();
+        pivot.rotation.y = (i / n) * Math.PI * 2 + ring * 0.4;
+        var tilt = new THREE.Group();
+        var petal = new THREE.Mesh(new THREE.SphereGeometry(0.16 - ring * 0.035, 16, 8), rust);
+        petal.scale.set(0.55, 0.1, 1); petal.position.z = 0.15 - ring * 0.04;
+        tilt.add(petal); pivot.add(tilt); bloom.add(pivot);
+        petals.push({ node: tilt, ring: ring });
+      }
+    }
+    bloom.add(new THREE.Mesh(new THREE.SphereGeometry(0.06, 16, 12), rust));
+    flower.add(stem, leaf, bloom);
+    flower.position.set(PLAZA.x, 0, PLAZA.z);              // 広場の中心に埋もれている
+    flower.scale.setScalar(1.25);
+    flower.traverse(function (o) { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
+    s.add(flower);
+    W1.flower = flower; W1.petals = petals; W1.bloomNode = bloom;
+
+    // 風化した石：地層の縞、雨だれの黒い筋、斑点、欠け
+    var stoneMap = dataTex(256, function (u, v) {
+      var n = tfbm(u * 8, v * 8, 8, 5);
+      var strata = 0.5 + 0.5 * Math.sin((v * 22 + tfbm(u * 3, v * 3, 3, 3) * 3) * Math.PI);
+      var streak = Math.pow(tfbm(u * 24, v * 2, 24, 3), 3) * 1.6;                       // 縦に流れる黒い筋
+      var pit = tfbm(u * 40, v * 40, 40, 2) > 0.66 ? 0.55 : 1;                          // 小さな穴
+      var g = (0.62 + n * 0.34 + strata * 0.08 - streak * 0.35) * pit;
+      return [clamp(g * 232, 0, 255), clamp(g * 206, 0, 255), clamp(g * 168, 0, 255)];
+    }, true);
+    var stoneA = new THREE.MeshStandardMaterial({ map: stoneMap, color: C(0xe6d6bc), roughness: 0.97, bumpMap: stoneMap, bumpScale: 0.012, envMapIntensity: 0.55 });
+    var stoneB = new THREE.MeshStandardMaterial({ map: stoneMap, color: C(0xa99272), roughness: 0.98, bumpMap: stoneMap, bumpScale: 0.014, envMapIntensity: 0.45 });
+    // 太古に沈んだ都市の遺構。すべて花（広場）へ視線と足を導くように置く
+    //  参道（列柱）→ 崩れたアーチの門 → 沈んだ円形広場（花）。広場の東のオベリスクの影が花を指し、沈んだ巨大な頭は広場を向く
+    var ruins = new THREE.Group(); s.add(ruins);
+    W1.obstacles = [];                                     // カメラが遺構にめり込まないための円（x, z, 半径, 高さ）
+    function piece(geo, m, x, y, z, rx, ry, rz) { var o = new THREE.Mesh(geo, m); o.position.set(x, y, z); o.rotation.set(rx || 0, ry || 0, rz || 0); o.castShadow = o.receiveShadow = true; ruins.add(o); return o; }
+    function column(x, z, h, broken, sink, lean) {
+      var y0 = -sink;
+      piece(new THREE.CylinderGeometry(0.075, 0.085, h, 14), hash(x, z, 1) > 0.5 ? stoneA : stoneB, x, y0 + h / 2, z, (hash(x, z, 2) - 0.5) * 0.08 + (lean || 0), 0, (hash(x, z, 3) - 0.5) * 0.08);
+      piece(new THREE.BoxGeometry(0.22, 0.05, 0.22), stoneB, x, y0 + 0.025, z);
+      if (!broken) piece(new THREE.BoxGeometry(0.22, 0.06, 0.22), stoneA, x, y0 + h + 0.03, z, 0, hash(x, z, 4) * 0.4, 0);
+      else piece(new THREE.CylinderGeometry(0.035, 0.08, 0.08, 7), stoneA, x, y0 + h + 0.03, z, 0.3, 0, -0.25);   // 折れ口
+      W1.obstacles.push({ x: x, z: z, r: 0.14, h: h - sink + 0.1 });
+    }
+    var P = PLAZA, A = AVE;
+    // 参道の列柱：手前ほど高く残り、広場に近づくほど崩れて低い（奥へ吸い込まれる遠近）
+    for (var ci = 0; ci < 5; ci++) {
+      var sAlong = 0.45 + ci * 0.52;
+      [-1, 1].forEach(function (side) {
+        var cx = A.ax + A.dx * sAlong + A.nx * 0.42 * side, cz = A.az + A.dz * sAlong + A.nz * 0.42 * side;
+        var hh = 1.15 - ci * 0.14 - hash(ci, side, 5) * 0.25;
+        column(cx, cz, Math.max(0.3, hh), hash(ci, side, 6) > 0.55, 0.1, 0);
+      });
+    }
+    // 倒れた柱が1本、参道に斜めに横たわる（通り道を遮らない向き）
+    piece(new THREE.CylinderGeometry(0.08, 0.08, 0.9, 14), stoneB, A.ax + A.dx * 1.55 + A.nx * 0.75, 0.03, A.az + A.dz * 1.55 + A.nz * 0.75, 0, Math.atan2(A.dx, A.dz) + 0.5, Math.PI / 2);
+    // 崩れたアーチの門（参道から見ると、門の向こうに花）
+    var gS = A.len - P.r - 0.18, gx = A.ax + A.dx * gS, gz = A.az + A.dz * gS, gYaw = Math.atan2(A.nx, A.nz);
+    var gate = new THREE.Group(); gate.position.set(gx, 0, gz); gate.rotation.y = gYaw + Math.PI / 2; ruins.add(gate);
+    function gp(geo, m, x, y, z, rz) { var o = new THREE.Mesh(geo, m); o.position.set(x, y, z); o.rotation.z = rz || 0; o.castShadow = o.receiveShadow = true; gate.add(o); return o; }
+    gp(new THREE.BoxGeometry(0.18, 1.0, 0.24), stoneA, -0.4, 0.42, 0, 0.02);
+    gp(new THREE.BoxGeometry(0.18, 0.62, 0.24), stoneB, 0.4, 0.22, 0, -0.05);
+    gp(new THREE.TorusGeometry(0.4, 0.085, 8, 22, Math.PI * 0.64), stoneA, 0.0, 0.92, 0, Math.PI * 0.36);
+    piece(new THREE.BoxGeometry(0.24, 0.16, 0.22), stoneB, gx + A.nx * 0.55 + A.dx * 0.2, 0.02, gz + A.nz * 0.55 + A.dz * 0.2, 0.3, 0.6, 0.2);   // 落ちた迫石
+    W1.obstacles.push({ x: gx - A.nx * 0.4, z: gz - A.nz * 0.4, r: 0.18, h: 1.0 }, { x: gx + A.nx * 0.4, z: gz + A.nz * 0.4, r: 0.18, h: 0.65 });
+    // 沈んだ円形広場：石の床（中心は花が埋もれる砂の穴）、まわりに折れた柱の輪
+    var floorStone = new THREE.Mesh(new THREE.RingGeometry(0.2, P.r, 40, 1), new THREE.MeshStandardMaterial({ map: stoneMap, color: C(0x9a8366), roughness: 0.95, bumpMap: stoneMap, bumpScale: 0.01 }));
+    floorStone.rotation.x = -Math.PI / 2; floorStone.position.set(P.x, -0.035, P.z); floorStone.receiveShadow = true; ruins.add(floorStone);
+    var curb = new THREE.Mesh(new THREE.TorusGeometry(P.r, 0.05, 6, 40), stoneB); curb.rotation.x = Math.PI / 2; curb.position.set(P.x, -0.02, P.z); curb.receiveShadow = true; ruins.add(curb);
+    for (var ri = 0; ri < 10; ri++) {
+      var ang = (ri / 10) * Math.PI * 2 + 0.3;
+      var rx = P.x + Math.cos(ang) * (P.r + 0.06), rz = P.z + Math.sin(ang) * (P.r + 0.06);
+      if (Math.hypot(rx - gx, rz - gz) < 0.5) continue;                     // 門の前は空ける
+      column(rx, rz, 0.18 + hash(ri, 3, 3) * 0.45, true, 0.05, 0);
+    }
+    // 広場の奥を囲む、崩れた壁の弧（背景になる）
+    for (var wi = 0; wi < 9; wi++) {
+      var wa = Math.atan2(A.dz, A.dx) + (wi - 4) * 0.2, wr = P.r + 0.55;
+      var wh = 0.2 + hash(wi, 7, 1) * 0.5 * (1 - Math.abs(wi - 4) / 6);
+      piece(new THREE.BoxGeometry(0.2, wh, 0.13), wi % 2 ? stoneA : stoneB, P.x + Math.cos(wa) * wr, wh / 2 - 0.05, P.z + Math.sin(wa) * wr, 0, -wa, (hash(wi, 7, 2) - 0.5) * 0.12);
+      W1.obstacles.push({ x: P.x + Math.cos(wa) * wr, z: P.z + Math.sin(wa) * wr, r: 0.14, h: wh });
+    }
+    // オベリスク：広場の東。低い夕陽の長い影が広場を横切り、花を指す（日時計）
+    var ob = new THREE.Group(); ob.position.set(2.35, -0.22, -0.85); ob.rotation.set(0.05, 0.3, 0.07); ruins.add(ob);
+    var obBody = new THREE.Mesh(new THREE.BoxGeometry(0.17, 1.6, 0.17), stoneA); obBody.position.y = 0.8; obBody.castShadow = obBody.receiveShadow = true; ob.add(obBody);
+    var obTip = new THREE.Mesh(new THREE.ConeGeometry(0.12, 0.2, 4), stoneB); obTip.position.y = 1.7; obTip.rotation.y = Math.PI / 4; obTip.castShadow = true; ob.add(obTip);
+    W1.obstacles.push({ x: 2.35, z: -0.85, r: 0.22, h: 1.6 });
+    W1.obelisk = ob;
+    // 沈んだ巨大な頭：広場を向いて、半分砂に埋もれる（目は彫らない）
+    var hx = 1.85, hz = 1.55;
+    var face = new THREE.Group(); face.position.set(hx, -0.14, hz); face.rotation.set(-0.25, Math.atan2(P.x - hx, P.z - hz), 0.35); ruins.add(face);
+    var skull = new THREE.Mesh(new THREE.SphereGeometry(0.48, 28, 20), stoneA); skull.scale.set(0.82, 1.05, 0.8); skull.castShadow = skull.receiveShadow = true; face.add(skull);
+    var nose = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.26, 0.12), stoneA); nose.position.set(0, -0.06, 0.37); nose.rotation.x = -0.15; nose.castShadow = true; face.add(nose);
+    var lip = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.03, 0.06), stoneB); lip.position.set(0, -0.25, 0.33); face.add(lip);
+    var crack = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.55, 0.05), stoneB); crack.position.set(0.08, 0.1, 0.35); crack.rotation.set(0.1, 0, 0.3); face.add(crack);
+    W1.obstacles.push({ x: hx, z: hz, r: 0.48, h: 0.5 });
+    // 沈む神殿の基壇（左奥。外周の重し）
+    var base = new THREE.Group(); base.position.set(-1.85, -0.2, -1.65); base.rotation.set(0.06, 0.25, -0.05); ruins.add(base);
+    [[1.2, 0.14, 0.95], [0.95, 0.14, 0.75], [0.7, 0.14, 0.55]].forEach(function (st, i) {
+      var m = new THREE.Mesh(new THREE.BoxGeometry(st[0], st[1], st[2]), i % 2 ? stoneB : stoneA); m.position.y = 0.07 + i * 0.14; m.castShadow = m.receiveShadow = true; base.add(m);
+    });
+    W1.obstacles.push({ x: -1.85, z: -1.65, r: 0.65, h: 0.6 });
+    // 瓦礫：外周に寄せる（参道・広場には置かない）
+    for (var rb = 0; rb < 26; rb++) {
+      var bx = (hash(rb, 1, 9) - 0.5) * 5.4, bz = (hash(rb, 2, 9) - 0.5) * 5.4;
+      if (aveDist(bx, bz) < 0.75 || Math.hypot(bx - P.x, bz - P.z) < P.r + 0.7) continue;
+      var sz = 0.05 + hash(rb, 3, 9) * 0.11;
+      piece(new THREE.BoxGeometry(sz * 1.4, sz, sz), rb % 2 ? stoneA : stoneB, bx, sz * 0.2, bz, hash(rb, 4, 9) * 3, hash(rb, 5, 9) * 3, hash(rb, 6, 9) * 3);
+    }
+    // パンくず：錆びた花びらの欠片が、参道に点々と落ちている（花に近づくほど多い）
+    for (var bi = 0; bi < 26; bi++) {
+      var u = Math.pow(bi / 25, 0.7), sA = 0.3 + u * (A.len - 0.45);
+      var jx = (hash(bi, 8, 1) - 0.5) * 0.28, px = A.ax + A.dx * sA + A.nx * jx, pz = A.az + A.dz * sA + A.nz * jx;
+      if (Math.hypot(px - P.x, pz - P.z) < 0.24) continue;
+      var shard = new THREE.Mesh(new THREE.SphereGeometry(0.035 + hash(bi, 8, 2) * 0.025, 8, 5), rust);
+      shard.scale.set(0.6, 0.12, 1); shard.position.set(px, 0.01, pz); shard.rotation.set(hash(bi, 8, 3) * 0.6, hash(bi, 8, 4) * 6.3, 0); shard.castShadow = true; ruins.add(shard);
+    }
+    // 花の真上から、柔らかい一筋の光
+    var halo = new THREE.SpotLight(C(0xffe3bd), 1.6, 7, 0.3, 0.85, 1.5);
+    halo.position.set(P.x, 3.4, P.z); halo.target = flower; s.add(halo);
+
+    // 風で舞う砂粒
+    var P = 1100, pp = new Float32Array(P * 3);
+    for (var k = 0; k < P; k++) { pp[k * 3] = (Math.random() * 2 - 1) * T; pp[k * 3 + 1] = Math.random() * 0.3; pp[k * 3 + 2] = (Math.random() * 2 - 1) * T; }
+    var pg = new THREE.BufferGeometry(); pg.setAttribute('position', new THREE.BufferAttribute(pp, 3));
+    var dust = new THREE.Points(pg, new THREE.PointsMaterial({ color: C(0xfff0d8), map: softDot, size: 0.03, transparent: true, opacity: 0.1, depthWrite: false, blending: THREE.AdditiveBlending }));
+    s.add(dust);
+    W1.dust = dust;
+
+    W1.figure = makeFigure('toy');
+    s.add(W1.figure);
+
+  })();
+
+  var flowerReveal = 0, gust = 0, hoverFlower = 0;
+  // 風：人物が動くと、その向きに吹く。砂の流れ（flow）と街の生まれ変わり（life）は風で進む
+  var wind = 0, windVel = new THREE.Vector2(), windDir = new THREE.Vector2(AVE.dx, AVE.dz);   // 普段の風は参道に沿って花へ
+  var flowX = 0, flowZ = 0, lifeT = 0.4;
+  function sandHeight(x, z) {
+    var T = W1.T;
+    var edge = smoothstep(0, 0.3, T - Math.abs(x)) * smoothstep(0, 0.3, T - Math.abs(z));
+    var fx = x - flowX, fz = z - flowZ;                                     // 風下へ流れる
+    var dunes = (0.08 + wind * 0.05) * noise3(fx * 0.9, fz * 0.9, lifeT * 0.85) + 0.035 * noise3(fx * 2.3, fz * 2.3, 3.1);
+    var cell = 0.46;
+    var cx = Math.floor(fx / cell), cz = Math.floor(fz / cell);
+    var life = noise3(cx * 0.41, cz * 0.41, lifeT);
+    var blk = 0;
+    if (life > 0.47) {
+      var lx = fx / cell - cx, lz = fz / cell - cz;
+      var inner = smoothstep(0.08, 0.2, lx) * smoothstep(0.08, 0.2, 1 - lx) * smoothstep(0.08, 0.2, lz) * smoothstep(0.08, 0.2, 1 - lz);
+      var hgt = Math.floor((life - 0.47) * 12) / 12;
+      var crumble = 0.85 + 0.15 * noise3(fx * 7, fz * 7, 1.7);               // 砂の建物は少し崩れている
+      blk = inner * (0.12 + hgt * 1.6) * crumble * (1 - 0.55 * wind);     // 風が強いと崩れて砂丘になる
+    }
+    var df = Math.hypot(x - W1.flower.position.x, z - W1.flower.position.z);
+    var keepClear = smoothstep(0.5, 0.95, df);
+    keepClear *= smoothstep(PLAZA.r, PLAZA.r + 0.45, Math.hypot(x - PLAZA.x, z - PLAZA.z));   // 広場には建たない
+    keepClear *= smoothstep(0.42, 0.75, aveDist(x, z));                                         // 参道にも建たない
+    // 人物と、低い位置のカメラのまわりには街が建たない（見ている場所の近くは道になる）
+    keepClear *= smoothstep(0.25, 0.6, Math.hypot(x - W1.pos.x, z - W1.pos.z));
+    for (var oi = 0; oi < W1.obstacles.length; oi++) { var ob_ = W1.obstacles[oi]; keepClear *= smoothstep(ob_.r, ob_.r + 0.3, Math.hypot(x - ob_.x, z - ob_.z)); }   // 遺構の中に砂の建物は建たない
+    if (cam1.pos.y < 1.2) {
+      // 見ている方向に道ができる：カメラから視線の先 2.4 までの線分からの距離
+      var vx = cam1.look.x - cam1.pos.x, vz = cam1.look.z - cam1.pos.z, vl = Math.hypot(vx, vz) || 1;
+      vx /= vl; vz /= vl;
+      var px = x - cam1.pos.x, pz = z - cam1.pos.z;
+      var along = clamp(px * vx + pz * vz, 0, 2.4);
+      var dSeg = Math.hypot(px - vx * along, pz - vz * along);
+      keepClear *= smoothstep(0.22 + along * 0.08, 0.55 + along * 0.12, dSeg);
+    }
+    var blown = (1 - smoothstep(0.0, 0.6, df)) * (wind * 0.12 + hoverFlower * 0.1);
+    var bowl = (1 - smoothstep(PLAZA.r * 0.7, PLAZA.r + 0.25, Math.hypot(x - PLAZA.x, z - PLAZA.z))) * 0.13;   // 広場は砂が窪み、石の床がのぞく
+    return (dunes + blk * keepClear - blown - bowl) * edge;
+  }
+  function updateSand() {
+    var pos = W1.sand.geometry.attributes.position, a = pos.array;
+    for (var i = 0; i < a.length; i += 3) a[i + 1] = sandHeight(a[i], a[i + 2]);
+    pos.needsUpdate = true;
+    W1.sand.geometry.computeVertexNormals();
+  }
+
+  // カメラワーク：俯瞰（模型）から、砂の街の中（風景）へ
+  var cam1 = { pos: new THREE.Vector3(0, 9.5, 6.0), look: new THREE.Vector3(0, 0, 0.3), fov: 34, tilt: 0.9,
+    shot: 0, shotT0: 0, shotLen: 20, line: 0, dir: 1, name: 'overview' };
+  var AMBIENT = ['overview', 'avenue', 'orbit', 'reverse'];   // すべて花（広場）に向けて組んだショット
+  var shotTmp = { pos: new THREE.Vector3(), look: new THREE.Vector3(), fov: 40, tilt: 0, k: 0.5 };
+  function shotTarget(name, lt, len, o) {
+    var T = W1.T, p = W1.pos, h = W1.heading;
+    var PX = PLAZA.x, PZ = PLAZA.z;
+    if (name === 'overview') {                    // 箱庭として見る。参道が対角に走り、広場（花）が三分割の位置に来る
+      o.pos.set(-0.35 + Math.sin(lt * 0.05) * 0.6, 9.0 - lt * 0.04, 5.6 + Math.cos(lt * 0.04) * 0.4);
+      o.look.set(-0.2, 0, 0.35); o.fov = 34; o.tilt = 0.95; o.k = 0.4;
+    } else if (name === 'avenue' || name === 'horizon') {   // 参道を低く進む。列柱の奥、門の向こうに花
+      var u = lt / len;
+      var sA = 0.05 + u * 1.1;
+      o.pos.set(AVE.ax + AVE.dx * sA, 0.3 + u * 0.05, AVE.az + AVE.dz * sA);
+      o.look.set(PX, 0.38, PZ); o.fov = 46; o.tilt = 0; o.k = 0.35;
+    } else if (name === 'orbit') {                // 広場のまわりをゆっくり回る
+      var a = 2.3 + lt * 0.05;
+      o.pos.set(PX + Math.cos(a) * 2.1, 0.95 + Math.sin(lt * 0.1) * 0.15, PZ + Math.sin(a) * 2.1);
+      o.look.set(PX, 0.3, PZ); o.fov = 44; o.tilt = 0.25; o.k = 0.4;
+    } else if (name === 'reverse' || name === 'street') {   // オベリスクの側から、広場越しに参道を振り返る
+      var v = lt / len;
+      o.pos.set(2.7 - v * 0.2, 1.05, -1.4 + v * 0.3);                    // 広場の奥の壁越しに見下ろす高さ
+      o.look.set(PX - AVE.dx * 1.0, 0.15, PZ - AVE.dz * 1.0); o.fov = 46; o.tilt = 0.2; o.k = 0.4;
+    } else if (name === 'inside') {               // 絵の中：人物の斜め上・後ろから、人物越しに行く先を見下ろす
+      var ix = Math.sin(h), iz = Math.cos(h);
+      o.pos.set(p.x - ix * 1.35 + iz * 0.35, 1.05, p.z - iz * 1.35 - ix * 0.35);
+      o.look.set(p.x + ix * 1.7, 0.15, p.z + iz * 1.7); o.fov = 52; o.tilt = 0; o.k = 1.4;
+    } else if (name === 'follow') {               // 人物の背後に付き、人物越しにいつも花（広場）を見る。花が画面から逃げない
+      var gx = PX - p.x, gz = PZ - p.z, gd = Math.hypot(gx, gz), fx, fz;
+      if (gd > 0.35) { fx = gx / gd; fz = gz / gd; } else { fx = Math.sin(h); fz = Math.cos(h); }
+      o.pos.set(p.x - fx * 1.5 + fz * 0.35, 1.7, p.z - fz * 1.5 - fx * 0.35);   // 人物の斜め上・後ろ。柱越しに広場が見える高さ
+      var lk = Math.min(1, 0.6 + 0.25 / Math.max(gd, 0.3));             // 花へ近いほど、花そのものを見る
+      o.look.set(p.x + gx * lk, 0.75, p.z + gz * lk); o.fov = 50; o.tilt = 0.1; o.k = 1.5;   // 咲いた花の高さあたりを見る
+    } else if (name === 'flower') {               // 錆びた花へ寄る（キーボードで花を選んだとき）
+      var fp = W1.flower.position;
+      o.pos.set(fp.x - 1.0, 0.95, fp.z + 1.3);
+      o.look.set(fp.x, 0.95, fp.z);                 // 咲いた花（高さ約1.3）が画面の中央に入る高さ
+      o.fov = 40; o.tilt = 0.35; o.k = 1.6;
+    }
+    // 箱の中では壁の内側・砂の上にとどめる
+    if (o.pos.y < 1.2) { o.pos.x = clamp(o.pos.x, -T + 0.12, T - 0.12); o.pos.z = clamp(o.pos.z, -T + 0.12, T - 0.12); }
+    o.pos.y = Math.max(o.pos.y, sandHeight(o.pos.x, o.pos.z) + 0.16);
+    for (var oi = 0; oi < W1.obstacles.length; oi++) {                 // 遺構にめり込むなら、外へ押し出す
+      var ob = W1.obstacles[oi], dx = o.pos.x - ob.x, dz = o.pos.z - ob.z, dd = Math.hypot(dx, dz), rr = ob.r + 0.18;
+      if (dd < rr && o.pos.y < ob.h + 0.12) { if (dd < 1e-4) { dx = 1; dd = 1; } o.pos.x = ob.x + dx / dd * rr; o.pos.z = ob.z + dz / dd * rr; }
+    }
+    return o;
+  }
+  function nextShot(now) {
+    cam1.shot = (cam1.shot + 1) % AMBIENT.length;
+    cam1.name = AMBIENT[cam1.shot]; cam1.shotT0 = now; cam1.shotLen = 16 + Math.random() * 8;
+  }
+
+  // ============================================================
+  // 3. II：デジタルの都市
+  // ============================================================
+  var W2 = { scene: new THREE.Scene(), bounds: { x: 0.8, zMin: -7, zMax: 3.2 }, base: 0.62 };
+  var patternCanvases = [];
+  function makePatternTexture(kind, seed) {
+    var c = document.createElement('canvas'); c.width = 256; c.height = 512;
+    var t = new THREE.CanvasTexture(c);
+    t.magFilter = THREE.NearestFilter; t.minFilter = THREE.LinearFilter; t.generateMipmaps = false;
+    t.wrapS = t.wrapT = THREE.RepeatWrapping;   // 縦に流すため
+    t.encoding = THREE.sRGBEncoding;
+    patternCanvases.push({ c: c, ctx: c.getContext('2d'), tex: t, kind: kind, seed: seed });
+    return t;
+  }
+  function drawPattern(p, time) {
+    var g = p.ctx, w = p.c.width, h = p.c.height, k, y, x;
+    g.fillStyle = '#000'; g.fillRect(0, 0, w, h);
+    g.fillStyle = '#fff';
+    if (p.kind === 0) {                                     // BARCODE
+      for (x = 0; x < w;) { var bw = 1 + Math.floor(hash(x, p.seed, Math.floor(time * 2)) * 6); if (hash(x, p.seed, 9) > 0.45) g.fillRect(x, 0, bw, h); x += bw + 1; }
+      g.fillStyle = '#000'; g.fillRect(0, h * 0.86, w, h * 0.14);
+      g.fillStyle = '#fff'; g.font = '11px monospace'; g.fillText(('00000000' + Math.floor(time * 977 + p.seed * 13)).slice(-10), 6, h * 0.95);
+    } else if (p.kind === 1) {                              // HEX.DUMP
+      g.font = '10px monospace';
+      for (y = 12; y < h; y += 12) {
+        var row = '';
+        for (k = 0; k < 8; k++) row += ('0' + Math.floor(hash(k, y + p.seed, Math.floor(time * 3 + y * 0.01)) * 255).toString(16)).slice(-2) + ' ';
+        g.globalAlpha = 0.3 + 0.7 * hash(y, p.seed, 2); g.fillText(row, 4, y);
+      }
+      g.globalAlpha = 1;
+    } else if (p.kind === 2) {                              // SONOGRAM
+      for (y = 0; y < h; y += 4) for (x = 0; x < w; x += 4) {
+        var v = noise3(x * 0.03, (y + time * 40) * 0.026, p.seed);
+        g.globalAlpha = Math.pow(v, 2.2); g.fillRect(x, y, 4, 4);
+      }
+      g.globalAlpha = 1;
+    } else {                                                // DATA_STREAM
+      for (y = 6; y < h; y += 10) for (x = 6; x < w; x += 10) {
+        if (hash(x + p.seed, y, Math.floor(time * 1.5 + hash(x, y, p.seed) * 5)) > 0.55) g.fillRect(x, y, 5, 4);
+      }
+    }
+    p.tex.needsUpdate = true;
+  }
+  // ---- 実際の音で動かす（マイク／音声ファイル）。音がないときは仮想の拍（IDLE.SIGNAL）
+  var AV = { ctx: null, analyser: null, freq: null, wave: null, src: null, stream: null, live: false, source: '',
+             low: 0, mid: 0, high: 0, level: 0, lowAvg: 0, highAvg: 0, kick: 0, hat: 0, bands: [0, 0, 0, 0, 0, 0], onsets: 0 };
+  var avTestBtn = document.getElementById('avTest'), avStatusEl = document.getElementById('avStatus'), avMicBtn = document.getElementById('avMic'), avFileBtn = document.getElementById('avFile'), avFileInput = document.getElementById('avFileInput');
+  function avSetStatus(t) { avStatusEl.textContent = t; }
+  function avInit() {
+    if (AV.ctx) return true;
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) { avSetStatus('NO_AUDIO'); return false; }
+    AV.ctx = new AC();
+    AV.analyser = AV.ctx.createAnalyser();
+    AV.analyser.fftSize = 1024; AV.analyser.smoothingTimeConstant = 0.55;
+    AV.freq = new Uint8Array(AV.analyser.frequencyBinCount); AV.wave = new Uint8Array(AV.analyser.fftSize);
+    // 解析の流れを止めないため、音量0の出口につないでおく（マイクの音は鳴らさない）
+    AV.mute = AV.ctx.createGain(); AV.mute.gain.value = 0;
+    AV.analyser.connect(AV.mute); AV.mute.connect(AV.ctx.destination);
+    return true;
+  }
+  function avStop() {
+    if (AV.src) { try { AV.src.disconnect(); } catch (e) {} try { if (AV.src.stop) AV.src.stop(); } catch (e) {} }
+    if (AV.stream) AV.stream.getTracks().forEach(function (tr) { tr.stop(); });
+    AV.src = null; AV.stream = null; AV.live = false; AV.source = '';
+    avMicBtn.setAttribute('aria-pressed', 'false'); avFileBtn.setAttribute('aria-pressed', 'false'); avTestBtn.setAttribute('aria-pressed', 'false');
+    avSetStatus('IDLE.SIGNAL');
+  }
+  async function avStartMic() {
+    if (!avInit()) return;
+    avStop();
+    try {
+      if (AV.ctx.state === 'suspended') await AV.ctx.resume();
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw new Error('getUserMedia unavailable');
+      AV.stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false } });
+      AV.src = AV.ctx.createMediaStreamSource(AV.stream);
+      AV.src.connect(AV.analyser);                      // 解析だけ（スピーカーには出さない：ハウリング防止）
+      AV.live = true; AV.source = 'MIC';
+      avMicBtn.setAttribute('aria-pressed', 'true'); avSetStatus('MIC_ACTIVE');
+    } catch (e) {
+      console.warn('MIC failed:', e);
+      avStop(); avSetStatus('MIC_DENIED');
+    }
+  }
+  async function avStartFile(file) {
+    if (!avInit()) return;
+    avStop();
+    try {
+      if (AV.ctx.state === 'suspended') await AV.ctx.resume();
+      var buf = await AV.ctx.decodeAudioData(await file.arrayBuffer());
+      var src = AV.ctx.createBufferSource();
+      src.buffer = buf; src.loop = true;
+      src.connect(AV.analyser); src.connect(AV.ctx.destination);   // ファイルは音も鳴らす
+      src.start();
+      AV.src = src; AV.live = true; AV.source = 'FILE';
+      avFileBtn.setAttribute('aria-pressed', 'true'); avSetStatus('PLAYING: ' + file.name.slice(0, 18));
+    } catch (e) {
+      console.warn('FILE failed:', e);
+      avStop(); avSetStatus('FILE_ERROR');
+    }
+  }
+  // テストパターン：ページの中で音を合成して流す（120 BPM のキックとハイハット、40Hz→8kHz のスイープ、16小節ごとのノイズ）
+  // マイクが使えない環境でも、音への反応を確かめられる
+  function avStartTest() {
+    if (!avInit()) return;
+    avStop();
+    var ctx = AV.ctx;
+    if (ctx.state === 'suspended') ctx.resume();
+    var out = ctx.createGain(); out.gain.value = 0.35;
+    out.connect(AV.analyser); out.connect(ctx.destination);
+    var nb = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate), nd = nb.getChannelData(0);
+    for (var i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
+    function kick(t) {
+      var o = ctx.createOscillator(), g = ctx.createGain();
+      o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(45, t + 0.12);
+      g.gain.setValueAtTime(1, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.32);
+      o.connect(g); g.connect(out); o.start(t); o.stop(t + 0.35);
+    }
+    function noiseHit(t, len, hp, amp) {
+      var n = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+      n.buffer = nb; f.type = 'highpass'; f.frequency.value = hp;
+      g.gain.setValueAtTime(amp, t); g.gain.exponentialRampToValueAtTime(0.001, t + len);
+      n.connect(f); f.connect(g); g.connect(out); n.start(t); n.stop(t + len + 0.02);
+    }
+    var sweep = ctx.createOscillator(), sg = ctx.createGain();
+    sg.gain.value = 0.1; sweep.connect(sg); sg.connect(out); sweep.start();
+    var spb = 60 / 120, next = ctx.currentTime + 0.1, step = 0;
+    var timer = setInterval(function () {
+      while (next < ctx.currentTime + 0.2) {
+        if (step % 4 === 0) kick(next);                                          // 4分でキック
+        if (step % 4 === 2) noiseHit(next, 0.05, 7000, 0.45);                    // 裏でハイハット
+        if (step % 64 === 60) noiseHit(next, spb * 0.9, 20, 0.35);               // 16小節ごとに全帯域のノイズ
+        if (step % 32 === 0) { sweep.frequency.setValueAtTime(40, next); sweep.frequency.exponentialRampToValueAtTime(8000, next + spb * 8); }
+        next += spb / 4; step++;
+      }
+    }, 25);
+    AV.src = { disconnect: function () { out.disconnect(); }, stop: function () { clearInterval(timer); try { sweep.stop(); } catch (e) {} } };
+    AV.live = true; AV.source = 'TEST';
+    avTestBtn.setAttribute('aria-pressed', 'true'); avSetStatus('TEST_PATTERN 120BPM');
+  }
+  avTestBtn.addEventListener('click', function () { if (AV.source === 'TEST') avStop(); else avStartTest(); });
+  avMicBtn.addEventListener('click', function () { if (AV.source === 'MIC') avStop(); else avStartMic(); });
+  avFileBtn.addEventListener('click', function () { if (AV.source === 'FILE') avStop(); else avFileInput.click(); });
+  avFileInput.addEventListener('change', function () { if (avFileInput.files && avFileInput.files[0]) avStartFile(avFileInput.files[0]); avFileInput.value = ''; });
+  // 毎フレームの解析：帯域の強さと、低域・高域の立ち上がり（拍）
+  function avAnalyze(dt) {
+    if (!AV.live) return;
+    AV.analyser.getByteFrequencyData(AV.freq);
+    AV.analyser.getByteTimeDomainData(AV.wave);
+    var f = AV.freq, n = f.length;
+    function avg(a, b) { var sum = 0; for (var i = a; i < b; i++) sum += f[i]; return sum / Math.max(1, b - a) / 255; }
+    AV.low = avg(1, 7); AV.mid = avg(7, 60); AV.high = avg(60, Math.min(220, n));
+    var edges = [1, 4, 10, 24, 56, 130, Math.min(300, n)];            // 6帯域（低→高、対数的）
+    for (var b = 0; b < 6; b++) AV.bands[b] += (avg(edges[b], edges[b + 1]) - AV.bands[b]) * Math.min(1, dt * 18);
+    var sq = 0; for (var j = 0; j < AV.wave.length; j++) { var v = (AV.wave[j] - 128) / 128; sq += v * v; }
+    AV.level = Math.sqrt(sq / AV.wave.length);
+    if (AV.low > AV.lowAvg * 1.18 + 0.04 && AV.low > 0.2 && AV.kick < 0.6) { AV.kick = 1; AV.onsets++; }
+    if (AV.high > AV.highAvg * 1.25 + 0.02 && AV.high > 0.06 && AV.hat < 0.5) AV.hat = 1;
+    AV.lowAvg += (AV.low - AV.lowAvg) * Math.min(1, dt * 3);
+    AV.highAvg += (AV.high - AV.highAvg) * Math.min(1, dt * 3);
+    AV.kick *= Math.exp(-dt * 7); AV.hat *= Math.exp(-dt * 11);
+  }
+  var SCREEN_MODES = ['SPECTRUM', 'WAVEFORM', 'SONOGRAM', 'DATA_STREAM'];
+  function drawScreen(t, kick, hat, beat) {
+    var c = W2.scr.c, g = W2.scr.g, w = c.width, h = c.height, i, x, y;
+    var mode = AV.live ? Math.floor(t / 10) % 4 : Math.floor(beat / 16) % 4;   // 4小節（音があるときは10秒）ごとにモードが変わる
+    if (mode === 2) {                                                     // SONOGRAM：左へ流れる
+      g.drawImage(c, -3, 0);
+      g.fillStyle = '#000'; g.fillRect(w - 3, 0, 3, h);
+      for (y = 14; y < h; y += 2) {
+        var band = 1 - (y - 14) / (h - 14);
+        var v = AV.live ? AV.freq[Math.floor(Math.pow(band, 2.2) * 300) + 1] / 255 * 1.1 : noise3(y * 0.06, t * 3, 7) * (band < 0.3 ? 0.35 + kick : 0.25 + hat * 0.9);
+        g.fillStyle = 'rgba(255,255,255,' + clamp(v * v * 1.4, 0, 1) + ')'; g.fillRect(w - 3, y, 3, 2);
+      }
+    } else {
+      g.fillStyle = '#000'; g.fillRect(0, 0, w, h);
+      g.fillStyle = '#fff'; g.strokeStyle = '#fff';
+      if (mode === 0) {                                                   // SPECTRUM
+        var n = 40, bw = w / n;
+        for (i = 0; i < n; i++) {
+          var env = i < 8 ? kick : i < 24 ? 0.35 + kick * 0.4 : hat;
+          var a = AV.live ? AV.freq[Math.floor(Math.pow(i / n, 2.0) * 300) + 1] / 255 : (0.35 + 0.65 * noise3(i * 0.35, t * 4, 3)) * env * (1 - i / n * 0.45);
+          var bh = Math.max(2, a * (h - 30));
+          g.fillRect(i * bw + 1, h - 6 - bh, bw - 2, bh);
+          g.fillRect(i * bw + 1, h - 10 - bh - 6 * kick, bw - 2, 2);
+        }
+      } else if (mode === 1) {                                            // WAVEFORM
+        g.lineWidth = 2; g.beginPath();
+        for (x = 0; x <= w; x += 2) {
+          y = AV.live ? h / 2 + 10 + (AV.wave[Math.floor(x / w * (AV.wave.length - 1))] - 128) / 128 * (h * 0.42)
+            : h / 2 + 10 + Math.sin(x * 0.07 + t * 9) * (14 + 50 * kick) * Math.sin(x * 0.011 + t) + (noise3(x * 0.2, t * 12, 1) - 0.5) * 30 * hat;
+          if (x === 0) g.moveTo(x, y); else g.lineTo(x, y);
+        }
+        g.stroke();
+        g.globalAlpha = 0.35; g.lineWidth = 1; g.beginPath();
+        for (x = 0; x <= w; x += 2) { y = h / 2 + 10 + Math.sin(x * 0.03 - t * 5) * 30 * kick; if (x === 0) g.moveTo(x, y); else g.lineTo(x, y); }
+        g.stroke(); g.globalAlpha = 1;
+      } else {                                                            // DATA_STREAM
+        g.font = '10px monospace';
+        for (i = 0; i < 26; i++) {
+          var sp = (40 + hash(i, 1, 2) * 90) * (AV.live ? 0.4 + AV.level * 6 : 1);
+          for (var k = 0; k < 7; k++) {
+            y = ((t * sp + hash(i, k, 3) * h * 3 + k * 14) % (h + 20)) - 10;
+            g.globalAlpha = (1 - k / 7) * (0.4 + 0.6 * kick);
+            g.fillText(((hash(i, k, Math.floor(t * 8)) * 255) | 0).toString(16), 4 + i * 12, y);
+          }
+        }
+        g.globalAlpha = 1;
+      }
+    }
+    // 見出し
+    g.fillStyle = '#000'; g.fillRect(0, 0, w, 13);
+    g.fillStyle = '#fff'; g.font = '10px monospace';
+    var bar = Math.floor(beat / 4) + 1, bt = Math.floor(beat % 4) + 1;
+    g.fillText(SCREEN_MODES[mode] + (AV.live ? '   LIVE:' + AV.source + '   LVL ' + (AV.level * 100).toFixed(0) : '   96BPM   ' + ('00' + bar).slice(-3) + '.' + bt), 4, 10);
+    g.fillRect(w - 12, 3, 7 * kick + 1, 7);
+    W2.scr.tex.needsUpdate = true;
+  }
+  (function buildII() {
+    var s = W2.scene;
+    s.background = new THREE.Color(0x000000);
+    s.fog = new THREE.FogExp2(0x000000, 0.075);
+    W2.camera = new THREE.PerspectiveCamera(46, 0.75, 0.1, 80);
+    W2.camera.position.set(0.0, 1.9, 6.2);
+    W2.camera.lookAt(0, 1.2, -2);
+
+    var ground = new THREE.Mesh(new THREE.PlaneGeometry(60, 60), new THREE.MeshBasicMaterial({ color: 0x030303 }));
+    ground.rotation.x = -Math.PI / 2; s.add(ground);
+    var grid = new THREE.GridHelper(60, 120, 0x2a2a2a, 0x161616); grid.position.y = 0.002; s.add(grid);
+    W2.grid = grid;
+    W2.dashes = [];
+    for (var z = -30; z < 7; z += 1.2) {
+      var line = new THREE.Mesh(new THREE.PlaneGeometry(0.045, 0.55), new THREE.MeshBasicMaterial({ color: new THREE.Color(1.6, 1.6, 1.6) }));
+      line.rotation.x = -Math.PI / 2; line.position.set(0, 0.006, z); s.add(line);
+      W2.dashes.push(line);
+    }
+    var edgeMat = new THREE.LineBasicMaterial({ color: new THREE.Color(1.3, 1.3, 1.3) });
+    W2.edgeMat = edgeMat;
+    // 建物：音の帯域のように伸び縮みし、表面の模様が流れる
+    W2.blds = [];
+    W2.span = 12 * 2.4;
+    for (var side = -1; side <= 1; side += 2) {
+      for (var i = 0; i < 12; i++) {
+        var w = 1.0 + hash(i, side, 1) * 1.1, d = 1.0 + hash(i, side, 2) * 1.3, h = 1.2 + hash(i, side, 3) * 5.5;
+        var x = side * (1.6 + w / 2 + hash(i, side, 4) * 0.4), zz = 3 - i * 2.4;
+        var kind = (i + (side > 0 ? 1 : 0)) % 4;
+        var tex = makePatternTexture(kind, i * 7 + side * 3);
+        var face = new THREE.MeshBasicMaterial({ map: tex, color: new THREE.Color(1.15, 1.15, 1.15) });
+        var dark = new THREE.MeshBasicMaterial({ color: 0x000000 });
+        var mats = side < 0 ? [face, dark, dark, dark, dark, dark] : [dark, face, dark, dark, dark, dark];
+        var grp = new THREE.Group(); grp.position.set(x, 0, zz);
+        var b = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mats);
+        b.position.y = h / 2; grp.add(b);
+        var e = new THREE.LineSegments(new THREE.EdgesGeometry(b.geometry), edgeMat);
+        e.position.y = h / 2; grp.add(e);
+        s.add(grp);
+        W2.blds.push({ grp: grp, face: face, tex: tex, band: Math.floor(hash(i, side, 9) * 6), scroll: [0.25, 0.06, 0.12, 0.4][kind] * (hash(i, side, 5) > 0.5 ? 1 : -1) });
+      }
+    }
+    // 降ってくるデータの粒
+    var P = 500, pp = new Float32Array(P * 3);
+    for (var k = 0; k < P; k++) { pp[k * 3] = (Math.random() * 2 - 1) * 5; pp[k * 3 + 1] = Math.random() * 8; pp[k * 3 + 2] = 4 - Math.random() * 26; }
+    var pg = new THREE.BufferGeometry(); pg.setAttribute('position', new THREE.BufferAttribute(pp, 3));
+    W2.rain = new THREE.Points(pg, new THREE.PointsMaterial({ color: 0xffffff, size: 0.025, transparent: true, opacity: 0.7, depthWrite: false }));
+    s.add(W2.rain);
+
+    // 元の AudioVisual への入口：都市の中の大きな画面
+    // 元の AudioVisual への入口の画面：毎フレーム描き直す、動くビジュアライザー
+    var sc = document.createElement('canvas'); sc.width = 320; sc.height = 200;
+    var screenTex = new THREE.CanvasTexture(sc);
+    screenTex.encoding = THREE.sRGBEncoding; screenTex.magFilter = THREE.NearestFilter; screenTex.minFilter = THREE.LinearFilter; screenTex.generateMipmaps = false;
+    W2.scr = { c: sc, g: sc.getContext('2d'), tex: screenTex };
+    var screen = new THREE.Mesh(new THREE.PlaneGeometry(2.24, 1.4), new THREE.MeshBasicMaterial({ map: screenTex, color: new THREE.Color(1.8, 1.8, 1.8) }));
+    screen.position.set(0, 2.75, -4.6);
+    var frame = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(2.3, 1.46, 0.02)), edgeMat);
+    frame.position.copy(screen.position);
+    var pole = new THREE.Mesh(new THREE.BoxGeometry(0.05, 2.05, 0.05), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+    pole.position.set(0, 1.02, -4.6);
+    s.add(screen, frame, pole);
+    W2.screen = screen;
+
+    W2.figure = makeFigure('digital');
+    s.add(W2.figure);
+  })();
+
+  // ============================================================
+  // 4. III：都市の中の部屋（窓の外＝I、画面＝II）
+  // ============================================================
+  var W3 = { scene: new THREE.Scene(), bounds: { x: 1.8, zMin: -1.7, zMax: 1.0 }, base: 0.95 };
+  function makeRT(w, h, msaa) {
+    var opt = { type: BUF_TYPE, minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBAFormat };
+    var rt = (msaa && isGL2 && THREE.WebGLMultisampleRenderTarget) ? new THREE.WebGLMultisampleRenderTarget(w, h, opt) : new THREE.WebGLRenderTarget(w, h, opt);
+    if (rt.samples !== undefined) rt.samples = 4;
+    return rt;
+  }
+  var rtI = makeRT(512, 384, true);
+  var rtII = makeRT(480, 300, true);
+  var viewCamI = new THREE.PerspectiveCamera(40, 512 / 384, 0.1, 120);
+  viewCamI.position.set(0, 5.2, 8.2); viewCamI.lookAt(0, 0, 0);
+  (function buildIII() {
+    var s = W3.scene;
+    s.background = C(0x15130f);
+    W3.camera = new THREE.PerspectiveCamera(62, 0.75, 0.05, 40);
+    W3.camera.position.set(1.55, 1.6, 2.25);
+    W3.camera.lookAt(-0.35, 1.05, -1.6);
+
+    var W = 2.2, D = 2.4, H = 2.7;
+    var winX = -0.55, winY = 1.55, winW = 1.3, winH = 1.0;
+
+    s.environment = envFrom(function (e) {
+      var room = new THREE.Mesh(new THREE.BoxGeometry(2 * W, H, 2 * D), new THREE.MeshBasicMaterial({ color: C(0x5e574e), side: THREE.BackSide }));
+      room.position.y = H / 2;
+      var light = new THREE.Mesh(new THREE.PlaneGeometry(winW, winH), new THREE.MeshBasicMaterial({ color: new THREE.Color(4, 3.4, 2.8) }));
+      light.position.set(winX, winY, -D + 0.01);
+      var floorB = new THREE.Mesh(new THREE.PlaneGeometry(1.4, 1.0), new THREE.MeshBasicMaterial({ color: new THREE.Color(1.4, 1.0, 0.7) }));
+      floorB.rotation.x = -Math.PI / 2; floorB.position.set(0.3, 0.01, 0.2);
+      e.add(room, light, floorB);
+    });
+
+    s.add(new THREE.HemisphereLight(C(0xbfb4a6), C(0x5a4a3c), 0.12));
+    var sunIn = new THREE.DirectionalLight(C(0xffbf86), 5.0);   // 窓から差し込む夕方の光
+    sunIn.position.set(-1.2, 2.4, -6.0); sunIn.target.position.set(0.4, 0, 0.8);
+    sunIn.castShadow = true; sunIn.shadow.mapSize.set(2048, 2048);
+    var sc = sunIn.shadow.camera; sc.left = -5.5; sc.right = 5.5; sc.top = 5.5; sc.bottom = -5.5; sc.near = 0.5; sc.far = 24;
+    sunIn.shadow.bias = -0.0004; sunIn.shadow.normalBias = 0.004;
+    s.add(sunIn, sunIn.target);
+    W3.sunIn = sunIn;
+    var fill = new THREE.PointLight(C(0xffe6c8), 0.35, 7, 2); fill.position.set(0.9, 2.2, 0.6); s.add(fill);
+
+    plasterBump.repeat.set(3, 3);
+    var wallM = new THREE.MeshStandardMaterial({ color: C(0xe9dfd4), roughness: 1, bumpMap: plasterBump, bumpScale: 0.002 });
+    s.fog = new THREE.FogExp2(C(0xeee3d6), 0.1);                // 部屋にこもる霞
+    floorMap.repeat.set(3, 3);
+    var floorM = new THREE.MeshStandardMaterial({ map: floorMap, roughness: 0.55, metalness: 0, envMapIntensity: 0.8 });
+    var floor = new THREE.Mesh(new THREE.PlaneGeometry(2 * W, 2 * D), floorM);
+    floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; s.add(floor);
+    function wallPiece(w, h, x, y) {
+      var m = new THREE.Mesh(new THREE.BoxGeometry(w, h, 0.12), wallM);
+      m.position.set(x, y, -D - 0.06); m.receiveShadow = true; m.castShadow = true; s.add(m);
+    }
+    wallPiece(winX - winW / 2 + W + 0.24, H + 0.4, (-W + winX - winW / 2) / 2 - 0.12, H / 2);
+    wallPiece(W - (winX + winW / 2) + 0.24, H + 0.4, (W + winX + winW / 2) / 2 + 0.12, H / 2);
+    wallPiece(winW, winY - winH / 2 + 0.3, winX, (winY - winH / 2 - 0.3) / 2);
+    wallPiece(winW, H - (winY + winH / 2), winX, (H + winY + winH / 2) / 2);
+    var left = new THREE.Mesh(new THREE.BoxGeometry(0.12, H + 0.4, 2 * D + 0.3), wallM);
+    left.position.set(-W - 0.06, H / 2, 0); left.receiveShadow = true; left.castShadow = true; s.add(left);
+    var right = new THREE.Mesh(new THREE.BoxGeometry(0.12, H + 0.4, 2 * D + 0.3), wallM);
+    right.position.set(W + 0.06, H / 2, 0); right.castShadow = true; right.receiveShadow = true; s.add(right);
+    var ceil = new THREE.Mesh(new THREE.BoxGeometry(2 * W, 0.12, 2 * D), wallM);
+    ceil.position.y = H + 0.06; ceil.castShadow = true; ceil.receiveShadow = true; s.add(ceil);
+    // 幅木
+    var baseM = new THREE.MeshStandardMaterial({ color: C(0xbdb4a6), roughness: 0.6 });
+    [[0, -D + 0.01, 2 * W, 0.02], [-W + 0.01, 0, 0.02, 2 * D]].forEach(function (b) {
+      var m = new THREE.Mesh(new THREE.BoxGeometry(b[2], 0.09, b[3]), baseM); m.position.set(b[0], 0.045, b[1]); m.receiveShadow = true; s.add(m);
+    });
+    // ドア
+    var doorM = new THREE.MeshStandardMaterial({ color: C(0x9a8a76), roughness: 0.5 });
+    // 蝶番は奥側の縁。扉は部屋の内側へ開き、向こうの白い光が漏れる
+    var doorHinge = new THREE.Group(); doorHinge.position.set(-W + 0.03, 0, -0.9 - 0.43); s.add(doorHinge);
+    var door = new THREE.Mesh(new THREE.BoxGeometry(0.05, 2.0, 0.86), doorM);
+    door.position.set(0, 1.0, 0.43); door.castShadow = door.receiveShadow = true; doorHinge.add(door);
+    [0.45, -0.45].forEach(function (dy) {               // 扉のパネル
+      var pn = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.7, 0.6), new THREE.MeshStandardMaterial({ color: C(0x8f7f6c), roughness: 0.55 }));
+      pn.position.set(0.03, 1.0 + dy, 0.43); pn.castShadow = true; doorHinge.add(pn);
+    });
+    var doorway = new THREE.Mesh(new THREE.PlaneGeometry(0.86, 2.0), new THREE.MeshBasicMaterial({ color: new THREE.Color(3.2, 3.0, 2.7) }));   // 扉の向こう：白い光
+    doorway.rotation.y = Math.PI / 2; doorway.position.set(-W + 0.004, 1.0, -0.9); s.add(doorway);
+    var doorLight = new THREE.PointLight(C(0xfff4e4), 0, 4, 2); doorLight.position.set(-W + 0.4, 1.2, -0.9); s.add(doorLight);
+    W3.doorHinge = doorHinge; W3.doorLight = doorLight; W3.doorOpen = 0; W3.doorTarget = 0;
+    W3.doorCenter = new THREE.Vector3(-W + 0.03, 1.1, -0.9);
+    var frameM = new THREE.MeshStandardMaterial({ color: C(0xcfc6b8), roughness: 0.6 });
+    [-0.47, 0.47].forEach(function (dz) { var f = new THREE.Mesh(new THREE.BoxGeometry(0.03, 2.06, 0.06), frameM); f.position.set(-W + 0.02, 1.03, -0.9 + dz); s.add(f); });
+    var fTop = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.06, 1.0), frameM); fTop.position.set(-W + 0.02, 2.04, -0.9); s.add(fTop);
+    var knob = new THREE.Mesh(new THREE.SphereGeometry(0.035, 16, 12), new THREE.MeshStandardMaterial({ color: C(0xc9a86b), metalness: 1, roughness: 0.25 }));
+    knob.position.set(0.06, 1.0, 0.78); doorHinge.add(knob);
+    W3.door = door;
+
+    // 窓：見ているときだけ外の街が存在する
+    var winMat = new THREE.ShaderMaterial({
+      uniforms: { tex: { value: rtI.texture }, vis: { value: 0 } },
+      vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
+      fragmentShader: [
+        'uniform sampler2D tex; uniform float vis; varying vec2 vUv;',
+        'float h(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233))) * 43758.5453); }',
+        'void main(){',
+        '  vec3 blank = vec3(1.25);',                                         // 描画されていない白
+        '  vec3 c = texture2D(tex, vUv).rgb * 1.15;',
+        '  float cell = h(floor(vUv * vec2(56.0, 42.0)));',
+        '  float m = step(cell, vis);',
+        '  float edge = step(cell, vis + 0.06) - m;',                         // 計算途中の区画
+        '  vec3 col = mix(blank, c, m);',
+        '  col = mix(col, vec3(0.2), edge * 0.6);',
+        '  gl_FragColor = vec4(col, 1.0);',
+        '}'
+      ].join('\n')
+    });
+    var win = new THREE.Mesh(new THREE.PlaneGeometry(winW, winH), winMat);
+    win.position.set(winX, winY, -D - 0.1);
+    s.add(win);
+    var mull = new THREE.MeshStandardMaterial({ color: C(0xe4ddd2), roughness: 0.5 });
+    [[winX, winY, winW, 0.035], [winX, winY - winH / 2, winW + 0.08, 0.05], [winX, winY + winH / 2, winW + 0.08, 0.05]].forEach(function (m) {
+      var b = new THREE.Mesh(new THREE.BoxGeometry(m[2], m[3], 0.06), mull); b.position.set(m[0], m[1], -D - 0.04); b.castShadow = true; s.add(b);
+    });
+    [[winX - winW / 2, 0.05], [winX, 0.035], [winX + winW / 2, 0.05]].forEach(function (m) {
+      var b = new THREE.Mesh(new THREE.BoxGeometry(m[1], winH, 0.06), mull); b.position.set(m[0], winY, -D - 0.04); b.castShadow = true; s.add(b);
+    });
+    var sill = new THREE.Mesh(new THREE.BoxGeometry(winW + 0.16, 0.04, 0.18), mull);
+    sill.position.set(winX, winY - winH / 2 - 0.03, -D + 0.05); sill.castShadow = true; sill.receiveShadow = true; s.add(sill);
+    W3.winMat = winMat; W3.winPos = new THREE.Vector3(winX, winY, -D);
+
+    // 光の筋（窓から床へ）
+    var dir = new THREE.Vector3().subVectors(sunIn.target.position, sunIn.position).normalize();
+    var corners = [[winX - winW / 2, winY - winH / 2], [winX + winW / 2, winY - winH / 2], [winX + winW / 2, winY + winH / 2], [winX - winW / 2, winY + winH / 2]];
+    var near = corners.map(function (c) { return new THREE.Vector3(c[0], c[1], -D); });
+    var far = near.map(function (p) { return p.clone().addScaledVector(dir, p.y / -dir.y); });
+    var verts = [], fade = [];
+    for (var q = 0; q < 4; q++) {
+      var quadV = [near[q], near[(q + 1) % 4], far[(q + 1) % 4], far[q]];
+      [0, 1, 2, 0, 2, 3].forEach(function (j) { var v = quadV[j]; verts.push(v.x, v.y, v.z); fade.push(j < 2 ? 1 : 0); });
+    }
+    var bg = new THREE.BufferGeometry();
+    bg.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
+    bg.setAttribute('fade', new THREE.Float32BufferAttribute(fade, 1));
+    var beamMat = new THREE.ShaderMaterial({
+      uniforms: { amt: { value: 1 }, time: { value: 0 } },
+      vertexShader: 'attribute float fade; varying float vF; varying vec3 vP; void main(){ vF = fade; vP = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
+      fragmentShader: 'uniform float amt; uniform float time; varying float vF; varying vec3 vP; void main(){ float n = 0.75 + 0.25*sin(vP.x*9.0 + vP.y*5.0 + time*0.3); gl_FragColor = vec4(vec3(1.0,0.78,0.55) * 0.05 * amt * vF * n, 1.0); }',
+      transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide
+    });
+    s.add(new THREE.Mesh(bg, beamMat));
+    W3.beamMat = beamMat;
+    // 光の中のほこり
+    var P = 140, pp = new Float32Array(P * 3);
+    for (var k = 0; k < P; k++) {
+      var p0 = new THREE.Vector3(winX + (Math.random() - 0.5) * winW, winY + (Math.random() - 0.5) * winH, -D);
+      p0.addScaledVector(dir, (p0.y / -dir.y) * Math.random() * 0.85);
+      pp[k * 3] = p0.x; pp[k * 3 + 1] = p0.y; pp[k * 3 + 2] = p0.z;
+    }
+    var pg = new THREE.BufferGeometry(); pg.setAttribute('position', new THREE.BufferAttribute(pp, 3));
+    W3.motes = new THREE.Points(pg, new THREE.PointsMaterial({ color: C(0xffe2bd), map: softDot, size: 0.011, transparent: true, opacity: 0.8, depthWrite: false, blending: THREE.AdditiveBlending }));
+    W3.motesBase = pp.slice();
+    s.add(W3.motes);
+
+    // 机・パソコン・シンセ
+    var deskM = new THREE.MeshStandardMaterial({ color: C(0x3d3128), roughness: 0.45, bumpMap: plasterBump, bumpScale: 0.002 });
+    var desk = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.05, 0.72), deskM);
+    desk.position.set(0.95, 0.78, -1.95); desk.castShadow = desk.receiveShadow = true; s.add(desk);
+    var legM = new THREE.MeshStandardMaterial({ color: C(0x1d1a18), roughness: 0.4, metalness: 0.6 });
+    [[-0.74, -0.31], [0.74, -0.31], [-0.74, 0.31], [0.74, 0.31]].forEach(function (p) {
+      var l = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.76, 0.04), legM);
+      l.position.set(0.95 + p[0], 0.38, -1.95 + p[1]); l.castShadow = true; s.add(l);
+    });
+    var alu = new THREE.MeshStandardMaterial({ color: C(0xb9bbc0), metalness: 1, roughness: 0.32 });
+    var laptopBase = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.016, 0.32), alu);
+    laptopBase.position.set(1.3, 0.814, -1.95); laptopBase.castShadow = true; laptopBase.receiveShadow = true; s.add(laptopBase);
+    var kbd = new THREE.Mesh(new THREE.PlaneGeometry(0.38, 0.14), new THREE.MeshStandardMaterial({ color: C(0x18181a), roughness: 0.7 }));
+    kbd.rotation.x = -Math.PI / 2; kbd.position.set(1.3, 0.8225, -1.99); s.add(kbd);
+    var lidG = new THREE.Group(); lidG.position.set(1.3, 0.822, -2.11); lidG.rotation.x = -0.22; s.add(lidG);
+    var lid = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.3, 0.01), alu); lid.position.y = 0.15; lid.castShadow = true; lidG.add(lid);
+    var screen = new THREE.Mesh(new THREE.PlaneGeometry(0.42, 0.26), new THREE.MeshBasicMaterial({ map: rtII.texture, color: new THREE.Color(1.5, 1.5, 1.5) }));
+    screen.position.set(0, 0.15, 0.0056); lidG.add(screen);
+    // ノートPC も SCHEDULE の入口。乗せる（近づく）と、画面が今月の暦に切り替わる
+    lidG.updateMatrixWorld(true);
+    W3.laptopCenter = screen.getWorldPosition(new THREE.Vector3());
+    W3.laptopScreen = screen;
+    W3.laptopLive = rtII.texture;
+    W3.laptopSched = (function () {
+      var cv = document.createElement('canvas'); cv.width = 512; cv.height = 320;
+      var g = cv.getContext('2d'), now = new Date(), y = now.getFullYear(), m = now.getMonth();
+      g.fillStyle = '#050505'; g.fillRect(0, 0, 512, 320);
+      g.fillStyle = '#f2f0ec'; g.textBaseline = 'top';
+      g.font = '600 40px "JetBrains Mono", ui-monospace, monospace'; g.fillText('SCHEDULE', 28, 22);
+      g.font = '16px "JetBrains Mono", ui-monospace, monospace';
+      g.fillText(y + '.' + ('0' + (m + 1)).slice(-2), 30, 76);
+      g.fillStyle = '#8a8680'; g.fillText('LIVE / TICKET  ->', 300, 76);
+      var first = new Date(y, m, 1).getDay(), days = new Date(y, m + 1, 0).getDate();
+      'SMTWTFS'.split('').forEach(function (d, i) { g.fillStyle = '#8a8680'; g.fillText(d, 34 + i * 66, 112); });
+      for (var d = 1; d <= days; d++) {
+        var cell = first + d - 1, cx = 34 + (cell % 7) * 66, cy = 140 + Math.floor(cell / 7) * 30;
+        g.fillStyle = d === now.getDate() ? '#f2f0ec' : '#b8b4ae';
+        if (d === now.getDate()) { g.fillRect(cx - 6, cy - 4, 34, 24); g.fillStyle = '#050505'; }
+        g.fillText(('0' + d).slice(-2), cx, cy);
+      }
+      var tx = new THREE.CanvasTexture(cv); tx.encoding = THREE.sRGBEncoding;
+      return tx;
+    })();
+    var synth = new THREE.Group();
+    synth.add(new THREE.Mesh(new THREE.BoxGeometry(0.66, 0.06, 0.26), new THREE.MeshStandardMaterial({ color: C(0x1b1b1d), roughness: 0.35, metalness: 0.2 })));
+    var wood2 = new THREE.MeshStandardMaterial({ color: C(0x6b4426), roughness: 0.5 });
+    [-0.34, 0.34].forEach(function (x) { var ch = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.08, 0.27), wood2); ch.position.set(x, 0.01, 0); synth.add(ch); });
+    var white = new THREE.MeshStandardMaterial({ color: C(0xeeece6), roughness: 0.35 });
+    var black = new THREE.MeshStandardMaterial({ color: C(0x111111), roughness: 0.3 });
+    var hasBlack = [1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0];
+    for (var kk = 0; kk < 15; kk++) {
+      var key = new THREE.Mesh(new THREE.BoxGeometry(0.037, 0.014, 0.11), white);
+      key.position.set(-0.29 + kk * 0.0415, 0.036, 0.06); synth.add(key);
+      if (hasBlack[kk]) {
+        var bk = new THREE.Mesh(new THREE.BoxGeometry(0.022, 0.016, 0.065), black);
+        bk.position.set(-0.29 + kk * 0.0415 + 0.021, 0.046, 0.04); synth.add(bk);
+      }
+    }
+    var knobM = new THREE.MeshStandardMaterial({ color: C(0xd6d0c6), roughness: 0.3, metalness: 0.4 });
+    for (var kn = 0; kn < 6; kn++) {
+      var kb2 = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.017, 0.022, 16), knobM);
+      kb2.position.set(-0.25 + kn * 0.08, 0.04, -0.07); synth.add(kb2);
+    }
+    var led = new THREE.Mesh(new THREE.SphereGeometry(0.006, 8, 6), new THREE.MeshBasicMaterial({ color: new THREE.Color(0.2, 4, 1.2) }));
+    led.position.set(0.27, 0.035, -0.08); synth.add(led);
+    synth.position.set(0.6, 0.835, -1.88);
+    synth.traverse(function (o) { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
+    s.add(synth);
+    W3.synth = synth;
+
+    W3.figure = makeFigure('real');
+    s.add(W3.figure);
+  })();
+
+  var worlds = [W1, W2, W3];
+  worlds.forEach(function (w) {
+    w.target = new THREE.Vector3(); w.pos = new THREE.Vector3(); w.heading = 0;
+    w.figure.scale.setScalar(w.base);
+  });
+  W1.pos.set(-0.9, 0, 0.6); W1.target.copy(W1.pos); W1.prev = W1.pos.clone();
+  W2.pos.set(0, 0, 1.2); W2.target.copy(W2.pos);
+  W3.pos.set(-0.2, 0, 0.4); W3.target.copy(W3.pos);
+  W3.heading = Math.atan2(W3.winPos.x - W3.pos.x, W3.winPos.z - W3.pos.z);
+  W3.figure.rotation.y = W3.heading;
+
+  // ============================================================
+  // 5. 後処理（世界ごとの仕上げ）
+  // ============================================================
+  var quadCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+  var quadScene = new THREE.Scene();
+  var quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2));
+  quad.frustumCulled = false;
+  quadScene.add(quad);
+  var VS = 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }';
+  var brightMat = new THREE.ShaderMaterial({
+    uniforms: { t: { value: null }, th: { value: 1.0 } }, vertexShader: VS, depthTest: false, depthWrite: false,
+    fragmentShader: 'uniform sampler2D t; uniform float th; varying vec2 vUv; void main(){ vec3 c = texture2D(t, vUv).rgb; float l = max(c.r, max(c.g, c.b)); gl_FragColor = vec4(c * smoothstep(th, th + 0.6, l), 1.0); }'
+  });
+  var blurMat = new THREE.ShaderMaterial({
+    uniforms: { t: { value: null }, dir: { value: new THREE.Vector2() } }, vertexShader: VS, depthTest: false, depthWrite: false,
+    fragmentShader: [
+      'uniform sampler2D t; uniform vec2 dir; varying vec2 vUv;',
+      'void main(){',
+      '  vec3 c = texture2D(t, vUv).rgb * 0.227027;',
+      '  c += texture2D(t, vUv + dir * 1.3846).rgb * 0.316216; c += texture2D(t, vUv - dir * 1.3846).rgb * 0.316216;',
+      '  c += texture2D(t, vUv + dir * 3.2308).rgb * 0.070270; c += texture2D(t, vUv - dir * 3.2308).rgb * 0.070270;',
+      '  gl_FragColor = vec4(c, 1.0);',
+      '}'
+    ].join('\n')
+  });
+  // 残響（前のフレームが尾を引く）
+  var echoMat = new THREE.ShaderMaterial({
+    uniforms: { cur: { value: null }, prev: { value: null }, decay: { value: 0.85 }, drift: { value: new THREE.Vector2(0, 0.0012) } },
+    vertexShader: VS, depthTest: false, depthWrite: false,
+    fragmentShader: 'uniform sampler2D cur, prev; uniform float decay; uniform vec2 drift; varying vec2 vUv; void main(){ vec3 c = texture2D(cur, vUv).rgb; vec3 p = texture2D(prev, vUv - drift).rgb; gl_FragColor = vec4(mix(c, p, decay), 1.0); }'
+  });
+  var finalMat = new THREE.ShaderMaterial({
+    uniforms: {
+      tScene: { value: null }, tBloom: { value: null }, tBlur: { value: null }, tEcho: { value: null }, echoAmt: { value: 0 }, wetAmt: { value: 0 }, bleed: { value: 0 }, contrast: { value: 1 }, lift: { value: new THREE.Vector3() }, hal: { value: new THREE.Vector3(1, 1, 1) }, tilt: { value: 0 }, res: { value: new THREE.Vector2() }, time: { value: 0 },
+      glitchIn: { value: 0 }, side: { value: 0 }, mode: { value: 0 }, bloomAmt: { value: 0.6 }, exposure: { value: 1 }, grain: { value: 0.04 }, ca: { value: 0.002 }, vig: { value: 0.3 }
+    },
+    vertexShader: VS, depthTest: false, depthWrite: false,
+    fragmentShader: [
+      'uniform sampler2D tScene, tBloom, tBlur, tEcho; uniform float echoAmt, wetAmt, bleed, contrast; uniform vec3 lift, hal; uniform vec2 res; uniform float tilt; uniform float time, glitchIn, side, mode, bloomAmt, exposure, grain, ca, vig;',
+      'varying vec2 vUv;',
+      'float h(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233))) * 43758.5453); }',
+      'vec3 aces(vec3 x){ return clamp((x*(2.51*x+0.03))/(x*(2.43*x+0.59)+0.14), 0.0, 1.0); }',
+      'void main(){',
+      '  vec2 uv = vUv;',
+      '  float gt = floor(time * 24.0);',
+      // 境目に近いほど強く崩れる（side: 1=右端が境目 / -1=左端が境目）
+      '  float nearEdge = side > 0.5 ? vUv.x : (side < -0.5 ? 1.0 - vUv.x : 0.5);',
+      '  float glitch = glitchIn * (0.25 + 0.75 * smoothstep(0.2, 1.0, nearEdge));',
+      '  if (glitch > 0.0) {',
+      '    float band = floor(uv.y * 28.0);',
+      '    if (h(vec2(band, gt)) < glitch * 0.55) uv.x += (h(vec2(band, gt + 7.0)) - 0.5) * 0.2 * glitch;',   // 横に裂ける
+      '    vec2 blk = floor(uv * vec2(10.0, 14.0));',
+      '    if (h(blk + gt) < glitch * 0.18) uv = (floor(uv * vec2(36.0, 48.0)) + 0.5) / vec2(36.0, 48.0);',   // ブロック状に崩れる
+      '    if (h(vec2(band * 3.1, gt)) < glitch * 0.12) uv.y += 0.04 * glitch;',                             // 引きずられる
+      '  }',
+      '  vec2 d = uv - 0.5;',
+      '  float k = ca * (0.5 + dot(d, d) * 5.0) + glitch * 0.018;',
+      '  vec3 col;',
+      '  col.r = texture2D(tScene, uv + d * k).r;',
+      '  col.g = texture2D(tScene, uv).g;',
+      '  col.b = texture2D(tScene, uv - d * k).b;',
+      // 俯瞰のときだけ上下をぼかす（模型に見える）。降りていくとぼけが消え、風景になる
+      // 残響：少し前の像が重なって尾を引く
+      '  vec3 echo = texture2D(tEcho, uv).rgb;',
+      '  col = mix(col, echo, echoAmt);',
+      // 拡散（ウェット）：全体がにじむ。俯瞰のときは上下を強くぼかして模型に見せる
+      '  vec3 wet = texture2D(tBlur, uv).rgb;',
+      '  col = mix(col, wet, max(wetAmt, tilt * smoothstep(0.1, 0.42, abs(uv.y - 0.52))));',
+      // 色のにじみ：明るさはくっきり、色だけがぼやける（古い映像のように）
+      '  float lc = dot(col, vec3(0.299, 0.587, 0.114)), lw = dot(wet, vec3(0.299, 0.587, 0.114));',
+      '  col = vec3(lc) + mix(col - vec3(lc), wet - vec3(lw), bleed);',
+      '  col += texture2D(tBloom, uv).rgb * bloomAmt * hal;',
+      '  col = aces(col * exposure);',
+      '  float l = dot(col, vec3(0.299, 0.587, 0.114));',
+      '  if (mode < 0.5) {',                                 // I：夢の中のような、白く飛んだパステル
+      '    col = mix(vec3(l), col, 0.84);',
+      '    col = col * contrast + lift;',
+      '    col = mix(col, vec3(1.0, 0.97, 0.99), smoothstep(0.75, 1.0, l) * 0.3);',
+      '  } else if (mode < 1.5) {',                          // II：黒と白だけ
+      '    col = vec3(smoothstep(0.02, 0.95, l));',
+      '    col *= 0.93 + 0.07 * sin(gl_FragCoord.y * 3.14159);',
+      '    col += smoothstep(0.006, 0.0, abs(vUv.y - fract(time * 0.21))) * 0.22;',    // 走査線が下りていく
+      '    col = col * contrast + lift;',
+      '  } else {',                                          // III：リミナル。影が浅く、光が飽和する
+      '    col = mix(vec3(l), col, 0.86);',
+      '    col = col * contrast + lift;',
+      '    col = mix(col, vec3(1.0, 0.98, 0.95), smoothstep(0.8, 1.0, l) * 0.35);',
+      '  }',
+      // 絵に当たるスポットライト：上が明るく、下へ行くほど暗い。光の当たるところは少し暖かい
+      '  float spot = smoothstep(1.3, 0.1, length((vUv - vec2(0.5, 1.12)) * vec2(1.1, 0.8)));',
+      '  col *= mix(0.72, 1.08, spot) * mix(vec3(1.0), vec3(1.04, 1.0, 0.93), spot);',
+      '  col *= 1.0 - vig * dot(d, d) * 2.4;',
+      '  col = pow(max(col, 0.0), vec3(1.0 / 2.2));',
+      '  col += (h(uv * res + fract(time * 7.0) * 100.0) - 0.5) * grain;',
+      '  if (glitch > 0.0) {',
+      '    if (h(vec2(floor(uv.y * 70.0), gt + 3.0)) < glitch * 0.07) col = 1.0 - col;',
+      '    if (h(vec2(floor(uv.y * 90.0), gt + 5.0)) < glitch * 0.05) col = vec3(step(0.5, l));',
+      '  }',
+      '  gl_FragColor = vec4(col, 1.0);',
+      '}'
+    ].join('\n')
+  });
+  // 世界ごとの仕上げ。wet＝拡散、echo＝残響の量、decay＝残響の長さ、bleed＝色のにじみ
+  var LOOK = [
+    { mode: 0, bloomAmt: 0.6, th: 0.65, exposure: 0.78, grain: 0.035, ca: 0.003, vig: 0.34, wet: 0.17, echo: 0.42, decay: 0.86, bleed: 0.45, contrast: 0.97, lift: [0.045, 0.035, 0.055], hal: [1.0, 0.86, 0.78] },
+    { mode: 1, bloomAmt: 1.0, th: 0.55, exposure: 1.1, grain: 0.05, ca: 0.0015, vig: 0.4, wet: 0.12, echo: 0.5, decay: 0.88, bleed: 0, contrast: 0.95, lift: [0.025, 0.025, 0.025], hal: [1, 1, 1] },
+    { mode: 2, bloomAmt: 0.8, th: 0.72, exposure: 1.05, grain: 0.035, ca: 0.0022, vig: 0.32, wet: 0.26, echo: 0.34, decay: 0.84, bleed: 0.42, contrast: 0.84, lift: [0.06, 0.058, 0.052], hal: [1.0, 0.9, 0.8] }
+  ];
+  var sceneRT = [makeRT(4, 4, true), makeRT(4, 4, true), makeRT(4, 4, true)];
+  function plainRT() { return new THREE.WebGLRenderTarget(4, 4, { type: BUF_TYPE, minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBAFormat, depthBuffer: false }); }
+  var bloomA = [plainRT(), plainRT(), plainRT()], bloomB = [plainRT(), plainRT(), plainRT()];
+  var wetA = [plainRT(), plainRT(), plainRT()], wetB = [plainRT(), plainRT(), plainRT()];   // 拡散（ウェット）用
+  var echoRT = [[plainRT(), plainRT()], [plainRT(), plainRT()], [plainRT(), plainRT()]], echoIdx = [0, 0, 0];   // 残響用
+  var frameDt = 1 / 60;
+  function fit(rt, w, h) { if (rt.width !== w || rt.height !== h) rt.setSize(w, h); }
+  function pass(mat, target) { quad.material = mat; renderer.setRenderTarget(target); renderer.render(quadScene, quadCam); }
+
+  // 空の目：いつもこちらを正面に見る（凝視）。真っすぐ見返されると、瞳孔がきゅっと縮む
+  var _ed = new THREE.Vector3(), _ef = new THREE.Vector3();
+  function updateSkyEye(cam, t) {
+    var e = W1.skyEye; if (!e) return;
+    stare(e, cam, t);
+    _ed.copy(e.head.position).sub(cam.position).normalize();
+    cam.getWorldDirection(_ef);
+    var meet = smoothstep(0.93, 0.99, _ed.dot(_ef));                   // 視線の真ん中に目を捉えているほど 1
+    e.meet = (e.meet || 0) + (meet - (e.meet || 0)) * 0.08;
+    e.mat.uniforms.pupil.value = 0.5 - 0.17 * e.meet + 0.03 * Math.sin(t * 0.7 + e.phase);
+  }
+  // 空の目がカメラの視野に入っているか
+  var _frus = new THREE.Frustum(), _pv = new THREE.Matrix4();
+  function skyEyeInView(cam) {
+    if (!W1.skyEye) return false;
+    cam.updateMatrixWorld(); W1.skyEye.head.updateMatrixWorld(true);
+    _pv.multiplyMatrices(cam.projectionMatrix, cam.matrixWorldInverse);
+    _frus.setFromProjectionMatrix(_pv);
+    return _frus.intersectsObject(W1.skyEye.iris);
+  }
+  // 奥行きだけの描画：不透明な物だけ（空・半透明・切り抜き・点・線は除く）
+  var depthOnlyMat = new THREE.MeshBasicMaterial({ colorWrite: false, side: THREE.DoubleSide });
+  function depthPrepass(scene, cam) {
+    if (!scene.userData.nonOcc) {                                       // 遮らない物の一覧（最初の1回だけ作る）
+      var list = [];
+      scene.traverse(function (o) {
+        if (!(o.isMesh || o.isPoints || o.isLine || o.isSprite)) return;
+        var m = o.material, opaque = o.isMesh && m && !Array.isArray(m) && !m.transparent && !(m.alphaTest > 0) && m.depthWrite !== false && m.colorWrite !== false;
+        if (!opaque) list.push(o);
+      });
+      scene.userData.nonOcc = list;
+    }
+    var hide = scene.userData.nonOcc, was = [];
+    for (var k = 0; k < hide.length; k++) { was.push(hide[k].visible); hide[k].visible = false; }
+    cam.layers.set(0);
+    scene.overrideMaterial = depthOnlyMat;
+    renderer.render(scene, cam);
+    scene.overrideMaterial = null;
+    for (k = 0; k < hide.length; k++) hide[k].visible = was[k];
+  }
+  function renderPanel(i, rect, glitchAmt, t, side) {
+    var w = worlds[i], L = LOOK[i];
+    var pr = DPR * quality;
+    var pw = Math.max(2, Math.round(rect.width * pr)), ph = Math.max(2, Math.round(rect.height * pr));
+    fit(sceneRT[i], pw, ph);
+    var bw = Math.max(2, pw >> 2), bh = Math.max(2, ph >> 2);
+    fit(bloomA[i], bw, bh); fit(bloomB[i], bw, bh);
+    w.camera.aspect = rect.width / rect.height; w.camera.updateProjectionMatrix();
+    if (w === W1) updateSkyEye(w.camera, t);
+    renderer.setScissorTest(false);
+    renderer.setRenderTarget(sceneRT[i]); renderer.render(w.scene, w.camera);
+    brightMat.uniforms.t.value = sceneRT[i].texture; brightMat.uniforms.th.value = L.th; pass(brightMat, bloomA[i]);
+    for (var it = 0; it < 2; it++) {
+      var sp = 1 + it * 1.5;
+      blurMat.uniforms.t.value = bloomA[i].texture; blurMat.uniforms.dir.value.set(sp / bw, 0); pass(blurMat, bloomB[i]);
+      blurMat.uniforms.t.value = bloomB[i].texture; blurMat.uniforms.dir.value.set(0, sp / bh); pass(blurMat, bloomA[i]);
+    }
+    var tiltAmt = (i === 0 && !(entered && enteredIdx === 0)) ? cam1.tilt : 0;
+    // 拡散：縮小してぼかした全体像
+    fit(wetA[i], bw, bh); fit(wetB[i], bw, bh);
+    brightMat.uniforms.t.value = sceneRT[i].texture; brightMat.uniforms.th.value = -10; pass(brightMat, wetA[i]);   // そのまま縮小
+    for (var it2 = 0; it2 < 2; it2++) {
+      var sp2 = 1.2 + it2 * 1.6;
+      blurMat.uniforms.t.value = wetA[i].texture; blurMat.uniforms.dir.value.set(sp2 / bw, 0); pass(blurMat, wetB[i]);
+      blurMat.uniforms.t.value = wetB[i].texture; blurMat.uniforms.dir.value.set(0, sp2 / bh); pass(blurMat, wetA[i]);
+    }
+    // 残響：今の像と、少しずつ上へ漂う過去の像を混ぜて溜める
+    var eNew = echoRT[i][echoIdx[i]], ePrev = echoRT[i][1 - echoIdx[i]];
+    fit(eNew, pw, ph); fit(ePrev, pw, ph);
+    echoMat.uniforms.cur.value = sceneRT[i].texture; echoMat.uniforms.prev.value = ePrev.texture;
+    echoMat.uniforms.decay.value = Math.pow(L.decay, frameDt * 60);
+    pass(echoMat, eNew);
+    echoIdx[i] = 1 - echoIdx[i];
+    var u = finalMat.uniforms;
+    u.tScene.value = sceneRT[i].texture; u.tBloom.value = bloomA[i].texture;
+    u.tBlur.value = wetA[i].texture; u.tilt.value = tiltAmt;
+    u.tEcho.value = eNew.texture; u.echoAmt.value = reduceMotion ? 0 : L.echo;
+    u.wetAmt.value = L.wet; u.bleed.value = L.bleed; u.contrast.value = L.contrast;
+    u.lift.value.set(L.lift[0], L.lift[1], L.lift[2]); u.hal.value.set(L.hal[0], L.hal[1], L.hal[2]);
+    u.res.value.set(pw, ph); u.time.value = t; u.glitchIn.value = glitchAmt; u.side.value = side || 0;
+    u.mode.value = L.mode; u.bloomAmt.value = L.bloomAmt; u.exposure.value = L.exposure; u.grain.value = L.grain; u.ca.value = L.ca; u.vig.value = L.vig;
+    quad.material = finalMat;
+    renderer.setRenderTarget(null);
+    // 画面への書き込み位置（キャンバスは DPR 倍の画素、setPixelRatio(1) なので画素で指定）
+    var x = Math.round(rect.left * DPR), y = Math.round((window.innerHeight - rect.bottom) * DPR);
+    var W_ = Math.round(rect.width * DPR), H_ = Math.round(rect.height * DPR);
+    renderer.setViewport(x, y, W_, H_);
+    renderer.setScissor(x, y, W_, H_);
+    renderer.setScissorTest(true);
+    renderer.render(quadScene, quadCam);
+    // 乾いたレイヤー：目だけを、仕上げを通さず最後にくっきり重ねる（ウェットな世界にドライな目）
+    var bg = w.scene.background;
+    w.scene.background = null;
+    renderer.autoClear = false;
+    renderer.clearDepth();
+    if (w === W1 && skyEyeInView(w.camera)) depthPrepass(w.scene, w.camera);
+    w.camera.layers.set(DRY);
+    renderer.render(w.scene, w.camera);
+    renderer.autoClear = true;
+    w.camera.layers.set(0);
+    w.scene.background = bg;
+  }
+
+  // ============================================================
+  // 6. マウスと人物
+  // ============================================================
+  var active = 0, cross = null, CROSS_MS = 650;   // 越境の長さ（一瞬）
+  var mouse = { moved: 0, moved0: -1e9 };
+  var raycaster = new THREE.Raycaster();
+  var groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+  var tmpV = new THREE.Vector3(), tmpV2 = new THREE.Vector2();
+  function panelRect(i) { return panels[i].getBoundingClientRect(); }
+  function worldAt(x) { for (var i = 0; i < 3; i++) { var r = panelRect(i); if (x >= r.left && x <= r.right) return i; } return -1; }
+  function rayToGround(i, x, y) {
+    var r = panelRect(i);
+    var ndc = new THREE.Vector2(((x - r.left) / r.width) * 2 - 1, -((y - r.top) / r.height) * 2 + 1);
+    raycaster.setFromCamera(ndc, worlds[i].camera);
+    var hit = raycaster.ray.intersectPlane(groundPlane, tmpV);
+    if (!hit) return null;
+    var b = worlds[i].bounds;
+    return new THREE.Vector3(clamp(hit.x, -b.x, b.x), 0, clamp(hit.z, b.zMin, b.zMax));
+  }
+  window.addEventListener('pointermove', function (e) {
+    if (e.pointerType === 'touch') return;
+    mouse.moved = performance.now(); mouse.x = e.clientX; mouse.y = e.clientY;
+    if (entered) { fpsPointerMove(e); return; }                         // 絵の中：ドラッグで見回す
+    var i = worldAt(e.clientX);
+    if (i < 0) { enterHint.classList.remove('on'); return; }
+    if (i === 0) mouse.moved0 = mouse.moved;
+    var ri = panelRect(i);                                              // 絵に乗せると「DON'T TOUCH」
+    enterHint.classList.toggle('on', !overHot && e.clientY >= ri.top && e.clientY <= ri.bottom);
+    enterHint.style.left = (ri.left + ri.width / 2) + 'px'; enterHint.style.top = (ri.bottom - 36) + 'px';
+    var p = rayToGround(i, e.clientX, e.clientY);
+    if (i !== active) {
+      cross = { from: active, to: i, t0: performance.now() };
+      if (p) { worlds[i].pos.copy(p); worlds[i].target.copy(p); }
+      active = i;
+    }
+    if (p && !overHot) worlds[i].target.copy(p);                     // 入口に乗せている間は、人物はカーソルを追わない
+    if (reduceMotion) requestAnimationFrame(function () { frame(performance.now()); });
+  });
+
+  // 入口の位置合わせ
+  var hot = {
+    flower: document.getElementById('hot-flower'), screen: document.getElementById('hot-screen'),
+    synth: document.getElementById('hot-synth'), door: document.getElementById('hot-door'), figure: document.getElementById('hot-figure'),
+    laptop: document.getElementById('hot-laptop')
+  };
+  var laptopHot = false;
+  // 入口にマウスを乗せている間は、入口をその場に止める（カメラや花が動いても、押す前に逃げない）
+  Array.prototype.forEach.call(document.querySelectorAll('.hot'), function (el) {
+    el.addEventListener('pointerenter', function (e) { if (e.pointerType !== 'touch' && el._x !== undefined) el._hold = true; });   // まだ置かれていない入口（読み込み直後は画面の左上にある）は止めない
+    el.addEventListener('pointerleave', function () { el._hold = false; });
+  });
+  var overHot = false, flowerFocus = false, flowerHot = false;
+  // 部屋のドア：乗せると半分開き、押すと全開になってから WORKS へ
+  var doorClicked = false;
+  hot.door.addEventListener('pointerenter', function () { if (!doorClicked) W3.doorTarget = 0.62; });
+  hot.door.addEventListener('pointerleave', function () { if (!doorClicked) W3.doorTarget = 0; });
+  hot.door.addEventListener('focus', function () { if (!doorClicked) W3.doorTarget = 0.62; });
+  hot.door.addEventListener('blur', function () { if (!doorClicked) W3.doorTarget = 0; });
+  hot.door.addEventListener('click', function (ev) {
+    doorClicked = true; W3.doorTarget = 1;
+    if (!reduceMotion) { ev.preventDefault(); var href = hot.door.href; setTimeout(function () { location.href = href; }, 650); }
+  });
+  [hot.flower, hot.screen, hot.synth, hot.door, hot.laptop].forEach(function (el) {
+    el.addEventListener('pointerenter', function () { overHot = true; if (el === hot.flower) flowerHot = true; if (el === hot.laptop) { laptopHot = true; W3.target.set(-0.3, 0, -0.6); } });   // ノートPCに乗せると、人物はパソコンの前から離れる
+    el.addEventListener('pointerleave', function () { overHot = false; if (el === hot.flower) flowerHot = false; if (el === hot.laptop) laptopHot = false; });
+    el.addEventListener('focus', function () { if (el === hot.flower) { flowerHot = true; flowerFocus = true; } });
+    el.addEventListener('blur', function () { if (el === hot.flower) { flowerHot = false; flowerFocus = false; } });
+  });
+  // ---- 絵の中に入る（すべての絵）。DON'T TOUCH と書いてあるのに、触れると中に入ってしまう
+  // 絵が画面いっぱいに広がり、視点があなたの目（一人称）に切り替わる。中では、あなたが目の人物になる
+  var entered = false, enteredIdx = -1, placeholder = null, divingPanel = null;
+  var exitBtn = document.getElementById('exitWorld'), enterHint = document.getElementById('enterHint'), fpsHelp = document.getElementById('fpsHelp');
+  var FPS = { pos: new THREE.Vector3(), yaw: 0, pitch: 0, keys: {}, drag: null, target: null, walk: 0 };
+  var FPS_CFG = [
+    { speed: 1.1, eye: 0.64, pitch: -0.1, pitchMax: 1.15, bounds: [-2.78, 2.78, -2.78, 2.78], start: function () { return [AVE.ax + AVE.dx * 0.2, AVE.az + AVE.dz * 0.2, Math.atan2(AVE.dx, AVE.dz)]; } },   // I：参道の入口から
+    { speed: 1.8, eye: 1.0, pitch: 0.05, bounds: [-1.25, 1.25, -9, 5.8], start: function () { return [0, 4.6, Math.PI]; } },                                                          // II：通りの真ん中、画面の方を向く
+    { speed: 1.1, eye: 1.55, pitch: -0.05, bounds: [-1.9, 1.9, -2.1, 2.0], start: function () { return [1.1, 1.5, Math.atan2(W3.winPos.x - 1.1, W3.winPos.z - 1.5)]; } }          // III：窓の方を向いて立つ
+  ];
+  var helpTimer = 0, walkMark = document.getElementById('walkMark');
+  function setRect(el, l, t, w, h) { var st = el.style; st.left = l + 'px'; st.top = t + 'px'; st.width = w + 'px'; st.height = h + 'px'; }
+  function enterWorld(idx) {
+    if (entered || IS_MOBILE) return;
+    entered = true; enteredIdx = idx;
+    var pnl = panels[idx]; divingPanel = pnl;
+    var r = pnl.getBoundingClientRect();
+    placeholder = document.createElement('div');
+    placeholder.style.cssText = 'flex:0 0 auto;width:var(--pw);height:var(--ph)';
+    pnl.parentNode.insertBefore(placeholder, pnl);                      // 他の絵が動かないよう、元の場所を空けておく
+    setRect(pnl, r.left, r.top, r.width, r.height);
+    pnl.classList.add('diving');
+    void pnl.offsetWidth;
+    document.documentElement.classList.add('entered', 'in-' + idx);
+    requestAnimationFrame(function () { setRect(pnl, 0, 0, window.innerWidth, window.innerHeight); });
+    // 視点を切り替える
+    var c = FPS_CFG[idx], st = c.start();
+    FPS.pos.set(st[0], 0, st[1]); FPS.yaw = st[2]; FPS.pitch = c.pitch; FPS.target = null; FPS.keys = {}; FPS.padKeys = {}; FPS.drag = null;
+    if (idx === 2) W3.camHome = { pos: W3.camera.position.clone(), quat: W3.camera.quaternion.clone(), fov: W3.camera.fov };
+    active = idx;
+    if (!reduceMotion) cross = { from: idx, to: idx, t0: performance.now() };   // 入る瞬間、絵が裂ける
+    enterHint.classList.remove('on');
+    fpsHelp.classList.add('on'); clearTimeout(helpTimer); helpTimer = setTimeout(function () { fpsHelp.classList.remove('on'); }, 6000);
+    try { window.focus(); } catch (er) {}
+    exitBtn.focus({ preventScroll: true });
+    if (reduceMotion) setTimeout(function () { frame(performance.now()); }, 60);
+  }
+  function exitWorld() {
+    if (!entered) return;
+    var idx = enteredIdx, pnl = divingPanel;
+    entered = false; enteredIdx = -1;
+    var r = placeholder.getBoundingClientRect();
+    document.documentElement.classList.remove('entered', 'in-0', 'in-1', 'in-2');
+    setRect(pnl, r.left, r.top, r.width, r.height);
+    if (!reduceMotion) cross = { from: idx, to: idx, t0: performance.now() };
+    fpsHelp.classList.remove('on');
+    // 戻ると、人物はあなたが立っていた場所にいる
+    var w = worlds[idx]; w.pos.set(FPS.pos.x, 0, FPS.pos.z); w.target.copy(w.pos); w.heading = FPS.yaw; w.figure.rotation.y = FPS.yaw;
+    if (idx === 0) { cam1.name = 'overview'; cam1.shot = 0; cam1.shotT0 = performance.now(); cam1.shotLen = 18; }
+    if (idx === 1) W2.camera.fov = 46;
+    if (idx === 2 && W3.camHome) { W3.camera.position.copy(W3.camHome.pos); W3.camera.quaternion.copy(W3.camHome.quat); W3.camera.fov = W3.camHome.fov; }
+    if (!doorClicked) W3.doorTarget = 0;
+    var ph = placeholder;
+    setTimeout(function () {
+      if (entered && divingPanel === pnl) return;
+      pnl.classList.remove('diving'); pnl.style.left = pnl.style.top = pnl.style.width = pnl.style.height = '';
+      if (ph.parentNode) ph.parentNode.removeChild(ph);
+      if (placeholder === ph) placeholder = null;
+    }, reduceMotion ? 0 : 950);
+    if (reduceMotion) setTimeout(function () { frame(performance.now()); }, 60);
+  }
+  panels.forEach(function (pnl, idx) {
+    pnl.addEventListener('click', function (e) {
+      if (entered || (e.target.closest && e.target.closest('.label, a, button'))) return;   // 作品ラベル（ボタン類）のクリックでは入らない
+      enterWorld(idx);
+    });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.touchBtn'), function (b) { b.addEventListener('click', function () { enterWorld(+b.dataset.world); }); });
+  exitBtn.addEventListener('click', exitWorld);
+  window.addEventListener('resize', function () { if (entered) setRect(divingPanel, 0, 0, window.innerWidth, window.innerHeight); });
+  // 操作：ドラッグで見回す／WASD・矢印キーで歩く／クリックした場所へ歩く
+  // キーは「キーボード上の位置」（e.code）で判定する。日本語入力がオンでも W が「Process」にならずに効く
+  var CODEMAP = { KeyW: 'f', ArrowUp: 'f', KeyS: 'b', ArrowDown: 'b', KeyA: 'l', ArrowLeft: 'l', KeyD: 'r', ArrowRight: 'r' };
+  var KEYMAP = { w: 'f', arrowup: 'f', s: 'b', arrowdown: 'b', a: 'l', arrowleft: 'l', d: 'r', arrowright: 'r' };
+  function keyOf(e) { return CODEMAP[e.code] || KEYMAP[(e.key || '').toLowerCase()]; }
+  // キー入力は、ページ全体で最優先（capture）で受け取る
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' || e.code === 'Escape') { exitWorld(); return; }
+    if (!entered) return;
+    var k = keyOf(e);
+    if (k && !(e.target && e.target.tagName === 'INPUT')) { FPS.keys[k] = true; FPS.target = null; e.preventDefault(); }   // 入力欄以外なら歩く（戻るボタンにフォーカスがあっても）
+  }, true);
+  document.addEventListener('keyup', function (e) { var k = keyOf(e); if (k) { FPS.keys[k] = false; FPS.padKeys[k] = false; } }, true);
+  // 画面のキー表示：押している間、その方向へ歩く
+  var keyPad = document.getElementById('keyPad'), padEls = Array.prototype.slice.call(keyPad.querySelectorAll('span'));
+  FPS.padKeys = {};
+  padEls.forEach(function (el) {
+    var k = el.getAttribute('data-k');
+    el.addEventListener('pointerdown', function (e) { e.preventDefault(); FPS.padKeys[k] = true; FPS.target = null; try { el.setPointerCapture(e.pointerId); } catch (er) {} });
+    ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(function (ev) { el.addEventListener(ev, function () { FPS.padKeys[k] = false; }); });
+  });
+  // マウスホイールでも前後に歩く
+  window.addEventListener('wheel', function (e) {
+    if (!entered) return;
+    e.preventDefault();
+    FPS.wheel = clamp((FPS.wheel || 0) - e.deltaY * 0.004, -1.5, 1.5); FPS.target = null;
+  }, { passive: false });
+  window.addEventListener('blur', function () { FPS.keys = {}; FPS.padKeys = {}; });
+  window.addEventListener('pointerdown', function (e) {
+    if (!entered || e.button !== 0 || (e.target.closest && e.target.closest('a, button, #keyPad'))) return;
+    try { window.focus(); } catch (er) {}                               // キーボードの操作先をこのページに戻す
+    FPS.drag = { x: e.clientX, y: e.clientY, x0: e.clientX, y0: e.clientY };
+  });
+  function fpsPointerMove(e) {
+    if (!FPS.drag) return;
+    FPS.yaw -= (e.clientX - FPS.drag.x) * 0.0045;
+    FPS.pitch = clamp(FPS.pitch - (e.clientY - FPS.drag.y) * 0.0035, -0.6, FPS_CFG[enteredIdx].pitchMax || 0.55);   // I は空の目を見上げられる
+    FPS.drag.x = e.clientX; FPS.drag.y = e.clientY;
+  }
+  window.addEventListener('pointerup', function (e) {
+    if (!entered || !FPS.drag) return;
+    var moved = Math.abs(e.clientX - FPS.drag.x0) + Math.abs(e.clientY - FPS.drag.y0);
+    FPS.drag = null;
+    if (moved > 6) return;
+    // クリックした地面の場所へ歩く
+    var cam = worlds[enteredIdx].camera;
+    var ndc = new THREE.Vector2(e.clientX / window.innerWidth * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1);
+    raycaster.setFromCamera(ndc, cam);
+    var hit = raycaster.ray.intersectPlane(groundPlane, new THREE.Vector3());
+    if (hit && hit.distanceTo(cam.position) < 14) {
+      var bd = FPS_CFG[enteredIdx].bounds; FPS.target = new THREE.Vector2(clamp(hit.x, bd[0], bd[1]), clamp(hit.z, bd[2], bd[3]));
+      walkMark.style.left = e.clientX + 'px'; walkMark.style.top = e.clientY + 'px';      // クリックした場所に印
+      walkMark.classList.remove('on'); void walkMark.offsetWidth; walkMark.classList.add('on');
+    }
+  });
+  function fpsCollide(idx, p) {
+    var bd = FPS_CFG[idx].bounds;
+    p.x = clamp(p.x, bd[0], bd[1]); p.z = clamp(p.z, bd[2], bd[3]);
+    if (idx === 0) {                                                    // 遺構にはめり込まない
+      for (var i = 0; i < W1.obstacles.length; i++) {
+        var ob = W1.obstacles[i], dx = p.x - ob.x, dz = p.z - ob.z, d = Math.hypot(dx, dz), rr = ob.r + 0.1;
+        if (d < rr) { if (d < 1e-4) { dx = 1; d = 1; } p.x = ob.x + dx / d * rr; p.z = ob.z + dz / d * rr; }
+      }
+    } else if (idx === 1) {                                             // 画面の柱
+      var d1 = Math.hypot(p.x, p.z + 4.6); if (d1 < 0.3) { p.x = (p.x || 0.01) / d1 * 0.3; p.z = -4.6 + (p.z + 4.6) / d1 * 0.3; }
+    } else if (idx === 2) {                                             // 机（手前の縁へ押し出す）
+      if (p.x > 0.0 && p.x < 1.9 && p.z < -1.45 && p.z > -2.5) p.z = -1.45;
+    }
+  }
+  function fpsUpdate(dt, t) {
+    if (!entered) return;
+    var idx = enteredIdx, c = FPS_CFG[idx];
+    var fx = Math.sin(FPS.yaw), fz = Math.cos(FPS.yaw), rx = -fz, rz = fx;
+    var kk_ = FPS.keys, pk_ = FPS.padKeys || {};
+    var k = { f: kk_.f || pk_.f, b: kk_.b || pk_.b, l: kk_.l || pk_.l, r: kk_.r || pk_.r };
+    padEls.forEach(function (el) { el.classList.toggle('on', !!k[el.getAttribute('data-k')]); });   // 押されているキーを光らせる
+    var mx = 0, mz = 0;
+    if (k.f) { mx += fx; mz += fz; } if (k.b) { mx -= fx; mz -= fz; }
+    if (k.r) { mx += rx; mz += rz; } if (k.l) { mx -= rx; mz -= rz; }
+    if (FPS.target) {
+      var tx = FPS.target.x - FPS.pos.x, tz = FPS.target.y - FPS.pos.z, tl = Math.hypot(tx, tz);
+      if (tl < 0.08) FPS.target = null;
+      else { mx = tx / tl; mz = tz / tl; FPS.yaw += angleDiff(FPS.yaw, Math.atan2(tx, tz)) * Math.min(1, dt * 2.5); }   // 歩く方へ向きも変わる
+    }
+    if (FPS.wheel) {                                                   // ホイールの分だけ前後に歩く
+      var step = Math.min(Math.abs(FPS.wheel), c.speed * dt * 1.4), sg = FPS.wheel > 0 ? 1 : -1;
+      FPS.pos.x += fx * step * sg; FPS.pos.z += fz * step * sg; FPS.wheel -= step * sg; FPS.walk += dt * 9;
+      if (Math.abs(FPS.wheel) < 1e-3) FPS.wheel = 0;
+    }
+    var ml = Math.hypot(mx, mz), moving = ml > 0.01 || !!FPS.wheel;
+    if (ml > 0.01) { FPS.pos.x += mx / ml * c.speed * dt; FPS.pos.z += mz / ml * c.speed * dt; FPS.walk += dt * 9; }
+    fpsCollide(idx, FPS.pos);
+    var bob = moving ? Math.sin(FPS.walk) * 0.02 * c.eye : 0;           // 歩くと視点が少し揺れる
+    FPS.pos.y = (idx === 0 ? Math.max(0, sandHeight(FPS.pos.x, FPS.pos.z)) : 0) + c.eye + bob;
+    var cam = worlds[idx].camera;
+    cam.position.copy(FPS.pos);
+    cam.fov = 72;
+    cam.lookAt(FPS.pos.x + Math.sin(FPS.yaw) * Math.cos(FPS.pitch), FPS.pos.y + Math.sin(FPS.pitch), FPS.pos.z + Math.cos(FPS.yaw) * Math.cos(FPS.pitch));
+    cam.updateMatrixWorld();
+    // あなたが目の人物：その世界の「人物の位置」はあなたの位置（風・窓・道ができる場所に効く）
+    var w = worlds[idx]; w.pos.set(FPS.pos.x, 0, FPS.pos.z); w.target.copy(w.pos); w.heading = FPS.yaw;
+  }
+  // 入口を置き、画面外なら押せないようにする
+  function placeIn(el, i, v3) {
+    place(el, i, v3);
+    var p = v3.clone().project(worlds[i].camera);
+    var vis = p.z < 1 && Math.abs(p.x) < 0.95 && Math.abs(p.y) < 0.95;
+    el.classList.toggle('off', !vis);
+    return vis;
+  }
+  function overEl(el, x, y) {                                           // カーソルが入口（または文字）の上にあるか
+    var rs = [el.getBoundingClientRect()], tg = el.querySelector('.tag');
+    if (tg && +getComputedStyle(tg).opacity > 0.5) rs.push(tg.getBoundingClientRect());
+    return rs.some(function (r) { return x >= r.left - 2 && x <= r.right + 2 && y >= r.top - 2 && y <= r.bottom + 2; });
+  }
+  function place(el, i, v3) {
+    if (el._hold) {                                                     // 乗せている間は動かさない
+      if (mouse.x !== undefined && !overEl(el, mouse.x, mouse.y)) el._hold = false;   // カーソルが実際には外れていたら解く
+      else return;
+    }
+    var r = panelRect(i), p = v3.clone().project(worlds[i].camera);
+    el._x = r.left + (p.x + 1) / 2 * r.width; el._y = r.top + (1 - p.y) / 2 * r.height;
+    el.style.left = el._x + 'px';
+    el.style.top = el._y + 'px';
+    el.classList.toggle('tag-below', el._y - r.top < 80);              // 絵の上端に近いときは、文字を下に出す（額からはみ出さない）
+  }
+
+  // ============================================================
+  // 7. 毎フレーム
+  // ============================================================
+  var start = performance.now(), last = start, frameNo = 0;
+  var blinkAt = start + 3000, blinkT = -1;
+  var turnAt = start + (150 + Math.random() * 150) * 1000, turning = -1;
+  var nextGust = start + 9000, gustT = -1;
+  var bloomed = 0, windowVis = 0, slowFrames = 0;
+
+  function updateFigure(w, dt, now) {
+    var d = tmpV.copy(w.target).sub(w.pos);
+    var dist = d.length();
+    w.pos.addScaledVector(d, Math.min(1, dt * 2.2));
+    if (dist > 0.03) w.heading = Math.atan2(d.x, d.z);
+    if (w === W3 && dist < 0.03 && now - mouse.moved > 900) w.heading = Math.atan2(W3.winPos.x - w.pos.x, W3.winPos.z - w.pos.z);
+    var f = w.figure;
+    f.position.copy(w.pos);
+    if (w === W1) f.position.y = Math.max(0, sandHeight(w.pos.x, w.pos.z));   // 砂の起伏の上を歩く
+    var heading = w.heading;
+    if (w === W3 && turning >= 0) {
+      var tt = (now - turning) / 2600;
+      var faceCam = Math.atan2(W3.camera.position.x - w.pos.x, W3.camera.position.z - w.pos.z);
+      var k = tt < 0.25 ? smoothstep(0, 0.25, tt) : tt > 0.8 ? 1 - smoothstep(0.8, 1, tt) : 1;
+      heading = heading + angleDiff(heading, faceCam) * k;
+      if (tt >= 1) turning = -1;
+    }
+    f.rotation.y += angleDiff(f.rotation.y, heading) * Math.min(1, dt * 6);
+    var moving = dist > 0.03 ? 1 : 0;
+    var ph = now * 0.011;
+    f.userData.legL.rotation.x = Math.sin(ph) * 0.42 * moving;
+    f.userData.legR.rotation.x = -Math.sin(ph) * 0.42 * moving;
+    f.userData.armL.rotation.x = -Math.sin(ph) * 0.3 * moving;
+    f.userData.armR.rotation.x = Math.sin(ph) * 0.3 * moving;
+    f.userData.head.position.y = 1.62 + Math.abs(Math.sin(ph)) * 0.02 * moving + Math.sin(now * 0.0012) * 0.006;
+    if (w === W3) {                       // 部屋の人物：ときどき首がコマ落ちしたように傾く
+      var step = Math.floor(now / 1700);
+      f.userData.head.rotation.z = hash(step, 1, 2) > 0.8 ? (hash(step, 3, 4) - 0.5) * 0.12 : 0;
+    }
+    return dist;
+  }
+
+  var glassEls = Array.prototype.slice.call(document.querySelectorAll('#glass div')), glassKey = '';
+  function placeGlass() {
+    var key = '';
+    var rs = panels.map(function (p) { var r = p.getBoundingClientRect(); key += r.left + ',' + r.top + ',' + r.width + ',' + r.height + ';'; return r; });
+    if (key === glassKey) return;
+    glassKey = key;
+    rs.forEach(function (r, i) { var g = glassEls[i].style; g.left = r.left + 'px'; g.top = r.top + 'px'; g.width = r.width + 'px'; g.height = r.height + 'px'; });
+  }
+  // 1フレームでエラーが起きても、描画ループは止めない（最初の1回だけ記録する）
+  function frame(now) {
+    try { frameBody(now); } catch (e) { if (!frame.failed) { frame.failed = true; console.error('TRIPTYCH frame error:', e); } }
+    if (!reduceMotion) requestAnimationFrame(frame);
+  }
+  function frameBody(now) {
+    placeGlass();
+    var dt = Math.min(0.1, (now - last) / 1000); last = now; frameNo++;
+    frameDt = Math.max(dt, 1 / 240);
+    fpsUpdate(dt, (now - start) / 1000);                                  // 絵の中：一人称の視点を動かす
+    var t = reduceMotion ? 12 : (now - start) / 1000;
+
+    // 重いときは解像度を下げる
+    if (!reduceMotion && frameNo > 30) {
+      if (dt > 0.034) slowFrames++; else slowFrames = Math.max(0, slowFrames - 1);
+      if (slowFrames > 60 && quality > 0.5) { quality = Math.max(0.5, quality * 0.85); slowFrames = 0; }
+    }
+
+    // ---- I
+    if (!reduceMotion && now > nextGust && gustT < 0) gustT = now;
+    if (gustT >= 0) {
+      var gt = (now - gustT) / 6000;
+      gust = Math.sin(Math.min(1, gt) * Math.PI);
+      if (gt >= 1) { gustT = -1; gust = 0; nextGust = now + 18000 + Math.random() * 14000; }
+    }
+    // 風：人物の動き（1フレームの移動量）が風になる
+    if (!reduceMotion) {
+      var mvx = clamp(W1.pos.x - W1.prev.x, -0.3, 0.3), mvz = clamp(W1.pos.z - W1.prev.z, -0.3, 0.3);
+      if (active === 0) { windVel.x += mvx * 1.6; windVel.y += mvz * 1.6; }
+      windVel.multiplyScalar(Math.exp(-dt * 0.45));
+      var wm = windVel.length();
+      if (wm > 0.02) windDir.lerp(tmpV2.set(windVel.x / wm, windVel.y / wm), Math.min(1, dt * 1.5)).normalize();
+      else windDir.lerp(tmpV2.set(AVE.dx, AVE.dz), Math.min(1, dt * 0.3)).normalize();   // 風が止むと、また花の方へ
+      var target = Math.max(1 - Math.exp(-wm * 0.7), gust * 0.8);
+      wind += (target - wind) * Math.min(1, dt * 1.6);
+      flowX += dt * (AVE.dx * 0.03 + windDir.x * wind * 0.45);
+      flowZ += dt * (AVE.dz * 0.03 + windDir.y * wind * 0.45);
+      lifeT += dt * (0.03 + wind * 0.22);                                // 風が街を壊し、また作る
+      sandBump.offset.x -= dt * windDir.x * wind * 0.06;                // 風紋が流れる
+      sandBump.offset.y -= dt * windDir.y * wind * 0.06;
+    }
+    W1.prev.copy(W1.pos);
+    if (reduceMotion || frameNo % 2 === 1 || frameNo < 3) updateSand();
+    var az = 0.55 + Math.sin(t * 0.02) * 0.45;
+    W1.sun.position.set(Math.cos(az) * 8, 1.15 + Math.sin(t * 0.017) * 0.3, Math.sin(az) * 8 - 2.5);
+    W1.skyMat.uniforms.time.value = t;
+    W1.skyMat.uniforms.sunDir.value.copy(W1.sun.position).normalize();
+    W1.scene.fog.density = 0.02 + wind * 0.07;
+
+    // カメラワーク（絵の中にいる間は一人称なので使わない）
+    var fpsI = entered && enteredIdx === 0;
+    if (!reduceMotion && !fpsI) {
+      var mode1 = flowerFocus ? 'flower' : entered ? 'inside' : (active === 0 && now - mouse.moved0 < 5000) ? 'follow' : null;
+      if (!mode1 && (now - cam1.shotT0) / 1000 > cam1.shotLen) nextShot(now);
+      var nearHotFlower = hot.flower._x !== undefined && mouse.x !== undefined && Math.hypot(mouse.x - hot.flower._x, mouse.y - hot.flower._y) < 130;
+      var holdCam = active === 0 && (overHot || nearHotFlower) && !flowerFocus;   // 入口に乗せている間・近づいている間はカメラを止める
+      if (!holdCam) {
+        var st = shotTarget(mode1 || cam1.name, (now - cam1.shotT0) / 1000, cam1.shotLen, shotTmp);
+        var kk = 1 - Math.exp(-dt * st.k);
+        cam1.pos.lerp(st.pos, kk); cam1.look.lerp(st.look, kk);
+        cam1.fov += (st.fov - cam1.fov) * kk; cam1.tilt += (st.tilt - cam1.tilt) * kk;
+        cam1.pos.y = Math.max(cam1.pos.y, sandHeight(cam1.pos.x, cam1.pos.z) + 0.12);
+      }
+      cam1.current = mode1 || cam1.name;
+    }
+    if (!fpsI) {
+      W1.camera.position.copy(cam1.pos);
+      W1.camera.position.y += Math.sin(t * 0.7) * 0.004;                 // 手持ちのわずかな揺れ
+      W1.camera.fov = cam1.fov;
+      W1.camera.lookAt(cam1.look);
+      W1.camera.updateMatrixWorld();
+    }
+    var nearFlower = fpsI && Math.hypot(W1.pos.x - W1.flower.position.x, W1.pos.z - W1.flower.position.z) < 0.6;   // 花のそばまで辿り着いた
+    hoverFlower = (flowerHot || nearFlower) ? 1 : 0;
+    hot.flower.classList.toggle('show', nearFlower);
+    var reveal = Math.max(smoothstep(0.35, 0.85, wind), hoverFlower);
+    flowerReveal += (reveal - flowerReveal) * Math.min(1, dt * 2.5);
+    W1.flower.position.y = -1.2 + flowerReveal * 1.12;                 // 普段は先端だけのぞく
+    bloomed += (hoverFlower - bloomed) * Math.min(1, dt * 3);
+    W1.petals.forEach(function (p, i) {
+      var closed = p.ring ? -1.25 : -1.1, open = p.ring ? -0.05 : -0.35;
+      p.node.rotation.x = closed + (open - closed) * bloomed + Math.sin(t * 0.8 + i) * 0.03;
+    });
+    W1.flower.rotation.z = Math.sin(t * 0.7) * 0.03 * (1 + wind * 3);
+    var dpos = W1.dust.geometry.attributes.position.array;
+    var spd = 0.15 + wind * 3.2, TT = W1.T;
+    for (var k = 0; k < dpos.length; k += 3) {
+      var q = k / 3;
+      dpos[k] += dt * (windDir.x * spd + Math.sin(q * 1.7 + t * 2.3) * 0.2 * wind);
+      dpos[k + 2] += dt * (windDir.y * spd + Math.cos(q * 1.3 + t * 2.1) * 0.2 * wind);
+      dpos[k + 1] = 0.02 + Math.abs(Math.sin(q * 0.37 + t * (1.2 + wind * 4))) * (0.04 + wind * 0.5) * (0.4 + (q % 5) * 0.15);
+      if (dpos[k] > TT) dpos[k] -= 2 * TT; else if (dpos[k] < -TT) dpos[k] += 2 * TT;
+      if (dpos[k + 2] > TT) dpos[k + 2] -= 2 * TT; else if (dpos[k + 2] < -TT) dpos[k + 2] += 2 * TT;
+    }
+    W1.dust.geometry.attributes.position.needsUpdate = true;
+    W1.dust.material.opacity = 0.08 + wind * 0.85;
+
+    // ---- II：AudioVisual の都市。仮想の拍（96 BPM）で流れ、伸び縮みし、明滅する
+    var beat = t * 96 / 60, bph = beat - Math.floor(beat), bi = Math.floor(beat);
+    var kick = reduceMotion ? 0.3 : Math.exp(-bph * 6);
+    var hat = reduceMotion ? 0.3 : Math.exp(-((beat * 4) % 1) * 9);
+    avAnalyze(dt);
+    if (AV.live) {                                                        // 実際の音があるときは、その音で動く
+      kick = Math.max(AV.kick, AV.low * 0.5); hat = Math.max(AV.hat, AV.high * 1.5);
+      beat = AV.onsets; bi = AV.onsets;
+    }
+    var newBeat = bi !== W2.lastBeat; W2.lastBeat = bi;
+    for (var p = 0; p < patternCanvases.length; p++) {
+      if (frameNo < 3 || (!reduceMotion && newBeat && p % 3 === bi % 3)) drawPattern(patternCanvases[p], t);   // 拍ごとに3分の1ずつ描き替える
+    }
+    if (reduceMotion || frameNo < 3) drawScreen(t, kick, hat, beat);
+    if (!reduceMotion) {
+      var flow = dt * (0.8 + kick * 0.6);
+      W2.scroll = (W2.scroll || 0) + flow;
+      if (newBeat && (AV.live || bi % 4 === 0)) W2.accent = Math.floor(Math.random() * W2.blds.length);   // 小節の頭で1棟が強く光る
+      W2.blds.forEach(function (b, k) {
+        b.grp.position.z += flow;
+        if (b.grp.position.z > 7.5) b.grp.position.z -= W2.span;
+        var spec = AV.live ? Math.min(1, AV.bands[b.band] * 1.6) : 0.5 + 0.5 * Math.sin(t * (1.1 + b.band * 0.6) + b.band * 2.1 + k);
+        var env = AV.live ? 0.55 + 0.45 * (b.band < 3 ? AV.kick : AV.hat) : b.band < 3 ? kick : hat;
+        b.grp.scale.y = 1 + 0.42 * spec * env;
+        b.face.color.setScalar(0.6 + 1.3 * spec * env + (k === W2.accent ? kick * 2.5 : 0));
+        b.tex.offset.y = (b.tex.offset.y + dt * b.scroll) % 1;
+      });
+      W2.dashes.forEach(function (d) { d.position.z += flow; if (d.position.z > 7) d.position.z -= 37.2; });
+      W2.grid.position.z = W2.scroll % 0.5;
+      W2.edgeMat.color.setScalar(0.9 + kick * 1.6);
+      if (!(entered && enteredIdx === 1)) W2.camera.position.set(Math.sin(t * 0.23) * 0.18, 1.9 + kick * 0.025, 6.2);
+      drawScreen(t, kick, hat, beat);
+      if (!(entered && enteredIdx === 1)) W2.camera.lookAt(Math.sin(t * 0.17) * 0.1, 1.2, -2);
+    }
+    if (!reduceMotion) {
+      var rp = W2.rain.geometry.attributes.position.array;
+      for (var r = 1; r < rp.length; r += 3) { rp[r] -= dt * (0.6 + (r % 7) * 0.12) * (1 + kick * 2); if (rp[r] < 0) rp[r] = 8; }
+      W2.rain.geometry.attributes.position.needsUpdate = true;
+    }
+
+    // ---- 人物
+    var idle = now - mouse.moved > 700;
+    var dists = worlds.map(function (w) { return updateFigure(w, dt, now); });
+    if (!reduceMotion && now > blinkAt) { blinkT = now; blinkAt = now + 3500 + Math.random() * 5000; }
+    var open = 1;
+    if (blinkT >= 0) { var bt = (now - blinkT) / 200; open = bt < 1 ? Math.abs(1 - 2 * bt) : 1; if (bt >= 1) blinkT = -1; }
+    worlds.forEach(function (w) { setLids(w.figure, open); });
+    // 目は、体の向きに関係なく見ている人を追う
+    worlds.forEach(function (w) { irisLookAt(w.figure.userData.iris, w.camera, 0.62); });
+    if (!reduceMotion && now > turnAt && turning < 0) {
+      if (active === 2 && idle) turning = now;
+      turnAt = now + (150 + Math.random() * 150) * 1000;
+    }
+    // 窓：人物が窓を向いているときだけ外の街が存在する
+    var toWin = new THREE.Vector2(W3.winPos.x - W3.pos.x, W3.winPos.z - W3.pos.z).normalize();
+    var faceYaw = (entered && enteredIdx === 2) ? FPS.yaw : W3.figure.rotation.y;   // 絵の中では、あなたが窓を向いているか
+    var facing = new THREE.Vector2(Math.sin(faceYaw), Math.cos(faceYaw));
+    var looking = (active === 2 || (cross && cross.to === 2)) ? smoothstep(0.55, 0.92, toWin.dot(facing)) : 0;
+    windowVis += (looking - windowVis) * Math.min(1, dt * 2.2);
+    if (reduceMotion) windowVis = looking;
+    W3.winMat.uniforms.vis.value = windowVis;
+    W3.doorOpen += (W3.doorTarget - W3.doorOpen) * Math.min(1, dt * 4);
+    if (reduceMotion) W3.doorOpen = W3.doorTarget;
+    W3.doorHinge.rotation.y = W3.doorOpen * 1.35;                        // 部屋の内側へ開く
+    W3.doorLight.intensity = W3.doorOpen * 2.2;
+    W3.sunIn.intensity = 1.2 + 3.8 * windowVis;                  // 外が存在しないと、差し込む光も弱まる
+    W3.beamMat.uniforms.amt.value = 0.25 + 0.75 * windowVis;
+    W3.beamMat.uniforms.time.value = t;
+    var mp = W3.motes.geometry.attributes.position.array, mb = W3.motesBase;
+    for (var m = 0; m < mp.length; m += 3) {
+      mp[m] = mb[m] + Math.sin(t * 0.21 + m) * 0.05; mp[m + 1] = mb[m + 1] + Math.sin(t * 0.17 + m * 1.3) * 0.06; mp[m + 2] = mb[m + 2] + Math.cos(t * 0.13 + m) * 0.05;
+    }
+    W3.motes.geometry.attributes.position.needsUpdate = true;
+    W3.motes.material.opacity = 0.15 + 0.7 * windowVis;
+
+    // ---- 越境
+    var crossing = 0, cf = -1, ct = -1;
+    if (cross) {
+      var ck = (now - cross.t0) / CROSS_MS;
+      if (ck >= 1) cross = null; else { crossing = Math.sin(ck * Math.PI); cf = cross.from; ct = cross.to; }
+    }
+    worlds.forEach(function (w, i) {
+      var vis = (i === active || (cross !== null && i === cf)) && !(entered && i === enteredIdx);   // 必ず true / false。絵の中では、あなたがその人物なので姿は見えない
+      w.figure.visible = vis;
+      if (vis && crossing > 0) {
+        var s = crossing;
+        w.figure.visible = Math.random() > 0.35 * s;
+        w.figure.position.x += (Math.random() - 0.5) * 0.3 * s;
+        w.figure.scale.set(w.base * (1 + (Math.random() - 0.5) * 1.4 * s), w.base * (1 + (Math.random() - 0.5) * 0.35 * s), w.base);
+      } else {
+        w.figure.scale.setScalar(w.base);
+      }
+    });
+
+    // ---- 描画
+    // 影は I と III の本描画のときだけ計算し、窓の中の箱庭は I の影をそのまま使う
+    renderer.setScissorTest(false);
+    renderer.setRenderTarget(null);
+    renderer.setClearColor(0x000000, 0);
+    renderer.clear();
+    var gl = function (i) { return (i === cf || i === ct) ? crossing : 0; };
+    // 境目の側：越える先が右なら右端、左なら左端
+    var sd = function (i) { if (cf === ct) return 0; if (i === cf) return ct > cf ? 1 : -1; if (i === ct) return cf > ct ? 1 : -1; return 0; };
+    // 絵の中にいる間は、その絵だけを描く（III は窓と画面のために I と II も裏で描く）
+    var show = entered ? [enteredIdx === 0, enteredIdx === 1, enteredIdx === 2] : [true, true, true];
+    if (show[0]) { renderer.shadowMap.needsUpdate = true; renderPanel(0, panelRect(0), gl(0), t, sd(0)); }
+    if (show[2] || !entered) {
+      renderer.setScissorTest(false);
+      if (entered) { renderer.shadowMap.needsUpdate = true; }
+      renderer.setRenderTarget(rtI); renderer.render(W1.scene, viewCamI);
+      renderer.setRenderTarget(rtII); renderer.render(W2.scene, W2.camera);
+    }
+    if (show[1]) renderPanel(1, panelRect(1), gl(1), t, sd(1));
+    if (show[2]) { renderer.shadowMap.needsUpdate = true; renderPanel(2, panelRect(2), gl(2), t, sd(2)); }
+
+    // ---- 入口
+    // 入口は「花が咲き切ったときの花の位置」に固定する（花が砂から伸びたり風に揺れたりしても、入口は動かない）
+    var bp = W1.bloomNode.getWorldPosition(new THREE.Vector3());
+    bp.set(W1.flower.position.x, Math.max(0.1, bp.y - W1.flower.position.y + (-1.2 + 1.12)), W1.flower.position.z);
+    place(hot.flower, 0, bp);
+    var fpj = bp.clone().project(W1.camera);
+    W1.flowerNdc = [+fpj.x.toFixed(2), +fpj.y.toFixed(2), +fpj.z.toFixed(3)];
+    hot.flower.classList.toggle('off', !(fpj.z < 1 && Math.abs(fpj.x) < 0.95 && Math.abs(fpj.y) < 0.95));   // 画面外では押せない（Tab では選べる）
+    var nearLaptop = false;
+    if (!entered) {
+      place(hot.screen, 1, W2.screen.position); hot.screen.classList.remove('off', 'show');
+      place(hot.synth, 2, W3.synth.position.clone().add(new THREE.Vector3(0, 0.05, 0))); hot.synth.classList.remove('off', 'show');
+      place(hot.door, 2, W3.doorCenter); hot.door.classList.remove('off', 'show');
+      place(hot.laptop, 2, W3.laptopCenter); hot.laptop.classList.remove('off', 'show');
+    } else {
+      // 絵の中：近づくと入口が現れる（ドアは近づくと開く）
+      var fp = FPS.pos;
+      if (enteredIdx === 1) { var vs = placeIn(hot.screen, 1, W2.screen.position); hot.screen.classList.toggle('show', vs && Math.hypot(fp.x, fp.z + 4.6) < 3.2); }
+      if (enteredIdx === 2) {
+        var vy = placeIn(hot.synth, 2, W3.synth.position.clone().add(new THREE.Vector3(0, 0.05, 0)));
+        hot.synth.classList.toggle('show', vy && Math.hypot(fp.x - W3.synth.position.x, fp.z - W3.synth.position.z) < 1.5);
+        var nearDoor = Math.hypot(fp.x - W3.doorCenter.x, fp.z - W3.doorCenter.z) < 1.7;
+        var vd = placeIn(hot.door, 2, W3.doorCenter);
+        hot.door.classList.toggle('show', vd && nearDoor);
+        if (!doorClicked) W3.doorTarget = nearDoor ? 0.62 : 0;
+        var vl = placeIn(hot.laptop, 2, W3.laptopCenter);
+        nearLaptop = Math.hypot(fp.x - W3.laptopCenter.x, fp.z - W3.laptopCenter.z) < 1.5;
+        hot.laptop.classList.toggle('show', vl && nearLaptop);
+      }
+    }
+    var schedOn = laptopHot || document.activeElement === hot.laptop || (entered && enteredIdx === 2 && nearLaptop);
+    var wantMap = schedOn ? W3.laptopSched : W3.laptopLive;
+    if (W3.laptopScreen.material.map !== wantMap) { W3.laptopScreen.material.map = wantMap; W3.laptopScreen.material.needsUpdate = true; }
+    W3.schedOn = schedOn;
+    var headWorld = worlds[active].figure.userData.head.getWorldPosition(new THREE.Vector3());
+    var showContact = !entered && (reduceMotion || (idle && !cross && dists[active] < 0.05 && !overHot));
+    if (showContact) {
+      place(hot.figure, active, headWorld);
+      hot.figure.hidden = false; hot.figure.classList.toggle('show', !reduceMotion);
+    } else if (document.activeElement !== hot.figure) {
+      hot.figure.hidden = true; hot.figure.classList.remove('show');
+    }
+
+  }
+
+  if (reduceMotion) {
+    var redraw = function () { frame(performance.now()); };
+    window.addEventListener('resize', redraw);
+    redraw();
+  } else {
+    requestAnimationFrame(frame);
+  }
+
+  // 確認用
+  window.triptych = {
+    turn: function () { turning = performance.now(); },
+    gust: function () { gustT = performance.now(); },
+    shot: function (n, len) {                                       // 確認用：ショットを指定してすぐ切り替える
+      cam1.name = n; cam1.shotT0 = performance.now(); cam1.shotLen = len || 1e9;
+      var st = shotTarget(n, 0, cam1.shotLen, shotTmp); cam1.pos.copy(st.pos); cam1.look.copy(st.look); cam1.fov = st.fov; cam1.tilt = st.tilt;
+    },
+    blow: function (x, z) { windVel.set(x, z); },                    // 確認用：風を起こす
+    slowCross: function (ms) { CROSS_MS = ms; },                    // 確認用：越境をゆっくりにする
+    enter: function (i) { enterWorld(i || 0); }, exit: exitWorld,      // 確認用
+    fpsGo: function (x, z) { FPS.target = new THREE.Vector2(x, z); },   // 確認用：絵の中でその場所へ歩く
+    skyEyeVisible: function (v) { W1.skyEye.head.visible = !!v; },
+    placeObelisk: function (x, y, z, sy) { W1.obelisk.position.set(x, y, z); W1.obelisk.rotation.set(0, 0, 0); W1.obelisk.scale.setScalar(sy || 1); W1.obelisk.updateMatrixWorld(true); },
+    fpsLook: function (yaw, pitch) { FPS.yaw = yaw; if (pitch !== undefined) FPS.pitch = pitch; },
+    walkTo: function (x, z) { W1.target.set(x, 0, z); mouse.moved = mouse.moved0 = performance.now(); },   // 確認用：I の人物を歩かせる
+    lockQuality: function (q) { quality = q; slowFrames = -1e9; },   // 確認用：解像度の自動調整を止める
+    get state() {
+      return { frames: frameNo, laptopSched: !!W3.schedOn, laptopPos: W3.laptopCenter.toArray(), skyEye: { inView: skyEyeInView(W1.camera), pos: W1.skyEye.head.position.toArray(), pupil: +W1.skyEye.mat.uniforms.pupil.value.toFixed(3) }, av: { live: AV.live, source: AV.source, level: +AV.level.toFixed(3), low: +AV.low.toFixed(2), onsets: AV.onsets, status: avStatusEl.textContent }, active: active, crossing: !!cross, windowVis: windowVis, flowerNdc: W1.flowerNdc, cam1: cam1.pos.toArray().map(function (v) { return +v.toFixed(2); }), gust: gust, wind: +wind.toFixed(2), shot: cam1.current || cam1.name, bloomed: bloomed, quality: quality, float: floatOK,
+        vis: worlds.map(function (w) { return w.figure.visible; }), entered: entered, enteredIdx: enteredIdx, fps: { pos: [+FPS.pos.x.toFixed(2), +FPS.pos.y.toFixed(2), +FPS.pos.z.toFixed(2)], yaw: +FPS.yaw.toFixed(2), pitch: +FPS.pitch.toFixed(3) }, winPos: [W3.winPos.x, W3.winPos.z], flowerPos: [W1.flower.position.x, W1.flower.position.z], w1: [+W1.pos.x.toFixed(2), +W1.pos.z.toFixed(2), +W1.target.x.toFixed(2), +W1.target.z.toFixed(2)], doorOpen: +W3.doorOpen.toFixed(2),
+        w3: { pos: W3.pos.toArray().map(function (v) { return +v.toFixed(2); }), target: W3.target.toArray().map(function (v) { return +v.toFixed(2); }), heading: +W3.heading.toFixed(2), rot: +W3.figure.rotation.y.toFixed(2) } };
+    }
+  };
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="ja" class="has-nav">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GOODS — 武田 鳴</title>
+<meta name="description" content="武田 鳴 のグッズ。通信販売（SUZURI）の T シャツと、ライブ会場限定のカセットテープ・ステッカー・NFC キーホルダー。">
+<meta property="og:title" content="GOODS — MEI TAKEDA [1+1.=V.]">
+<meta property="og:url" content="https://takeda-mei.com/goods.html">
+<link rel="canonical" href="https://takeda-mei.com/goods.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Noto+Sans+JP:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  /* GOODS だけの部分。共通の色・ナビ・カードは assets/site.css */
+  .lead { font-family: var(--sans); font-size: 13px; line-height: 2; color: var(--ink-2); margin: -8px 0 20px; }
+
+  /* 商品のカード：写真（なければ線画）＋ 名前・価格 */
+  .items { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; align-items: start; }
+  .item { border: 1px solid var(--faint); background: var(--panel); display: flex; flex-direction: column; min-width: 0; }
+  .item__img { position: relative; margin: 0; aspect-ratio: 1 / 1; background: var(--bg); border-bottom: 1px solid var(--faint); overflow: hidden; }
+  .item__img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity .25s; }
+  .item__img img.is-loading { opacity: 0; }
+  /* 写真の上に動く線画を重ねる商品（カセット）：写真の縦横比のまま、正方形の中央に置く（重ねる位置がずれないように） */
+  .item__frame { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); aspect-ratio: 1250 / 570; }
+  .item__frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; }
+  .item__frame .reels { position: absolute; inset: auto; overflow: visible; color: var(--ink); transition: opacity .3s; }
+  .item__frame .reels.is-off { opacity: 0; }
+  /* 窓の位置の調整モード（goods.html?reels-edit で開いたときだけ） */
+  .reels-edit { position: absolute; inset: 0; cursor: crosshair; touch-action: none; z-index: 2; }
+  .reels-edit i { position: absolute; border: 1px dashed var(--accent); background: var(--accent-wash); pointer-events: none; }
+  .reels-out { margin: 0; padding: 12px 14px; border-top: 1px solid var(--faint); background: var(--bg); font-size: 10px; line-height: 1.8; }
+  .reels-out b { color: var(--accent); font-weight: 400; letter-spacing: .1em; }
+  .reels-out code { display: block; font: inherit; font-size: 11px; color: var(--ink); user-select: all; word-break: break-all; }
+  .reels-out button { margin-top: 6px; font: inherit; font-size: 10px; letter-spacing: .1em; padding: 8px 12px; min-height: 36px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); cursor: pointer; }
+  .item__img svg { position: absolute; inset: 14%; width: 72%; height: 72%; color: var(--ink); }
+  .item__img svg * { vector-effect: non-scaling-stroke; }
+  .item__where { position: absolute; left: 10px; top: 10px; font-size: 9px; letter-spacing: .16em; padding: 3px 7px; background: var(--panel); border: 1px solid var(--faint); color: var(--dim); }
+  .item__where.is-venue { color: var(--accent); }
+  .item__count { position: absolute; right: 10px; bottom: 10px; font-size: 9px; letter-spacing: .12em; color: var(--dim); background: var(--panel); padding: 2px 6px; border: 1px solid var(--faint); font-variant-numeric: tabular-nums; }
+  /* 写真が2枚以上のとき：小さい写真を押して切り替える */
+  .thumbs { display: flex; gap: 6px; padding: 8px 10px 0; flex-wrap: wrap; }
+  .thumbs button { width: 44px; height: 44px; padding: 0; border: 1px solid var(--faint); background: var(--bg); cursor: pointer; overflow: hidden; }
+  .thumbs button img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: .55; transition: opacity .15s; }
+  .thumbs button:hover img, .thumbs button[aria-pressed="true"] img { opacity: 1; }
+  .thumbs button[aria-pressed="true"] { border-color: var(--ink); }
+  .item__body { padding: 14px 14px 16px; display: grid; gap: 6px; }
+  .item__head { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: baseline; }
+  .item__name { font-size: 14px; font-weight: 500; letter-spacing: .02em; margin: 0; }
+  .item__price { font-size: 14px; letter-spacing: .04em; font-variant-numeric: tabular-nums; }
+  .item__price.is-tbd { color: var(--dim); font-size: 12px; }
+  .item__sub { color: var(--dim); font-size: 10px; letter-spacing: .08em; line-height: 1.7; margin: 0; }
+  .item__link { justify-self: start; margin-top: 4px; font-size: 11px; letter-spacing: .08em; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); padding: 10px 0 2px; }
+  .item__link:hover { border-color: var(--ink); }
+  .item .spec { margin-top: 6px; }
+  /* カセットのリールは、カードに乗せている間だけ回る */
+  .reel { transform-box: fill-box; transform-origin: center; }
+  .item:hover .reel { animation: spin 3s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .rowlinks { margin-top: 20px; border: 1px solid var(--faint); background: var(--panel); }
+
+  /* SUZURI：ショップの入口と、通信販売の商品 */
+  .store { display: grid; grid-template-columns: minmax(240px, 1fr) minmax(0, 2fr); gap: 20px; align-items: start; }
+  .shop { border: 1px solid var(--faint); background: var(--panel); }
+  .shop__url { display: block; padding: 18px 16px; font-size: 13px; letter-spacing: .04em; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--faint); word-break: break-all; }
+  .shop__url::after { content: " ↗"; color: var(--dim); }
+  .shop__url:hover { background: var(--hover); }
+  .shop__url.off { pointer-events: none; color: var(--dim); }
+  .shop__url.off::after { content: "  準備中"; font-size: 10px; letter-spacing: .1em; }
+  .shop__note { padding: 12px 16px 16px; color: var(--dim); font-size: 10px; letter-spacing: .06em; line-height: 1.8; }
+
+  @media (max-width: 760px) {
+    .store { grid-template-columns: 1fr; }
+    .items { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .item__body { padding: 10px 10px 12px; }
+    .item__head { grid-template-columns: 1fr; gap: 2px; }
+    .item__name, .item__price { font-size: 13px; }
+  }
+  @media (max-width: 760px) {
+    .item__img svg { inset: 24% 16% 8%; width: 68%; height: 68%; }   /* 左上の印と線画が重ならないように */
+    .item__link { font-size: 10px; white-space: nowrap; }
+  }
+  @media (max-width: 340px) { .items { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body class="has-nav">
+
+<nav class="nav" aria-label="primary">
+  <a href="/" class="nav__logo"><span class="full">武田 鳴 <span class="dim">MEI TAKEDA</span></span><span class="short">武田 鳴</span></a>
+  <ul class="nav__links">
+    <li><a href="/listen.html">LISTEN</a></li>
+    <li><a href="/ticket-form.html">SCHEDULE</a></li>
+    <li><a href="/works.html">WORKS</a></li>
+    <li><a href="/goods.html" aria-current="page">GOODS</a></li>
+    <li><a href="https://forms.gle/1pbT5vwbirb6d1KQ6" target="_blank" rel="noopener">CONTACT</a></li>
+  </ul>
+</nav>
+
+<main class="page">
+
+  <header class="page-header">
+    <div class="page-header__id">04_GOODS</div>
+    <h1 class="page-header__title">GOODS</h1>
+    <nav class="page-header__meta" aria-label="このページの目次">
+      <a href="#venue">LIVE_VENUE_ONLY</a>
+      <a href="#online">ONLINE_STORE</a>
+    </nav>
+  </header>
+
+  <!-- 会場限定：商品は assets/goods.js の where: 'venue'（並びも goods.js の順） -->
+  <section class="section" id="venue">
+    <div class="section-label">LIVE_VENUE_ONLY</div>
+    <p class="lead">ライブ会場でだけ手に入るものです。オンラインでは扱いません。</p>
+    <div class="items" id="v-items"></div>
+    <div class="rowlinks"><a class="smartlink" href="/ticket-form.html"><span><strong>SCHEDULE</strong> / 次のライブ</span></a></div>
+  </section>
+
+  <!-- 通信販売：SUZURI。where: 'online' の商品（写真と、SUZURI の商品ページのアドレスは goods.js） -->
+  <section class="section" id="online">
+    <div class="section-label">ONLINE_STORE</div>
+    <div class="store">
+      <div class="shop">
+        <div class="card__meta">
+          <span class="card__tag">SUZURI</span>
+          <span class="card__title">通信販売</span>
+          <span class="card__type">MAIL ORDER</span>
+        </div>
+        <a class="shop__url" id="suzuri" href="#" target="_blank" rel="noopener"></a>
+        <p class="shop__note">注文・お支払い・発送は SUZURI で行います。サイズや色は SUZURI のページで選べます。</p>
+      </div>
+      <div class="items" id="o-items"></div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <span>© 武田 鳴 / 1+1.=V</span>
+    <span><a href="/">BACK_TO_INDEX</a></span>
+  </footer>
+</main>
+
+<script src="assets/goods.js"></script>
+<script src="assets/cursor.js"></script>
+<script>
+(function () {
+  'use strict';
+  // 商品の情報は assets/goods.js（予約完了のダイアログと共通）。ここは並べ方だけ
+  var G = window.MEI_GOODS;
+  var NS = 'http://www.w3.org/2000/svg';
+
+  // 写真がないときの線画（商品ごと）。どれでもない商品には箱の線画
+  var ART = {
+    cassette: '<rect x="4" y="34" width="112" height="70" rx="4"/><rect x="14" y="42" width="92" height="36" rx="2"/><rect x="34" y="50" width="52" height="20" rx="10"/>' +
+      '<g class="reel"><circle cx="44" cy="60" r="7"/><path d="M44 54v2M44 64v2M38 60h2M48 60h2"/></g><g class="reel"><circle cx="76" cy="60" r="7"/><path d="M76 54v2M76 64v2M70 60h2M80 60h2"/></g>' +
+      '<path d="M26 104l6-16h56l6 16"/><circle cx="42" cy="96" r="2"/><circle cx="78" cy="96" r="2"/>',
+    tshirt: '<path d="M42 16 L20 24 L6 46 L22 54 L28 46 L28 108 L92 108 L92 46 L98 54 L114 46 L100 24 L78 16 Q60 30 42 16 Z"/><path d="M42 16 Q60 24 78 16" style="stroke:var(--dim)"/>' +
+      '<rect x="46" y="52" width="28" height="18" style="stroke:var(--dim)"/>',
+    sticker: '<rect x="18" y="22" width="62" height="62" rx="6" style="stroke:var(--dim)"/><rect x="34" y="36" width="66" height="66" rx="6"/>' +
+      '<path d="M100 82 L80 102" /><path d="M80 102 Q84 86 100 82" style="stroke:var(--dim)"/><circle cx="58" cy="60" r="10"/><path d="M48 80h20"/>',
+    nfc: '<circle cx="40" cy="24" r="12"/><path d="M40 36v8"/><rect x="24" y="44" width="32" height="56" rx="6"/><rect x="31" y="58" width="18" height="18" rx="2" style="stroke:var(--dim)"/>' +
+      '<path d="M70 56 Q78 67 70 78" /><path d="M80 48 Q94 67 80 86" style="stroke:var(--dim)"/><path d="M90 40 Q110 67 90 94" style="stroke:var(--faint)"/>'
+  };
+  ART._ = '<rect x="20" y="30" width="80" height="70"/><path d="M20 30 L40 16 L120 16 L100 30 M100 30 L100 100 L120 86 L120 16" style="stroke:var(--dim)"/>';
+
+  function art(id) {
+    var s = document.createElementNS(NS, 'svg');
+    s.setAttribute('viewBox', '0 0 120 120'); s.setAttribute('fill', 'none'); s.setAttribute('stroke', 'currentColor'); s.setAttribute('stroke-width', '1');
+    s.setAttribute('role', 'img'); s.setAttribute('aria-label', '線画（写真は準備中）');
+    s.innerHTML = ART[id] || ART._;   // 線画はこのページの中の決まった文字だけ（外から来た文字は入れない）
+    return s;
+  }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+
+  // ---- カセットの窓：リールとテープ（写真の白い窓の位置に重ねる） ----
+  // テープは一定の速さで左から右へ巻き取られる。巻きが少ない側のリールほど速く回る（実物と同じ：角速度 = テープの速さ ÷ 巻きの半径）
+  // 巻き終わったら、逆向きに巻き戻る。乗せている間は早送り（速さ 2.5 倍まで、なめらかに）
+  var reelsState = null;
+  function reels(box, host) {
+    var W = 794, H = 234, CY = 117, XL = 262, XR = 532, RH = 30, RMIN = 36, RMAX = 96;   // 窓の縦横比（写真の窓 794×234px）に合わせた座標
+    var s = document.createElementNS(NS, 'svg');
+    s.setAttribute('class', 'reels is-off'); s.setAttribute('viewBox', '0 0 ' + W + ' ' + H); s.setAttribute('aria-hidden', 'true');
+    s.style.left = box.x + '%'; s.style.top = box.y + '%'; s.style.width = box.w + '%'; s.style.height = box.h + '%';
+    function hub(cx) {
+      var t = '';
+      for (var k = 0; k < 6; k++) { var a = k * Math.PI / 3, c = Math.cos(a), sn = Math.sin(a); t += '<path d="M' + (cx + c * 11).toFixed(1) + ' ' + (CY + sn * 11).toFixed(1) + 'L' + (cx + c * 6).toFixed(1) + ' ' + (CY + sn * 6).toFixed(1) + '"/>'; }
+      for (var j = 0; j < 3; j++) { var b = j * 2 * Math.PI / 3 + Math.PI / 6; t += '<circle cx="' + (cx + Math.cos(b) * 21).toFixed(1) + '" cy="' + (CY + Math.sin(b) * 21).toFixed(1) + '" r="4.5"/>'; }
+      return '<g class="hub"><circle cx="' + cx + '" cy="' + CY + '" r="' + RH + '"/><circle cx="' + cx + '" cy="' + CY + '" r="11"/>' + t + '</g>';
+    }
+    s.innerHTML = '<defs><clipPath id="reelsClip"><rect x="0" y="0" width="' + W + '" height="' + H + '" rx="' + (H / 2) + '"/></clipPath></defs>' +
+      '<g clip-path="url(#reelsClip)" fill="none" stroke="currentColor" stroke-width="1.4">' +
+      '<g class="pack"><circle cx="' + XL + '" cy="' + CY + '" fill="currentColor" fill-opacity=".14" stroke-opacity=".45"/><circle cx="' + XL + '" cy="' + CY + '" stroke-opacity=".18"/></g>' +
+      '<g class="pack"><circle cx="' + XR + '" cy="' + CY + '" fill="currentColor" fill-opacity=".14" stroke-opacity=".45"/><circle cx="' + XR + '" cy="' + CY + '" stroke-opacity=".18"/></g>' +
+      '<polyline class="tape" stroke-opacity=".6"/>' +
+      '<rect x="379" y="206" width="36" height="12" stroke-opacity=".45"/>' +            // ヘッド
+      '<circle cx="334" cy="214" r="5" stroke-opacity=".45"/><circle cx="460" cy="214" r="5" stroke-opacity=".45"/>' +   // ガイド
+      '<g stroke-opacity=".8">' + hub(XL) + hub(XR) + '</g></g>';
+    var packs = s.querySelectorAll('.pack'), hubs = s.querySelectorAll('.hub'), tape = s.querySelector('.tape');
+    var st = { u: 0.2, dir: 1, angL: 0, angR: 0, rL: 0, rR: 0, speed: 1, hover: false, running: false, frames: 0 };
+    var V = 90, PASS = 48;                     // テープの速さ（px/秒）と、片面を巻き終えるまでの秒数
+    function draw() {
+      var K = RMAX * RMAX - RMIN * RMIN;
+      st.rL = Math.sqrt(RMAX * RMAX - st.u * K); st.rR = Math.sqrt(RMIN * RMIN + st.u * K);   // テープの量（面積）は左右で合わせて一定
+      [st.rL, st.rR].forEach(function (r, i) { var c = packs[i].children; c[0].setAttribute('r', r.toFixed(2)); c[1].setAttribute('r', Math.max(RH + 2, r * 0.72).toFixed(2)); });
+      hubs[0].setAttribute('transform', 'rotate(' + st.angL.toFixed(2) + ' ' + XL + ' ' + CY + ')');
+      hubs[1].setAttribute('transform', 'rotate(' + st.angR.toFixed(2) + ' ' + XR + ' ' + CY + ')');
+      tape.setAttribute('points', [XL - st.rL * 0.17, CY + st.rL * 0.985, 330, 219, 464, 219, XR + st.rR * 0.17, CY + st.rR * 0.985].map(function (n) { return n.toFixed(1); }).join(' '));
+    }
+    var last = 0, raf = 0, visible = true;
+    function frame(t) {
+      raf = 0; if (!visible || document.hidden) { st.running = false; last = 0; return; }
+      var dt = last ? Math.min(0.05, (t - last) / 1000) : 0; last = t;
+      st.speed += ((st.hover ? 2.5 : 1) - st.speed) * Math.min(1, dt * 4);   // 早送りへ、なめらかに
+      st.u += st.dir * dt * st.speed / PASS;
+      if (st.u >= 1) { st.u = 1; st.dir = -1; } else if (st.u <= 0) { st.u = 0; st.dir = 1; }
+      var v = V * st.speed * st.dir;                                      // 角速度 = テープの速さ ÷ 半径（度/秒に）
+      st.angL = (st.angL + v / st.rL * dt * 180 / Math.PI) % 360;
+      st.angR = (st.angR + v / st.rR * dt * 180 / Math.PI) % 360;
+      draw(); st.frames++; st.running = true;
+      raf = requestAnimationFrame(frame);
+    }
+    function start() { if (!raf && visible && !document.hidden) raf = requestAnimationFrame(frame); }
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { visible = es[0].isIntersecting; start(); }).observe(s);   // 画面の外では止める
+    document.addEventListener('visibilitychange', start);
+    host.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') st.hover = true; });
+    host.addEventListener('pointerleave', function () { st.hover = false; });
+    draw(); start();
+    reelsState = st;
+    return s;
+  }
+  // 窓の位置の調整モード：写真の上をドラッグして窓を囲むと、goods.js に書く数値が出る
+  var EDIT = /(^|[?&])reels-edit(&|$)/.test(location.search.slice(1));
+  function reelsEditor(frame, ov, card, box) {
+    var layer = el('div', 'reels-edit'), mark = el('i'); layer.appendChild(mark);
+    var out = el('div', 'reels-out');
+    out.appendChild(el('b', null, 'REELS_EDIT　写真の白い窓を、ドラッグで囲んでください'));
+    var code = el('code'); out.appendChild(code);
+    var copy = el('button', null, 'COPY'); copy.type = 'button'; out.appendChild(copy);
+    function fmt(n) { return Math.round(n * 100) / 100; }
+    function setBox(b) {
+      box = { x: fmt(b.x), y: fmt(b.y), w: fmt(b.w), h: fmt(b.h) };
+      mark.style.left = box.x + '%'; mark.style.top = box.y + '%'; mark.style.width = box.w + '%'; mark.style.height = box.h + '%';
+      ov.style.left = box.x + '%'; ov.style.top = box.y + '%'; ov.style.width = box.w + '%'; ov.style.height = box.h + '%';   // その場で線画も動かして確かめられる
+      code.textContent = 'reels: { x: ' + box.x + ', y: ' + box.y + ', w: ' + box.w + ', h: ' + box.h + ' }';
+    }
+    var p0 = null;
+    function pct(e) { var r = frame.getBoundingClientRect(); return { x: Math.min(100, Math.max(0, (e.clientX - r.left) / r.width * 100)), y: Math.min(100, Math.max(0, (e.clientY - r.top) / r.height * 100)) }; }
+    layer.addEventListener('pointerdown', function (e) { p0 = pct(e); layer.setPointerCapture(e.pointerId); e.preventDefault(); });
+    layer.addEventListener('pointermove', function (e) {
+      if (!p0) return; var q = pct(e);
+      setBox({ x: Math.min(p0.x, q.x), y: Math.min(p0.y, q.y), w: Math.abs(q.x - p0.x), h: Math.abs(q.y - p0.y) });
+    });
+    layer.addEventListener('pointerup', function () { p0 = null; });
+    copy.addEventListener('click', function () {
+      var t = code.textContent;
+      (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { copy.textContent = 'COPIED'; }, function () { copy.textContent = '上の文字を選んでコピーしてください'; });
+    });
+    frame.appendChild(layer);
+    card.insertBefore(out, card.querySelector('.item__body'));
+    setBox(box);
+    window.__reelsEdit = function () { return { box: box, text: code.textContent }; };
+  }
+
+  function validBox(b) { return b && ['x', 'y', 'w', 'h'].every(function (k) { return typeof b[k] === 'number' && b[k] >= 0 && b[k] <= 100; }); }
+
+  function card(it) {
+    var a = el('article', 'item'); a.id = 'item-' + it.id;
+    var fig = el('figure', 'item__img');
+    var imgs = G.imagesOf(it);
+    var where = el('span', 'item__where' + (it.where === 'venue' ? ' is-venue' : ''), it.where === 'venue' ? 'VENUE ONLY' : 'ONLINE');
+    if (imgs.length) {
+      var main = el('img'); main.alt = imgs[0].alt; main.decoding = 'async'; main.loading = 'lazy';
+      var count = imgs.length > 1 ? el('span', 'item__count', '1/' + imgs.length) : null;
+      var frame = null, ov = null, loadedOnce = false;
+      var rbox = validBox(it.reels) ? it.reels : (EDIT && it.id === 'cassette' ? { x: 20, y: 30, w: 60, h: 40 } : null);   // 調整モードでは、まだ数値がなくても仮の位置で出す
+      if (rbox) { frame = el('div', 'item__frame'); fig.appendChild(frame); }   // 写真の上に動く線画を重ねる商品
+      var showImg = function (i) {
+        if (main.getAttribute('src') === imgs[i].src) return;
+        if (ov) ov.classList.add('is-off');
+        main.classList.add('is-loading');
+        main.onload = function () {
+          main.classList.remove('is-loading'); loadedOnce = true;
+          if (frame) frame.style.aspectRatio = main.naturalWidth + ' / ' + main.naturalHeight;   // 写真の縦横比そのまま（窓の位置がずれない）
+          if (ov && i === 0) ov.classList.remove('is-off');              // 窓は 1 枚目の写真にだけある
+        };
+        main.onerror = function () {
+          main.classList.remove('is-loading');                           // 読めなくても、隠したままにしない
+          if (!loadedOnce && i === 0) { (frame || main).remove(); if (frame) frame = null; var eo = a.querySelector('.reels-out'); if (eo) eo.remove(); var et = a.querySelector('.thumbs'); if (et) et.remove(); if (count) { count.remove(); count = null; } fig.insertBefore(art(it.id), fig.firstChild); }   // 写真が置かれていなければ線画に戻す
+        };
+        main.src = imgs[i].src; main.alt = imgs[i].alt;
+        if (count) count.textContent = (i + 1) + '/' + imgs.length;
+      };
+      (frame || fig).appendChild(main);
+      if (frame) { ov = reels(rbox, a); frame.appendChild(ov); }
+      showImg(0);
+      fig.appendChild(where); if (count) fig.appendChild(count);
+      a.appendChild(fig);
+      if (imgs.length > 1) {                                             // 小さい写真を押して切り替える
+        var th = el('div', 'thumbs'); th.setAttribute('role', 'group'); th.setAttribute('aria-label', it.name + ' の写真');
+        imgs.forEach(function (im, i) {
+          var bt = el('button'); bt.type = 'button'; bt.setAttribute('aria-pressed', i === 0 ? 'true' : 'false'); bt.setAttribute('aria-label', (i + 1) + '枚目：' + im.alt);
+          var t = el('img'); t.src = im.src; t.alt = ''; t.loading = 'lazy'; bt.appendChild(t);
+          bt.addEventListener('click', function () {
+            showImg(i);
+            [].forEach.call(th.children, function (b, j) { b.setAttribute('aria-pressed', j === i ? 'true' : 'false'); });
+          });
+          th.appendChild(bt);
+        });
+        a.appendChild(th);
+      }
+    } else {
+      fig.appendChild(art(it.id)); fig.appendChild(where); a.appendChild(fig);
+    }
+    var body = el('div', 'item__body');
+    var head = el('div', 'item__head');
+    var name = el('h3', 'item__name', it.name);
+    var price = el('span', 'item__price', G.yen(it.price) || '準備中'); if (it.price == null) price.classList.add('is-tbd');
+    head.appendChild(name); head.appendChild(price); body.appendChild(head);
+    var sub = [];
+    if (it.sizes && it.sizes.length) sub.push(it.sizes.join(' / '));
+    if (it.note) sub.push(it.note);
+    if (sub.length) body.appendChild(el('p', 'item__sub', sub.join('　')));
+    a.appendChild(body);
+    if (EDIT && frame && ov) reelsEditor(frame, ov, a, rbox);
+    return { el: a, body: body, name: name, it: it };
+  }
+
+  // SUZURI のアドレスだけ通す（それ以外はショップのトップへ）
+  function suzuriLink(u) {
+    var ok = function (v) { return /^https:\/\/suzuri\.jp\/[^\s"'<>]*$/.test(v || ''); };
+    if (!ok(u)) u = G.suzuri;
+    if (!ok(u)) return null;                                             // どちらも使えなければ、リンクは付けない
+    var l = el('a', 'item__link', 'SUZURI で見る ↗'); l.href = u; l.target = '_blank'; l.rel = 'noopener'; return l;
+  }
+  function put(boxId, list) {
+    var box = document.getElementById(boxId);
+    return list.map(function (it) { var c = card(it); box.appendChild(c.el); return c; });
+  }
+
+  // 会場限定
+  var venue = put('v-items', G.items.filter(function (it) { return it.where === 'venue'; }));
+  venue.forEach(function (c) {
+    if (c.el.id !== 'item-cassette') return;
+    var cs = G.cassette || {};
+    if (cs.title) { var t = el('small', null, cs.title); t.id = 'c-title'; t.style.cssText = 'display:block;color:var(--dim);font-size:10px;font-weight:400;margin-top:2px'; c.name.appendChild(t); }
+    var rows = [['TRACKS', cs.tracks], ['RELEASE', cs.release]].filter(function (r) { return r[1]; });   // 分かっているものだけ
+    if (rows.length) {
+      var spec = el('div', 'spec'); spec.id = 'c-spec';
+      rows.forEach(function (r) { var row = el('div', 'spec__row'); row.appendChild(el('span', 'spec__k', r[0])); row.appendChild(el('span', 'spec__v', r[1])); row.appendChild(el('span')); spec.appendChild(row); });
+      c.body.appendChild(spec);
+    }
+    var l = el('a', 'item__link', 'LISTEN / 試聴はこちら →'); l.href = '/listen.html'; c.body.appendChild(l);
+  });
+
+  // 通信販売
+  var online = put('o-items', G.items.filter(function (it) { return it.where === 'online'; }));
+  var sz = document.getElementById('suzuri');
+  if (G.suzuri) {
+    sz.href = G.suzuri; sz.textContent = G.suzuri.replace(/^https:\/\//, '');
+    online.forEach(function (c) { var l = suzuriLink(c.it.url); if (l) c.body.appendChild(l); });
+  } else {
+    sz.removeAttribute('href'); sz.classList.add('off'); sz.setAttribute('aria-disabled', 'true'); sz.textContent = 'SUZURI';   // アドレスが入るまで押せない
+    online.forEach(function (c) { var l = suzuriLink(c.it.url); if (l) c.body.appendChild(l); });   // 商品ページのアドレスだけ入っていれば、それは押せる
+  }
+
+  window.goods = G;
+  window.__reels = function () { return reelsState; };
+})();
+</script>
+</body>
+</html>

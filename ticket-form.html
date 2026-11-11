@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" class="has-nav">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>武田 鳴 / MEI TAKEDA - Tour Dates & Tickets</title>
+<title>SCHEDULE — 武田 鳴</title>
 <link rel="canonical" href="https://takeda-mei.com/ticket-form.html">
 <meta name="description" content="Mei Takeda Web site 武田鳴チケット予約">
 <meta property="og:image" content="https://takeda-mei.com/img/Twitter_takeda_mei_card.png">
@@ -11,236 +11,88 @@
 <meta name="twitter:site" content="@_takeda_mei_">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="武田鳴チケット予約">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Noto+Sans+JP:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500;600&display=swap');
-
-  :root {
-    --bg: #08080a;
-    --surface: #131316;
-    --surface-hover: #1a1a1e;
-    --border: #28282e;
-    --border-bright: #3a3a42;
-    --border-active: #50505a;
-    --text: #e8e6e2;
-    --text-secondary: #a8a4a0;
-    --text-dim: #6a6660;
-    --text-label: #807c78;
-    --highlight: #ffffff;
-    --select-bg: #141e14;
-    --select-border: #2a4a2a;
-    --select-text: #8abd8a;
-    --error: #cc4444;
-    --success: #44aa66;
-    --mono: 'IBM Plex Mono', 'Courier New', monospace;
-    --sans: 'Noto Sans JP', 'IBM Plex Mono', sans-serif;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--mono);
-    font-size: 14px;
-    line-height: 1.7;
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  .container { max-width: 660px; margin: 0 auto; padding: 48px 24px 80px; }
-
-  .header { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 44px; }
+  /* このページだけの部分。共通の色・ナビ・ボタン・入力欄・お知らせは assets/site.css */
+  .header { border-bottom: 1px solid var(--faint); padding-bottom: 28px; margin-bottom: 44px; }
   .header-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
-  .header-title { font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-secondary); }
-  .header-label { font-size: 10px; color: var(--text-dim); letter-spacing: 0.12em; }
-  .header-name { font-size: 26px; font-weight: 400; letter-spacing: 0.06em; color: var(--highlight); margin-bottom: 4px; font-family: var(--sans); }
-  .header-sub { font-size: 12px; color: var(--text-dim); letter-spacing: 0.06em; }
+  .header-title { font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-2); }
+  .header-label { font-size: 10px; color: var(--dim); letter-spacing: 0.12em; }
+  .header-name { font-size: 26px; font-weight: 400; letter-spacing: 0.06em; color: var(--ink); margin-bottom: 4px; font-family: var(--sans); }
+  .header-sub { font-size: 12px; color: var(--dim); letter-spacing: 0.06em; }
+  .ticket .section-label { font-size: 11px; text-transform: uppercase; margin-bottom: 20px; }
 
-  .section-label {
-    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--text-label); margin-bottom: 20px; padding-bottom: 10px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  /* LOADING */
-  .loading { text-align: center; padding: 56px 20px; color: var(--text-dim); font-size: 12px; letter-spacing: 0.12em; }
+  /* 読み込み中 */
+  .loading { text-align: center; padding: 56px 20px; color: var(--dim); font-size: 12px; letter-spacing: 0.12em; }
   .loading-dot { display: inline-block; animation: blink 1.2s infinite; }
   .loading-dot:nth-child(2) { animation-delay: 0.2s; }
   .loading-dot:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes blink { 0%,80%,100% { opacity:.2; } 40% { opacity:1; } }
+  @keyframes blink { 0%, 80%, 100% { opacity: .2; } 40% { opacity: 1; } }
 
-  /* EVENT CARDS */
+  /* ライブの一覧（押すと予約フォームへ） */
   .event-list { margin-bottom: 48px; }
-  .event-card {
-    border: 1px solid var(--border); padding: 24px; margin-bottom: 14px;
-    cursor: pointer; transition: all .15s ease; position: relative; background: var(--surface);
+  .event-card { border: 1px solid var(--faint); padding: 24px; margin-bottom: 14px; cursor: pointer; transition: background .15s, border-color .15s; position: relative; background: var(--panel); }
+  .event-card:hover { background: var(--hover); border-color: var(--line); }
+  .event-card.selected { background: var(--accent-wash); border-color: var(--accent); }
+  .event-card.selected .event-date { color: var(--accent); }
+  .event-card.past { opacity: .4; pointer-events: none; }
+  .event-card.past::after { content: 'ENDED'; position: absolute; right: 24px; top: 24px; font-size: 10px; letter-spacing: .15em; color: var(--dim); }
+  .event-date-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
+  .event-date { font-size: 18px; font-weight: 500; color: var(--ink); letter-spacing: .04em; font-variant-numeric: tabular-nums; }
+  .event-day { font-size: 12px; color: var(--ink-2); }
+  .event-title-text { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 6px; font-family: var(--sans); }
+  .event-venue { font-size: 15px; color: var(--ink); margin-bottom: 16px; font-family: var(--sans); }
+  .event-meta { display: grid; grid-template-columns: 1fr 1fr 1.5fr; gap: 4px; font-size: 13px; margin-bottom: 16px; padding: 14px 16px; background: var(--bg); border: 1px solid var(--faint); }
+  .meta-item { display: flex; flex-direction: column; gap: 4px; }
+  .meta-label { font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--dim); }
+  .meta-value { color: var(--ink-2); font-size: 13px; }
+  .event-acts { font-size: 12px; color: var(--dim); font-family: var(--sans); line-height: 1.8; }
+  .event-acts strong { color: var(--ink-2); font-weight: 400; }
+
+  /* 予定がないとき：リクエスト */
+  .no-events-message { text-align: center; padding: 40px 20px 32px; color: var(--dim); font-size: 13px; line-height: 2.2; }
+  .request-box { border: 1px solid var(--faint); background: var(--panel); padding: 28px; margin-top: 8px; }
+  .request-title { font-size: 12px; letter-spacing: .15em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 6px; }
+  .request-desc { font-size: 13px; color: var(--dim); margin-bottom: 24px; line-height: 1.7; font-family: var(--sans); }
+
+  /* 予約フォーム */
+  .form-section { display: none; }
+  .form-section.active { display: block; }
+  .selected-event-summary { background: var(--panel); border: 1px solid var(--faint); padding: 20px 24px; margin-bottom: 28px; font-size: 13px; }
+  .summary-line { display: flex; justify-content: space-between; color: var(--ink); margin-bottom: 6px; }
+  .summary-line:last-child { margin-bottom: 0; }
+  .summary-label { color: var(--dim); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; min-width: 100px; }
+  .summary-value { text-align: right; color: var(--ink-2); }
+  .btn-back { color: var(--dim); border-color: var(--line); }
+  .btn-back:hover { background: var(--hover); color: var(--ink); border-color: var(--ink); }
+
+  @media (max-width: 480px) {
+    .event-card { padding: 20px; }
+    .event-meta { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .event-date { font-size: 16px; }
+    .summary-line { flex-direction: column; gap: 2px; }
+    .summary-value { text-align: left; }
   }
-  .event-card:hover { background: var(--surface-hover); border-color: var(--border-bright); }
-  .event-card.selected { background: var(--select-bg); border-color: var(--select-border); }
-  .event-card.selected .event-date { color: var(--select-text); }
-  .event-card.past { opacity:.3; pointer-events:none; }
-  .event-card.past::after { content:'ENDED'; position:absolute; right:24px; top:24px; font-size:10px; letter-spacing:.15em; color:var(--text-dim); }
-
-  .event-date-row { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px; }
-  .event-date { font-size:18px; font-weight:500; color:var(--highlight); letter-spacing:.04em; }
-  .event-day { font-size:12px; color:var(--text-secondary); }
-  .event-title-text { font-size:14px; font-weight:500; color:var(--text); margin-bottom:6px; font-family:var(--sans); }
-  .event-venue { font-size:15px; color:var(--text); margin-bottom:16px; font-family:var(--sans); }
-
-  .event-meta {
-    display:grid; grid-template-columns:1fr 1fr 1.5fr; gap:4px;
-    font-size:13px; margin-bottom:16px; padding:14px 16px;
-    background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.05);
-  }
-  .meta-item { display:flex; flex-direction:column; gap:4px; }
-  .meta-label { font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:var(--text-dim); }
-  .meta-value { color:var(--text-secondary); font-size:13px; }
-
-  .event-acts { font-size:12px; color:var(--text-dim); font-family:var(--sans); line-height:1.8; }
-  .event-acts strong { color:var(--text-secondary); font-weight:400; }
-
-  /* NO EVENTS / REQUEST */
-  .no-events-message { text-align:center; padding:40px 20px 32px; color:var(--text-dim); font-size:13px; line-height:2.2; }
-  .request-box { border:1px solid var(--border); background:var(--surface); padding:28px; margin-top:8px; }
-  .request-title { font-size:12px; letter-spacing:.15em; text-transform:uppercase; color:var(--text-secondary); margin-bottom:6px; }
-  .request-desc { font-size:13px; color:var(--text-dim); margin-bottom:24px; line-height:1.7; font-family:var(--sans); }
-
-  /* FORM */
-  .form-section { display:none; }
-  .form-section.active { display:block; }
-
-  .selected-event-summary { background:var(--surface); border:1px solid var(--border); padding:20px 24px; margin-bottom:28px; font-size:13px; }
-  .summary-line { display:flex; justify-content:space-between; color:var(--text); margin-bottom:6px; }
-  .summary-line:last-child { margin-bottom:0; }
-  .summary-label { color:var(--text-dim); font-size:10px; letter-spacing:.12em; text-transform:uppercase; min-width:100px; }
-  .summary-value { text-align:right; color:var(--text-secondary); }
-
-  .form-group { margin-bottom:24px; }
-  .form-label { display:block; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-secondary); margin-bottom:10px; font-weight:500; }
-  .form-label .req { color:var(--text-dim); font-weight:400; }
-
-  input,select,textarea {
-    width:100%; background:var(--bg); border:1px solid var(--border);
-    color:var(--text); font-family:var(--mono); font-size:14px; padding:14px 16px;
-    outline:none; transition:border-color .2s ease; -webkit-appearance:none; border-radius:0;
-  }
-  input:focus,select:focus,textarea:focus { border-color:var(--border-active); background:var(--surface); }
-  input::placeholder,textarea::placeholder { color:var(--text-dim); }
-  select { cursor:pointer; color:var(--text-secondary); }
-  textarea { resize:vertical; min-height:90px; }
-  input[readonly] { color:var(--text-dim); cursor:default; }
-
-  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-
-  .btn {
-    display:inline-block; font-family:var(--mono); font-size:12px;
-    letter-spacing:.14em; text-transform:uppercase; padding:16px 32px;
-    border:1px solid var(--border-bright); background:transparent;
-    color:var(--text); cursor:pointer; transition:all .15s ease; text-decoration:none;
-  }
-  .btn:hover { background:var(--highlight); color:var(--bg); border-color:var(--highlight); }
-  .btn-row { display:flex; gap:12px; margin-top:36px; }
-  .btn-back { color:var(--text-dim); border-color:var(--border); }
-  .btn-back:hover { background:var(--surface-hover); color:var(--text); border-color:var(--border-bright); }
-
-  .status-msg { margin-top:20px; padding:14px; text-align:center; font-size:13px; border:1px solid var(--border); display:none; }
-  .status-msg.success { background:rgba(68,170,102,.1); border-color:var(--success); color:var(--success); display:block; }
-  .status-msg.error { background:rgba(204,68,68,.1); border-color:var(--error); color:var(--error); display:block; }
-
-  .footer { margin-top:60px; padding-top:24px; border-top:1px solid var(--border); font-size:11px; color:var(--text-dim); text-align:center; }
-  .footer a { color:var(--text-dim); text-decoration:none; }
-  .footer a:hover { color:var(--text-secondary); }
-
-  @media (max-width:480px) {
-    .container { padding:28px 16px 60px; }
-    .event-card { padding:20px; }
-    .event-meta { grid-template-columns:1fr 1fr; gap:12px; }
-    .event-date { font-size:16px; }
-    .btn-row { flex-direction:column; }
-    .btn { text-align:center; }
-    .summary-line { flex-direction:column; gap:2px; }
-    .summary-value { text-align:left; }
-    .form-row { grid-template-columns:1fr; }
-  }
-
-/* ナビ用の変数（このページの :root には無いため、listen.html と同じ値を .nav に定義） */
-.nav {
-    --fg: #fff;
-    --dim: #666;
-    --line: #222;
-    --accent: #00ff66;
-    font-family: var(--mono);
-    line-height: 1.5;
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 0 20px;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--line);
-    z-index: 1000;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-  }
-  .nav__logo { font-weight: 500; white-space: nowrap; flex-shrink: 0; }
-  .nav__logo .dim { color: var(--dim); }
-
-  .nav a { color: var(--fg); text-decoration: none; }
-  .nav__links { display: flex; gap: 24px; list-style: none; }
-  .nav__links a { color: var(--dim); transition: color 0.15s; padding: 4px 0; }
-  .nav__links a:hover,
-  .nav__links a[aria-current="page"] { color: var(--fg); }
-  .nav__links a[aria-current="page"]::before {
-    content: ""; display: inline-block;
-    width: 6px; height: 6px;
-    background: var(--accent);
-    margin-right: 6px;
-    vertical-align: middle;
-    transform: translateY(-1px);
-  }
-
-  @media (max-width: 640px) {
-    .nav { padding: 0 12px; font-size: 10px; gap: 10px; }
-    .nav__logo .full { display: none; }
-    .nav__logo .short { display: inline; }
-    .nav__links { gap: 14px; }
-  }
-  @media (min-width: 641px) { .nav__logo .short { display: none; } }
-  @media (max-width: 380px) {
-    .nav { padding: 0 10px; gap: 8px; }
-    .nav__links { gap: 10px; }
-  }
-  /* 4項目（WORKS 追加）が 320px 幅でも収まるように */
-  @media (max-width: 340px) {
-    .nav { letter-spacing: 0.04em; }
-    .nav__links { gap: 6px; }
-  }
-
-  
 </style>
 </head>
-<body>
+<body class="has-nav">
 
 <nav class="nav" aria-label="primary">
-  <a href="/" class="nav__logo">
-    <span class="full">MEI TAKEDA <span class="dim">[1+1.=V.]</span></span>
-    <span class="short">MEI.T <span class="dim">[1+1.=V.]</span></span>
-  </a>
+  <a href="/" class="nav__logo"><span class="full">武田 鳴 <span class="dim">MEI TAKEDA</span></span><span class="short">武田 鳴</span></a>
   <ul class="nav__links">
     <li><a href="/listen.html">LISTEN</a></li>
     <li><a href="/ticket-form.html" aria-current="page">SCHEDULE</a></li>
     <li><a href="/works.html">WORKS</a></li>
-    <li><a href="https://forms.gle/1pbT5vwbirb6d1KQ6" target="_blank" >CONTACT</a></li>
+    <li><a href="/goods.html">GOODS</a></li>
+    <li><a href="https://forms.gle/1pbT5vwbirb6d1KQ6" target="_blank" rel="noopener">CONTACT</a></li>
   </ul>
 </nav>
 
 
-<div class="container">
+<div class="page page--narrow ticket">
   <div class="header">
     <div class="header-top">
       <span class="header-title">Ticket Reservation</span>
@@ -348,9 +200,38 @@
     </div>
   </div>
 
-  <div class="footer">
-    <a href="https://takeda-mei.com">← takeda-mei.com</a>
-  </div>
+  <!-- 予約完了のダイアログ（送信が通ったら出す） -->
+  <dialog class="sheet" id="doneDialog" aria-labelledby="d-title">
+    <div class="sheet__inner">
+      <div>
+        <div class="sheet__id">武田 鳴 / TICKET_RESERVATION</div>
+        <h2 class="sheet__title" id="d-title">予約完了</h2>
+        <p class="sheet__lead">チケット予約を承りました。ご予約いただき、ありがとうございます。<br>控えとして、この画面を保存（スクリーンショット）しておけます。</p>
+      </div>
+      <div class="stub" aria-label="予約の控え">
+        <div class="stub__date"><span class="stub__y" id="d-y"></span><span class="stub__md" id="d-md"></span><span class="stub__dow" id="d-dow"></span></div>
+        <div class="stub__body">
+          <div class="stub__event" id="d-event"></div>
+          <div class="stub__venue" id="d-venue"></div>
+          <dl class="stub__rows" id="d-rows"></dl>
+        </div>
+      </div>
+      <div id="d-goods" hidden>
+        <div class="sheet__label">LIVE VENUE ONLY　当日、会場で手に入るもの</div>
+        <div class="d-goods-list"></div>
+      </div>
+      <p class="sheet__lead" style="font-size:12px">ご質問やご不明な点がございましたら、SNS等でお気軽にお問い合わせください。<br>当日は開場時間の30分前からご入場いただけます。</p>
+      <div class="sheet__foot">
+        <span>閉じるとトップページへ戻ります</span>
+        <button type="button" class="btn" id="d-close">閉じる</button>
+      </div>
+    </div>
+  </dialog>
+
+  <footer class="site-footer">
+    <span>© 武田 鳴 / 1+1.=V</span>
+    <span><a href="/">BACK_TO_INDEX</a></span>
+  </footer>
 </div>
 
 <script>
@@ -467,6 +348,8 @@ async function fetchBITEvents() {
       // title: VENUE が description にあるときだけ、末尾の "@◯◯" を除去
       //        （Bandsintown 側で title と venue.name に同じ "イベント名@会場" を入れている場合の重複回避）
       let titleClean = ev.title || '';
+      // title が空のときは、イベント名が venue.name に入っている（works.html と同じ扱い）
+      if (!titleClean.trim()) titleClean = (ev.venue?.name || '').trim();
       if (parsed.venue) {
         titleClean = titleClean.replace(/\s*[@＠][^@＠]+$/, '').trim();
       }
@@ -609,33 +492,60 @@ document.getElementById('reservationForm').addEventListener('submit', function(e
 
   const form = e.target;
   const formData = new FormData(form);
+  const submitBtn = form.querySelector('button[type="submit"]');
+  submitBtn.disabled = true;                                           // 二重に送らない
 
   // Google Form に POST（no-cors）
+  // no-cors では Google 側の結果は読めない。通信そのものが失敗したときだけ、失敗として知らせる
   fetch(form.action, {
     method: 'POST',
     body: formData,
     mode: 'no-cors'
   }).then(() => {
-    console.log('Google Form 送信完了');
+    showDone();                                                        // 予約完了のダイアログ（閉じるとトップへ）
   }).catch((err) => {
     console.log('送信処理:', err);
+    submitBtn.disabled = false;
+    showStatus('送信できませんでした。通信の状態を確かめて、もう一度送るか「メールで送信」をお使いください。', 'error');
   });
-
-  // 成功ページへ遷移
-  setTimeout(() => {
-    if (selectedEvent) {
-      const params = new URLSearchParams({
-        event: selectedEvent.title || '',
-        date: selectedEvent.date,
-        venue: selectedEvent.venue,
-        city: selectedEvent.city || ''
-      });
-      window.location.href = `success.html?${params.toString()}`;
-    } else {
-      window.location.href = 'success.html';
-    }
-  }, 1500);
 });
+
+// ── 予約完了のダイアログ ──
+// ページを移らず、その場で控え（半券）を出す。スクリーンショットで残せる。閉じるとトップへ戻る
+const SHOW_VENUE_GOODS = true;                                         // 会場限定グッズをダイアログに出すか
+function showDone() {
+  const dlg = document.getElementById('doneDialog');
+  const ev = selectedEvent;
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(ev.date || '');
+  const { dow } = formatDate(ev.date);
+  const set = (id, v) => { const el = document.getElementById(id); el.textContent = v || ''; return el; };
+  set('d-y', m ? m[1] : '');
+  set('d-md', m ? m[2] + '.' + m[3] : ev.date);
+  set('d-dow', dow ? '(' + dow + ')' : '');
+  const venueBare = (ev.venue || '').replace(/（[^）]+）\s*$/, '').trim();
+  set('d-event', ev.title && ev.title.trim() !== venueBare ? ev.title : ev.venue).hidden = false;
+  set('d-venue', ev.title && ev.title.trim() !== venueBare ? ev.venue : '').hidden = !(ev.title && ev.title.trim() !== venueBare);
+  // 項目：分かっているものだけ並べる
+  const rows = [
+    ['OPEN / START', [ev.open, ev.start].filter(Boolean).join(' / ')],
+    ['PRICE', ev.price],
+    ['TICKETS', document.getElementById('f-tickets').value.replace(/[０-９]/g, c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0))],
+    ['NAME', document.getElementById('f-name').value.trim()]
+  ].filter(r => r[1]);
+  const dl = document.getElementById('d-rows'); dl.textContent = '';
+  rows.forEach(r => { const dt = document.createElement('dt'); dt.textContent = r[0]; const dd = document.createElement('dd'); dd.textContent = r[1]; dl.appendChild(dt); dl.appendChild(dd); });
+  // 会場限定グッズ
+  const box = document.getElementById('d-goods');
+  const venueItems = (window.MEI_GOODS && window.MEI_GOODS.items || []).filter(it => it.where === 'venue');
+  box.hidden = !(SHOW_VENUE_GOODS && venueItems.length);
+  if (!box.hidden) { const list = box.querySelector('.d-goods-list'); list.textContent = ''; list.appendChild(window.MEI_GOODS.priceList(venueItems)); }
+  document.getElementById('formStatus').className = 'status-msg';
+  dlg.showModal();
+  document.getElementById('d-close').focus();
+}
+function leaveToTop() { window.location.href = '/'; }
+document.getElementById('d-close').addEventListener('click', leaveToTop);
+document.getElementById('doneDialog').addEventListener('cancel', function (e) { e.preventDefault(); leaveToTop(); });   // Esc でもトップへ
 
 // ── メール送信 ──
 document.getElementById('mailBtn').addEventListener('click', function() {
@@ -686,5 +596,7 @@ async function init() {
 
 init();
 </script>
+<script src="assets/goods.js"></script>
+<script src="assets/cursor.js"></script>
 </body>
 </html>

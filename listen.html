@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" class="has-nav">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,7 +10,7 @@
      これがないと youtube-nocookie でも youtube.com でも Error 153 が発生する。 -->
 <meta name="referrer" content="strict-origin-when-cross-origin">
 
-<title>LISTEN — MEI TAKEDA [1+1.=V.]</title>
+<title>LISTEN — 武田 鳴</title>
 <meta name="description" content="武田 鳴 audio releases. Spotify, Bandcamp, Apple Music, YouTube.">
 <meta property="og:title" content="LISTEN — MEI TAKEDA [1+1.=V.]">
 <meta property="og:description" content="武田 鳴 audio releases.">
@@ -20,324 +20,76 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Noto+Sans+JP:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
 
 <style>
-  :root {
-    --bg: #000;
-    --fg: #fff;
-    --dim: #666;
-    --line: #222;
-    --accent: #00ff66;
-    --warn: #ff3300;
-    --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html, body {
-    background: var(--bg);
-    color: var(--fg);
-    font-family: var(--mono);
-    font-size: 13px;
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-  }
-  body { min-height: 100vh; padding-top: 48px; }
-  a { color: inherit; text-decoration: none; }
-  a:hover { color: var(--accent); }
-
-  /* ============================================================
-     TOP NAV
-     ============================================================ */
-  .nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 0 20px;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--line);
-    z-index: 1000;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-  }
-  .nav__logo { font-weight: 500; white-space: nowrap; flex-shrink: 0; }
-  .nav__logo .dim { color: var(--dim); }
-
-  .nav__links { display: flex; gap: 24px; list-style: none; }
-  .nav__links a { color: var(--dim); transition: color 0.15s; padding: 4px 0; }
-  .nav__links a:hover,
-  .nav__links a[aria-current="page"] { color: var(--fg); }
-  .nav__links a[aria-current="page"]::before {
-    content: ""; display: inline-block;
-    width: 6px; height: 6px;
-    background: var(--accent);
-    margin-right: 6px;
-    vertical-align: middle;
-    transform: translateY(-1px);
-  }
-
-  @media (max-width: 640px) {
-    .nav { padding: 0 12px; font-size: 10px; gap: 10px; }
-    .nav__logo .full { display: none; }
-    .nav__logo .short { display: inline; }
-    .nav__links { gap: 14px; }
-  }
-  @media (min-width: 641px) { .nav__logo .short { display: none; } }
-  @media (max-width: 380px) {
-    .nav { padding: 0 10px; gap: 8px; }
-    .nav__links { gap: 10px; }
-  }
-  /* 4項目（WORKS 追加）が 320px 幅でも収まるように */
-  @media (max-width: 340px) {
-    .nav { letter-spacing: 0.04em; }
-    .nav__links { gap: 6px; }
-  }
-
-  /* ============================================================
-     MAIN
-     ============================================================ */
-  main {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 40px 20px 80px;
-  }
-
-  .page-header {
-    border-bottom: 1px solid var(--line);
-    padding-bottom: 20px;
-    margin-bottom: 40px;
-  }
-  .page-header__id { color: var(--dim); font-size: 10px; letter-spacing: 0.15em; }
-  .page-header__title {
-    font-size: 24px;
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    margin-top: 4px;
-  }
-  .page-header__meta {
-    display: flex;
-    gap: 20px;
-    margin-top: 10px;
-    font-size: 11px;
-    color: var(--dim);
-    flex-wrap: wrap;
-  }
-  .page-header__meta span::before { content: "▸ "; color: var(--accent); }
-
-  section { margin-bottom: 56px; }
-  .section-label {
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    color: var(--dim);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .section-label::before {
-    content: "";
-    display: inline-block;
-    width: 8px; height: 8px;
-    background: var(--accent);
-  }
-  .section-label::after {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: var(--line);
-  }
-
-  /* ============================================================
-     EMBED CARDS (Spotify)
-     ============================================================ */
-  .embed {
-    background: #0a0a0a;
-    border: 1px solid var(--line);
-    margin-bottom: 24px;
-    overflow: hidden;
-  }
-  .embed__head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 14px;
-    border-bottom: 1px solid var(--line);
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    color: var(--dim);
-  }
-  .embed__head strong { color: var(--fg); font-weight: 500; }
-  .embed__body { padding: 0; line-height: 0; }
-  .embed__body iframe {
-    display: block;
-    width: 100%;
-    border: 0;
-  }
-
+  /* このページだけの部分：埋め込みプレーヤーの枠 */
+  .embed__body { line-height: 0; }
+  .embed__body iframe { display: block; width: 100%; border: 0; }
   .embed--spotify-artist iframe { height: 352px; }
 
-  /* ============================================================
-     RELEASE BLOCK
-     ============================================================ */
-  .release {
-    margin-bottom: 40px;
-    border: 1px solid var(--line);
-    background: #0a0a0a;
-  }
-  .release__meta {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 16px;
-    padding: 12px 14px;
-    border-bottom: 1px solid var(--line);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    color: var(--dim);
-    align-items: center;
-  }
-  .release__date { color: var(--accent); }
-  .release__title { color: var(--fg); font-weight: 500; font-size: 12px; }
-  .release__title-en {
-    color: var(--dim);
-    font-size: 10px;
-    font-weight: 400;
-    margin-left: 6px;
-  }
-  .release__type {
-    text-transform: uppercase;
-    padding: 2px 8px;
-    border: 1px solid var(--line);
-  }
+  /* Bandcamp：地の色に合わせた面に置く */
+  .release__embed { padding: 20px; display: flex; justify-content: center; background: var(--panel); }
+  .release__embed iframe { display: block; width: 100%; max-width: 480px; aspect-ratio: 4 / 5; min-height: 420px; border: 0; }
 
-  /* Bandcamp embed */
-  .release__embed {
-    padding: 20px;
-    background: #000;
-    display: flex;
-    justify-content: center;
-  }
-  .release__embed iframe {
-    display: block;
-    width: 100%;
-    max-width: 480px;
-    aspect-ratio: 4 / 5;
-    min-height: 420px;
-    border: 0;
-  }
+  /* YouTube：黒い窓 */
+  .release__video { line-height: 0; }
+  .release__video iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; }
 
-  /* YouTube embed (for video release) */
-  .release__video {
-    background: #000;
-    line-height: 0;
-  }
-  .release__video iframe {
-    display: block;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    border: 0;
-  }
+  /* ---------- RELEASES：テープデッキ ---------- */
+  .deck { display: grid; grid-template-columns: 64px minmax(0, 1fr) 64px; gap: 18px; align-items: center; padding: 16px 18px; border: 1px solid var(--win-line); }
+  .deck__reel { width: 64px; height: 64px; fill: none; stroke: var(--win-dim); stroke-width: 1; }
+  .deck.is-loaded .deck__reel { stroke: var(--win-ink); animation: spin 7s linear infinite; }
+  .deck.is-switching .deck__reel { animation-duration: .45s; }          /* テープを替えた直後だけ、早回し */
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .deck__reel { transform-origin: 50% 50%; }
+  .deck__mid { min-width: 0; display: grid; gap: 8px; }
+  .deck__status { display: flex; justify-content: space-between; font-size: 9px; letter-spacing: .16em; color: var(--win-dim); }
+  .deck__label { font-size: 13px; letter-spacing: .06em; color: var(--win-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-height: 1.4em; }
+  .deck__tape { height: 1px; background: var(--win-line); position: relative; }
+  .deck.is-loaded .deck__tape { background: var(--win-dim); }
+  .tapes { margin-top: 14px; display: grid; gap: 10px; }
+  .tape { border: 1px solid var(--faint); background: var(--panel); }
+  .tape__head { width: 100%; display: grid; grid-template-columns: 34px minmax(0, 1fr) 70px 96px 64px; gap: 14px; align-items: baseline; padding: 16px 18px; min-height: 56px; background: none; border: 0; font: inherit; color: inherit; text-align: left; cursor: pointer; transition: background .15s; }
+  .tape__head:hover, .tape__head:focus-visible { background: var(--hover); outline: none; }
+  .tape__no { font-size: 10px; color: var(--accent); letter-spacing: .1em; }
+  .tape__title { font-family: var(--sans); font-size: 15px; min-width: 0; overflow-wrap: anywhere; }
+  .tape__title small { display: block; font-family: var(--mono); font-size: 10px; color: var(--dim); letter-spacing: .06em; margin-top: 2px; }
+  .tape__type, .tape__date { font-size: 10px; letter-spacing: .12em; color: var(--dim); font-variant-numeric: tabular-nums; }
+  .tape__act { justify-self: end; font-size: 10px; letter-spacing: .14em; color: var(--ink); border: 1px solid var(--line); padding: 4px 8px; }
+  .tape.is-open { border-color: var(--line); }
+  .tape.is-open .tape__head { border-bottom: 1px solid var(--faint); }
+  .tape.is-open .tape__act { background: var(--ink); color: var(--panel); border-color: var(--ink); }
+  .tape__body .smartlink { border-top: 1px solid var(--faint); }
 
-  .release__smartlink {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px;
-    border-top: 1px solid var(--line);
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    color: var(--dim);
-    transition: background 0.15s, color 0.15s;
-  }
-  a.release__smartlink:hover { background: #111; color: var(--accent); }
-  .release__smartlink strong { color: var(--fg); font-weight: 500; }
-  .release__smartlink::after { content: "↗"; font-size: 14px; }
-
-  /* ============================================================
-     STREAMING LINKS
-     ============================================================ */
-  .links {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 1px;
-    background: var(--line);
-    border: 1px solid var(--line);
-  }
-  .links a {
-    background: #0a0a0a;
-    padding: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: background 0.15s;
-    font-size: 11px;
-    letter-spacing: 0.1em;
-  }
-  .links a:hover { background: #111; color: var(--accent); }
-  .links a::after {
-    content: "↗";
-    color: var(--dim);
-    font-size: 14px;
-  }
-  .links a:hover::after { color: var(--accent); }
-
-  /* ============================================================
-     MOBILE
-     ============================================================ */
   @media (max-width: 640px) {
-    main { padding: 24px 12px 60px; }
-    .page-header__title { font-size: 18px; }
-    .release__meta {
-      grid-template-columns: 1fr auto;
-      row-gap: 6px;
-    }
-    .release__date { grid-column: 1; }
-    .release__type { grid-column: 2; grid-row: 1; }
-    .release__title { grid-column: 1 / -1; }
     .release__embed { padding: 12px; }
     .release__embed iframe { min-height: 360px; }
+    .deck { grid-template-columns: 40px minmax(0, 1fr) 40px; gap: 12px; padding: 12px; }
+    .deck__reel { width: 40px; height: 40px; }
+    .tape__head { grid-template-columns: 26px minmax(0, 1fr) auto; row-gap: 4px; column-gap: 10px; padding: 14px; }
+    .tape__type, .tape__date { grid-column: 2; grid-row: 2; }
+    .tape__date { justify-self: end; }
+    .tape__act { grid-column: 3; grid-row: 1; }
   }
-
-  /* ============================================================
-     FOOTER
-     ============================================================ */
-  footer {
-    border-top: 1px solid var(--line);
-    margin-top: 60px;
-    padding: 24px 0;
-    font-size: 10px;
-    color: var(--dim);
-    letter-spacing: 0.1em;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  footer a:hover { color: var(--accent); }
+  @media (prefers-reduced-motion: reduce) { .deck.is-switching .deck__reel { animation-duration: 7s; } }
 </style>
 </head>
-<body>
+<body class="has-nav">
 
 <nav class="nav" aria-label="primary">
-  <a href="/" class="nav__logo">
-    <span class="full">MEI TAKEDA <span class="dim">[1+1.=V.]</span></span>
-    <span class="short">MEI.T <span class="dim">[1+1.=V.]</span></span>
-  </a>
+  <a href="/" class="nav__logo"><span class="full">武田 鳴 <span class="dim">MEI TAKEDA</span></span><span class="short">武田 鳴</span></a>
   <ul class="nav__links">
     <li><a href="/listen.html" aria-current="page">LISTEN</a></li>
-    <li><a href="/ticket-form.html" target="_blank">SCHEDULE</a></li>
+    <li><a href="/ticket-form.html">SCHEDULE</a></li>
     <li><a href="/works.html">WORKS</a></li>
-    <li><a href="https://forms.gle/1pbT5vwbirb6d1KQ6"  target="_blank" >CONTACT</a></li>
+    <li><a href="/goods.html">GOODS</a></li>
+    <li><a href="https://forms.gle/1pbT5vwbirb6d1KQ6" target="_blank" rel="noopener">CONTACT</a></li>
   </ul>
 </nav>
 
-<main>
+<main class="page">
 
   <header class="page-header">
     <div class="page-header__id">01_LISTEN</div>
@@ -351,16 +103,17 @@
   </header>
 
   <!-- ============================================================
-       PRIMARY STREAM — Spotify artist embed
+       PRIMARY STREAM — Spotify artist embed（黒い窓）
        ============================================================ -->
-  <section>
+  <section class="section">
     <div class="section-label">PRIMARY_STREAM</div>
-    <div class="embed embed--spotify-artist">
-      <div class="embed__head">
-        <span><strong>SPOTIFY</strong> / ARTIST</span>
-        <span>STREAM</span>
+    <div class="card embed embed--spotify-artist">
+      <div class="card__meta">
+        <span class="card__tag">SPOTIFY</span>
+        <span class="card__title">ARTIST</span>
+        <span class="card__type">STREAM</span>
       </div>
-      <div class="embed__body">
+      <div class="embed__body window">
         <iframe
           src="https://open.spotify.com/embed/artist/5BAOXRf0O9X0RrD5t35IdI?utm_source=generator&theme=0"
           loading="lazy"
@@ -373,104 +126,125 @@
   <!-- ============================================================
        RELEASES
        ============================================================ -->
-  <section>
+  <section class="section" id="releases">
     <div class="section-label">RELEASES</div>
 
-    <!-- -------- Release 01: あだると / ADULT -------- -->
-    <article class="release">
-      <div class="release__meta">
-        <span class="release__date">2026.02.27</span>
-        <span class="release__title">
-          あだると
-          <span class="release__title-en">ADULT</span>
-        </span>
-        <span class="release__type">SINGLE</span>
+    <!-- デッキの窓：入っているテープの名前と、リール（飾り。再生中かどうかは表さない） -->
+    <div class="deck window" aria-hidden="true">
+      <svg class="deck__reel" viewBox="0 0 60 60"><circle cx="30" cy="30" r="27"/><circle cx="30" cy="30" r="9"/><path d="M30 3v8M30 49v8M3 30h8M49 30h8M11 11l6 6M43 43l6 6M49 11l-6 6M11 49l6-6"/></svg>
+      <div class="deck__mid">
+        <div class="deck__status"><span id="deckState">NO_TAPE</span><span id="deckCount"></span></div>
+        <div class="deck__label" id="deckLabel">—</div>
+        <div class="deck__tape"></div>
       </div>
-      <div class="release__embed">
-        <!-- 元コードの bgcol=ffffff&linkcol=0687f5 を
-             サイト統一のため bgcol=000000&linkcol=ffffff に変更 -->
-        <iframe
-          style="border: 0;"
-          src="https://bandcamp.com/EmbeddedPlayer/album=3948178383/size=large/bgcol=000000/linkcol=ffffff/tracklist=false/transparent=true/"
-          seamless
-          loading="lazy"
-          title="ADULT by MEI TAKEDA / 武田 鳴">
-          <a href="https://mei-takeda.bandcamp.com/album/adult">ADULT by MEI TAKEDA / 武田 鳴</a>
-        </iframe>
+      <svg class="deck__reel" viewBox="0 0 60 60"><circle cx="30" cy="30" r="27"/><circle cx="30" cy="30" r="9"/><path d="M30 3v8M30 49v8M3 30h8M49 30h8M11 11l6 6M43 43l6 6M49 11l-6 6M11 49l6-6"/></svg>
+    </div>
+    <div class="tapes">
+    <article class="tape" id="tape-01" data-title="あだると" data-sub="ADULT" data-type="SINGLE" data-date="2026.02.27">
+      <button type="button" class="tape__head" aria-expanded="false" aria-controls="tape-01-body" data-cur="LOAD">
+        <span class="tape__no">01</span>
+        <span class="tape__title">あだると<small>ADULT</small></span>
+        <span class="tape__type">SINGLE</span>
+        <span class="tape__date">2026.02.27</span>
+        <span class="tape__act">LOAD</span>
+      </button>
+      <div class="tape__body" id="tape-01-body" hidden>
+        <div class="tape__player"></div>
+        <!-- 埋め込みは、開いたときに初めて読み込む（閉じたら外して、裏で鳴り続けないようにする） -->
+        <template>
+          <div class="release__embed">
+            <!-- Bandcamp の色：地の色（f0f1ee）と文字の色（1e2023）に合わせる -->
+            <iframe
+              style="border: 0;"
+              src="https://bandcamp.com/EmbeddedPlayer/album=3948178383/size=large/bgcol=f0f1ee/linkcol=1e2023/tracklist=false/transparent=true/"
+              seamless
+              loading="lazy"
+              title="ADULT by MEI TAKEDA / 武田 鳴">
+              <a href="https://mei-takeda.bandcamp.com/album/adult">ADULT by MEI TAKEDA / 武田 鳴</a>
+            </iframe>
+          </div>
+        </template>
+        <a class="smartlink" href="https://mei-takeda.bandcamp.com/album/adult" target="_blank" rel="noopener">
+          <span><strong>ALL_STREAMING_SERVICES</strong> / Bandcamp</span>
+        </a>
       </div>
-      <a class="release__smartlink" href="https://mei-takeda.bandcamp.com/album/adult" target="_blank" rel="noopener">
-        <span><strong>ALL_STREAMING_SERVICES</strong> / Bandcamp</span>
-      </a>
     </article>
-
-    <!-- -------- Release 02: 騒がしい孤独 / Loud a Solitude -------- -->
-    <article class="release">
-      <div class="release__meta">
-        <span class="release__date">2025.09</span>
-        <span class="release__title">
-          騒がしい孤独
-          <span class="release__title-en">Loud a Solitude / 1st EP</span>
-        </span>
-        <span class="release__type">EP</span>
+    <article class="tape" id="tape-02" data-title="騒がしい孤独" data-sub="Loud a Solitude / 1st EP" data-type="EP" data-date="2025.09">
+      <button type="button" class="tape__head" aria-expanded="false" aria-controls="tape-02-body" data-cur="LOAD">
+        <span class="tape__no">02</span>
+        <span class="tape__title">騒がしい孤独<small>Loud a Solitude / 1st EP</small></span>
+        <span class="tape__type">EP</span>
+        <span class="tape__date">2025.09</span>
+        <span class="tape__act">LOAD</span>
+      </button>
+      <div class="tape__body" id="tape-02-body" hidden>
+        <div class="tape__player"></div>
+        <!-- 埋め込みは、開いたときに初めて読み込む（閉じたら外して、裏で鳴り続けないようにする） -->
+        <template>
+          <div class="release__embed">
+            <iframe
+              style="border: 0;"
+              src="https://bandcamp.com/EmbeddedPlayer/album=553052583/size=large/bgcol=f0f1ee/linkcol=1e2023/tracklist=false/transparent=true/"
+              seamless
+              loading="lazy"
+              title="Loud a Solitude by MEI TAKEDA / 武田 鳴">
+              <a href="https://mei-takeda.bandcamp.com/album/loud-a-solitude">Loud a Solitude by MEI TAKEDA / 武田 鳴</a>
+            </iframe>
+          </div>
+        </template>
+        <a class="smartlink" href="https://pcim.lnk.to/LoudASolitude" target="_blank" rel="noopener">
+          <span><strong>ALL_STREAMING_SERVICES</strong> / PCI Music</span>
+        </a>
       </div>
-      <div class="release__embed">
-        <iframe
-          style="border: 0;"
-          src="https://bandcamp.com/EmbeddedPlayer/album=553052583/size=large/bgcol=000000/linkcol=ffffff/tracklist=false/transparent=true/"
-          seamless
-          loading="lazy"
-          title="Loud a Solitude by MEI TAKEDA / 武田 鳴">
-          <a href="https://mei-takeda.bandcamp.com/album/loud-a-solitude">Loud a Solitude by MEI TAKEDA / 武田 鳴</a>
-        </iframe>
-      </div>
-      <a class="release__smartlink" href="https://pcim.lnk.to/LoudASolitude" target="_blank" rel="noopener">
-        <span><strong>ALL_STREAMING_SERVICES</strong> / PCI Music</span>
-      </a>
     </article>
-
-    <!-- -------- Release 03: 夕の光 / Late Afternoon Light (YouTube) -------- -->
-    <article class="release">
-      <div class="release__meta">
-        <span class="release__date">2025</span>
-        <span class="release__title">
-          夕の光
-          <span class="release__title-en">Late Afternoon Light</span>
-        </span>
-        <span class="release__type">VIDEO</span>
+    <article class="tape" id="tape-03" data-title="夕の光" data-sub="Late Afternoon Light" data-type="VIDEO" data-date="2025">
+      <button type="button" class="tape__head" aria-expanded="false" aria-controls="tape-03-body" data-cur="LOAD">
+        <span class="tape__no">03</span>
+        <span class="tape__title">夕の光<small>Late Afternoon Light</small></span>
+        <span class="tape__type">VIDEO</span>
+        <span class="tape__date">2025</span>
+        <span class="tape__act">LOAD</span>
+      </button>
+      <div class="tape__body" id="tape-03-body" hidden>
+        <div class="tape__player"></div>
+        <!-- 埋め込みは、開いたときに初めて読み込む（閉じたら外して、裏で鳴り続けないようにする） -->
+        <template>
+          <div class="release__video window">
+            <!--
+              YouTube公式の埋め込みコード (プライバシー強化モード / youtube-nocookie)。
+              Error 153 対策として:
+              - si パラメータ (セッション識別子) を保持
+              - referrerpolicy="strict-origin-when-cross-origin" を保持
+              - <head> の <meta name="referrer"> で Referrer ヘッダ送信を保証
+              width/height はインラインで指定されているが、
+              .release__video iframe の CSS (width:100%; aspect-ratio:16/9)
+              で上書きされてレスポンシブになる。
+            -->
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube-nocookie.com/embed/aqxj36bYB5o?si=sn_3xPYKjZFtBZYj"
+              title="夕の光 / Late Afternoon Light"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              loading="lazy"
+              allowfullscreen></iframe>
+          </div>
+        </template>
+        <a class="smartlink" href="https://pcim.lnk.to/LoudASolitude" target="_blank" rel="noopener">
+          <span><strong>ALL_STREAMING_SERVICES</strong> / PCI Music</span>
+        </a>
       </div>
-      <div class="release__video">
-        <!--
-          YouTube公式の埋め込みコード (プライバシー強化モード / youtube-nocookie)。
-          Error 153 対策として:
-          - si パラメータ (セッション識別子) を保持
-          - referrerpolicy="strict-origin-when-cross-origin" を保持
-          - <head> の <meta name="referrer"> で Referrer ヘッダ送信を保証
-          width/height はインラインで指定されているが、
-          .release__video iframe の CSS (width:100%; aspect-ratio:16/9)
-          で上書きされてレスポンシブになる。
-        -->
-        <iframe
-          width="560"
-          height="315"
-          src="https://www.youtube-nocookie.com/embed/aqxj36bYB5o?si=sn_3xPYKjZFtBZYj"
-          title="夕の光 / Late Afternoon Light"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          loading="lazy"
-          allowfullscreen></iframe>
-      </div>
-      <a class="release__smartlink" href="https://pcim.lnk.to/LoudASolitude" target="_blank" rel="noopener">
-        <span><strong>ALL_STREAMING_SERVICES</strong> PCI Music</span>
-      </a>
     </article>
+    </div>
 
   </section>
 
   <!-- ============================================================
        STREAMING LINKS
        ============================================================ -->
-  <section>
+  <section class="section">
     <div class="section-label">STREAMING_LINKS</div>
     <div class="links">
       <a href="https://open.spotify.com/artist/5BAOXRf0O9X0RrD5t35IdI" target="_blank" rel="noopener">SPOTIFY</a>
@@ -482,12 +256,69 @@
     </div>
   </section>
 
+  <footer class="site-footer">
+    <span>© 武田 鳴 / 1+1.=V</span>
+    <span><a href="/">BACK_TO_INDEX</a></span>
+  </footer>
 </main>
 
-<footer>
-  <span>© MEI TAKEDA / 1+1.=V.</span>
-  <span><a href="/">BACK_TO_INDEX</a></span>
-</footer>
-
+<script>
+(function () {
+  'use strict';
+  // テープデッキ：行を押すと開いて、そのとき埋め込みを読み込む。閉じると外す。開くのは一度に1本
+  var tapes = [].slice.call(document.querySelectorAll('.tape'));
+  var deck = document.querySelector('.deck'), lab = document.getElementById('deckLabel'), stateEl = document.getElementById('deckState'), countEl = document.getElementById('deckCount');
+  var GLYPH = '·:-_/\\|=01', dec = null, swT = 0;
+  // デッキの名前：解読するように入れ替える（ポインターと同じ書き方。位置は動かさない）
+  function decode(to) {
+    var from = lab.textContent, t0 = performance.now(), dur = 420, last = -1;
+    if (dec) cancelAnimationFrame(dec);
+    (function f(now) {
+      var p = (now - t0) / dur; if (p >= 1) { lab.textContent = to; dec = null; return; }
+      var step = Math.floor((now - t0) / 40);
+      if (step !== last) {
+        last = step; var n = Math.round(from.length + (to.length - from.length) * Math.min(1, p * 1.6)), out = '';
+        for (var i = 0; i < n; i++) {
+          var at = .25 + .65 * i / Math.max(1, n), ch = to.charAt(i);
+          out += (p >= at && i < to.length) ? ch : (ch === ' ' ? ' ' : (p < at - .45 && i < from.length ? from.charAt(i) : GLYPH.charAt((i * 7 + step * 3) % GLYPH.length)));
+        }
+        lab.textContent = out;
+      }
+      dec = requestAnimationFrame(f);
+    })(t0);
+  }
+  function setDeck(t) {
+    if (!t) { deck.classList.remove('is-loaded', 'is-switching'); stateEl.textContent = 'NO_TAPE'; countEl.textContent = ''; decode('—'); return; }
+    var d = t.dataset;
+    deck.classList.add('is-loaded', 'is-switching'); clearTimeout(swT); swT = setTimeout(function () { deck.classList.remove('is-switching'); }, 600);
+    stateEl.textContent = 'LOADED'; countEl.textContent = 'TAPE ' + t.id.replace('tape-', '') + '/' + ('0' + tapes.length).slice(-2);
+    decode(d.title + ' — ' + d.sub.split(' / ')[0] + ' — ' + d.type + ' ' + d.date);
+  }
+  function close(t) {
+    var head = t.querySelector('.tape__head'), body = t.querySelector('.tape__body');
+    t.classList.remove('is-open'); head.setAttribute('aria-expanded', 'false'); head.setAttribute('data-cur', 'LOAD');
+    t.querySelector('.tape__act').textContent = 'LOAD';
+    body.hidden = true; t.querySelector('.tape__player').textContent = '';   // 埋め込みを外す（音も止まる）
+  }
+  function open(t) {
+    tapes.forEach(function (o) { if (o !== t && o.classList.contains('is-open')) close(o); });
+    var head = t.querySelector('.tape__head'), body = t.querySelector('.tape__body');
+    t.classList.add('is-open'); head.setAttribute('aria-expanded', 'true'); head.setAttribute('data-cur', 'EJECT');
+    t.querySelector('.tape__act').textContent = 'EJECT';
+    var pl = t.querySelector('.tape__player');
+    if (!pl.firstElementChild) pl.appendChild(t.querySelector('template').content.cloneNode(true));
+    body.hidden = false;
+    setDeck(t);
+  }
+  tapes.forEach(function (t) {
+    t.querySelector('.tape__head').addEventListener('click', function () {
+      if (t.classList.contains('is-open')) { close(t); setDeck(null); } else open(t);
+    });
+  });
+  if (tapes[0]) { open(tapes[0]); lab.textContent = lab.textContent; }   // 最初は一番新しい作品
+  window.__deck = function () { return { open: tapes.filter(function (t) { return t.classList.contains('is-open'); }).map(function (t) { return t.id; }), label: lab.textContent, state: stateEl.textContent, loaded: deck.classList.contains('is-loaded') }; };
+})();
+</script>
+<script src="assets/cursor.js"></script>
 </body>
 </html>
